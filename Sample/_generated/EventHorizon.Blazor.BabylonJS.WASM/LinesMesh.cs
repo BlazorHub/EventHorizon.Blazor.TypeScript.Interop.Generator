@@ -6,11 +6,12 @@ namespace BabylonJS
     using System.Text.Json.Serialization;
     using System.Threading.Tasks;
     using EventHorizon.Blazor.Interop;
+    using EventHorizon.Blazor.Interop.Callbacks;
     using Microsoft.JSInterop;
 
     
     
-    [JsonConverter(typeof(CachedEntityConverter))]
+    [JsonConverter(typeof(CachedEntityConverter<LinesMesh>))]
     public class LinesMesh : Mesh
     {
         #region Static Accessors
@@ -190,7 +191,7 @@ __color = null;
         public bool isReady()
         {
             return EventHorizonBlazorInterop.Func<bool>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "isReady" }
                 }
@@ -200,7 +201,7 @@ __color = null;
         public string getClassName()
         {
             return EventHorizonBlazorInterop.Func<string>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "getClassName" }
                 }
@@ -210,7 +211,7 @@ __color = null;
         public void dispose(System.Nullable<bool> doNotRecurse = null)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "dispose" }, doNotRecurse
                 }
@@ -221,7 +222,7 @@ __color = null;
         {
             return EventHorizonBlazorInterop.FuncClass<LinesMesh>(
                 entity => new LinesMesh() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "clone" }, name, newParent, doNotCloneChildren
                 }
@@ -232,7 +233,7 @@ __color = null;
         {
             return EventHorizonBlazorInterop.FuncClass<InstancedLinesMesh>(
                 entity => new InstancedLinesMesh() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "createInstance" }, name
                 }

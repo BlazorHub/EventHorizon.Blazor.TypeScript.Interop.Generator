@@ -6,11 +6,12 @@ namespace BabylonJS
     using System.Text.Json.Serialization;
     using System.Threading.Tasks;
     using EventHorizon.Blazor.Interop;
+    using EventHorizon.Blazor.Interop.Callbacks;
     using Microsoft.JSInterop;
 
     
     
-    [JsonConverter(typeof(CachedEntityConverter))]
+    [JsonConverter(typeof(CachedEntityConverter<StencilState>))]
     public class StencilState : CachedEntityObject
     {
         #region Static Accessors
@@ -246,7 +247,7 @@ namespace BabylonJS
         #endregion
         
         #region Constructor
-        public StencilState() : base() { } 
+        public StencilState() : base() { }
 
         public StencilState(
             ICachedEntity entity
@@ -262,17 +263,17 @@ namespace BabylonJS
         public void reset()
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "reset" }
                 }
             );
         }
 
-        public void apply(WebGLRenderingContextCachedEntity gl)
+        public void apply(WebGLRenderingContext gl)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "apply" }, gl
                 }

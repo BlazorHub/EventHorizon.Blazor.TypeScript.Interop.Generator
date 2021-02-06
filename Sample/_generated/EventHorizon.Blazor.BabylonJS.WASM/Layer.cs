@@ -6,11 +6,12 @@ namespace BabylonJS
     using System.Text.Json.Serialization;
     using System.Threading.Tasks;
     using EventHorizon.Blazor.Interop;
+    using EventHorizon.Blazor.Interop.Callbacks;
     using Microsoft.JSInterop;
 
     
     
-    [JsonConverter(typeof(CachedEntityConverter))]
+    [JsonConverter(typeof(CachedEntityConverter<Layer>))]
     public class Layer : CachedEntityObject
     {
         #region Static Accessors
@@ -386,7 +387,7 @@ __onAfterRenderObservable = null;
         #endregion
         
         #region Constructor
-        public Layer() : base() { } 
+        public Layer() : base() { }
 
         public Layer(
             ICachedEntity entity
@@ -411,7 +412,7 @@ __onAfterRenderObservable = null;
         public void render()
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "render" }
                 }
@@ -421,7 +422,7 @@ __onAfterRenderObservable = null;
         public void dispose()
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "dispose" }
                 }

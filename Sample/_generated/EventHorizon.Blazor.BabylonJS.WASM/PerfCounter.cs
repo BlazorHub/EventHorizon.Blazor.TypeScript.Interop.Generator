@@ -6,11 +6,12 @@ namespace BabylonJS
     using System.Text.Json.Serialization;
     using System.Threading.Tasks;
     using EventHorizon.Blazor.Interop;
+    using EventHorizon.Blazor.Interop.Callbacks;
     using Microsoft.JSInterop;
 
     
     
-    [JsonConverter(typeof(CachedEntityConverter))]
+    [JsonConverter(typeof(CachedEntityConverter<PerfCounter>))]
     public class PerfCounter : CachedEntityObject
     {
         #region Static Accessors
@@ -135,7 +136,7 @@ namespace BabylonJS
         #endregion
         
         #region Constructor
-        public PerfCounter() : base() { } 
+        public PerfCounter() : base() { }
 
         public PerfCounter(
             ICachedEntity entity
@@ -151,7 +152,7 @@ namespace BabylonJS
         public void fetchNewFrame()
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "fetchNewFrame" }
                 }
@@ -161,7 +162,7 @@ namespace BabylonJS
         public void addCount(decimal newCount, bool fetchResult)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "addCount" }, newCount, fetchResult
                 }
@@ -171,7 +172,7 @@ namespace BabylonJS
         public void beginMonitoring()
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "beginMonitoring" }
                 }
@@ -181,7 +182,7 @@ namespace BabylonJS
         public void endMonitoring(System.Nullable<bool> newFrame = null)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "endMonitoring" }, newFrame
                 }

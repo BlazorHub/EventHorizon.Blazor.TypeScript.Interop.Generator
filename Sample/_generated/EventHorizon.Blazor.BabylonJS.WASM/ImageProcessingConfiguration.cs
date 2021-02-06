@@ -6,11 +6,12 @@ namespace BabylonJS
     using System.Text.Json.Serialization;
     using System.Threading.Tasks;
     using EventHorizon.Blazor.Interop;
+    using EventHorizon.Blazor.Interop.Callbacks;
     using Microsoft.JSInterop;
 
     
     
-    [JsonConverter(typeof(CachedEntityConverter))]
+    [JsonConverter(typeof(CachedEntityConverter<ImageProcessingConfiguration>))]
     public class ImageProcessingConfiguration : CachedEntityObject
     {
         #region Static Accessors
@@ -66,20 +67,20 @@ namespace BabylonJS
         #endregion
 
         #region Static Methods
-        public static void PrepareUniforms(string[] uniforms, IImageProcessingConfigurationDefinesCachedEntity defines)
+        public static void PrepareUniforms(string[] uniforms, IImageProcessingConfigurationDefines defines)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { "BABYLON", "ImageProcessingConfiguration", "PrepareUniforms" }, uniforms, defines
                 }
             );
         }
 
-        public static void PrepareSamplers(string[] samplersList, IImageProcessingConfigurationDefinesCachedEntity defines)
+        public static void PrepareSamplers(string[] samplersList, IImageProcessingConfigurationDefines defines)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { "BABYLON", "ImageProcessingConfiguration", "PrepareSamplers" }, samplersList, defines
                 }
@@ -90,7 +91,7 @@ namespace BabylonJS
         {
             return EventHorizonBlazorInterop.FuncClass<ImageProcessingConfiguration>(
                 entity => new ImageProcessingConfiguration() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { "BABYLON", "ImageProcessingConfiguration", "Parse" }, source
                 }
@@ -576,7 +577,7 @@ __onUpdateParameters = null;
         #endregion
         
         #region Constructor
-        public ImageProcessingConfiguration() : base() { } 
+        public ImageProcessingConfiguration() : base() { }
 
         public ImageProcessingConfiguration(
             ICachedEntity entity
@@ -592,17 +593,17 @@ __onUpdateParameters = null;
         public string getClassName()
         {
             return EventHorizonBlazorInterop.Func<string>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "getClassName" }
                 }
             );
         }
 
-        public void prepareDefines(IImageProcessingConfigurationDefinesCachedEntity defines, System.Nullable<bool> forPostProcess = null)
+        public void prepareDefines(IImageProcessingConfigurationDefines defines, System.Nullable<bool> forPostProcess = null)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "prepareDefines" }, defines, forPostProcess
                 }
@@ -612,7 +613,7 @@ __onUpdateParameters = null;
         public bool isReady()
         {
             return EventHorizonBlazorInterop.Func<bool>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "isReady" }
                 }
@@ -622,7 +623,7 @@ __onUpdateParameters = null;
         public void bind(Effect effect, System.Nullable<decimal> overrideAspectRatio = null)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "bind" }, effect, overrideAspectRatio
                 }
@@ -633,7 +634,7 @@ __onUpdateParameters = null;
         {
             return EventHorizonBlazorInterop.FuncClass<ImageProcessingConfiguration>(
                 entity => new ImageProcessingConfiguration() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "clone" }
                 }
@@ -643,7 +644,7 @@ __onUpdateParameters = null;
         public CachedEntity serialize()
         {
             return EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "serialize" }
                 }

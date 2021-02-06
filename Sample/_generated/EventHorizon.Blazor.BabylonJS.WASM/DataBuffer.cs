@@ -6,11 +6,12 @@ namespace BabylonJS
     using System.Text.Json.Serialization;
     using System.Threading.Tasks;
     using EventHorizon.Blazor.Interop;
+    using EventHorizon.Blazor.Interop.Callbacks;
     using Microsoft.JSInterop;
 
     
     
-    [JsonConverter(typeof(CachedEntityConverter))]
+    [JsonConverter(typeof(CachedEntityConverter<DataBuffer>))]
     public class DataBuffer : CachedEntityObject
     {
         #region Static Accessors
@@ -105,7 +106,7 @@ namespace BabylonJS
         #endregion
         
         #region Constructor
-        public DataBuffer() : base() { } 
+        public DataBuffer() : base() { }
 
         public DataBuffer(
             ICachedEntity entity

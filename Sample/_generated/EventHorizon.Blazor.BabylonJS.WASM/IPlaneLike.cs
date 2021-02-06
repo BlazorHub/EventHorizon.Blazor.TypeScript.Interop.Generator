@@ -6,11 +6,12 @@ namespace BabylonJS
     using System.Text.Json.Serialization;
     using System.Threading.Tasks;
     using EventHorizon.Blazor.Interop;
+    using EventHorizon.Blazor.Interop.Callbacks;
     using Microsoft.JSInterop;
 
     public interface IPlaneLike : ICachedEntity { }
     
-    [JsonConverter(typeof(CachedEntityConverter))]
+    [JsonConverter(typeof(CachedEntityConverter<IPlaneLikeCachedEntity>))]
     public class IPlaneLikeCachedEntity : CachedEntityObject, IPlaneLike
     {
         #region Static Accessors
@@ -97,7 +98,7 @@ __normal = null;
         public void normalize()
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "normalize" }
                 }

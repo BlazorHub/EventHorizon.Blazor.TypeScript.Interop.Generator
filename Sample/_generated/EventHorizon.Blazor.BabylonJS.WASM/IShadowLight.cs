@@ -6,11 +6,12 @@ namespace BabylonJS
     using System.Text.Json.Serialization;
     using System.Threading.Tasks;
     using EventHorizon.Blazor.Interop;
+    using EventHorizon.Blazor.Interop.Callbacks;
     using Microsoft.JSInterop;
 
     public interface IShadowLight : ICachedEntity { }
     
-    [JsonConverter(typeof(CachedEntityConverter))]
+    [JsonConverter(typeof(CachedEntityConverter<IShadowLightCachedEntity>))]
     public class IShadowLightCachedEntity : CachedEntityObject, IShadowLight
     {
         #region Static Accessors
@@ -247,7 +248,7 @@ __transformedDirection = null;
         public bool computeTransformedInformation()
         {
             return EventHorizonBlazorInterop.Func<bool>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "computeTransformedInformation" }
                 }
@@ -258,7 +259,7 @@ __transformedDirection = null;
         {
             return EventHorizonBlazorInterop.FuncClass<Scene>(
                 entity => new Scene() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "getScene" }
                 }
@@ -282,6 +283,15 @@ __transformedDirection = null;
             );
 
             return handle;
+        }
+
+        public bool customProjectionMatrixBuilder_Remove(
+            string handle
+        )
+        {
+            return _customProjectionMatrixBuilderActionMap.Remove(
+                handle
+            );
         }
 
         private void SetupCustomProjectionMatrixBuilderLoop()
@@ -313,7 +323,7 @@ __transformedDirection = null;
         {
             return EventHorizonBlazorInterop.FuncClass<IShadowLightCachedEntity>(
                 entity => new IShadowLightCachedEntity() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "setShadowProjectionMatrix" }, matrix, viewMatrix, renderList
                 }
@@ -323,7 +333,7 @@ __transformedDirection = null;
         public decimal getDepthScale()
         {
             return EventHorizonBlazorInterop.Func<decimal>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "getDepthScale" }
                 }
@@ -333,7 +343,7 @@ __transformedDirection = null;
         public bool needCube()
         {
             return EventHorizonBlazorInterop.Func<bool>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "needCube" }
                 }
@@ -343,7 +353,7 @@ __transformedDirection = null;
         public bool needProjectionMatrixCompute()
         {
             return EventHorizonBlazorInterop.Func<bool>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "needProjectionMatrixCompute" }
                 }
@@ -353,7 +363,7 @@ __transformedDirection = null;
         public void forceProjectionMatrixCompute()
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "forceProjectionMatrixCompute" }
                 }
@@ -364,7 +374,7 @@ __transformedDirection = null;
         {
             return EventHorizonBlazorInterop.FuncClass<Vector3>(
                 entity => new Vector3() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "getShadowDirection" }, faceIndex
                 }
@@ -374,7 +384,7 @@ __transformedDirection = null;
         public decimal getDepthMinZ(Camera activeCamera)
         {
             return EventHorizonBlazorInterop.Func<decimal>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "getDepthMinZ" }, activeCamera
                 }
@@ -384,7 +394,7 @@ __transformedDirection = null;
         public decimal getDepthMaxZ(Camera activeCamera)
         {
             return EventHorizonBlazorInterop.Func<decimal>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "getDepthMaxZ" }, activeCamera
                 }

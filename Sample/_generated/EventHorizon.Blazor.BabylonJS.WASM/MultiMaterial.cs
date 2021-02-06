@@ -6,11 +6,12 @@ namespace BabylonJS
     using System.Text.Json.Serialization;
     using System.Threading.Tasks;
     using EventHorizon.Blazor.Interop;
+    using EventHorizon.Blazor.Interop.Callbacks;
     using Microsoft.JSInterop;
 
     
     
-    [JsonConverter(typeof(CachedEntityConverter))]
+    [JsonConverter(typeof(CachedEntityConverter<MultiMaterial>))]
     public class MultiMaterial : Material
     {
         #region Static Accessors
@@ -26,7 +27,7 @@ namespace BabylonJS
         {
             return EventHorizonBlazorInterop.FuncClass<MultiMaterial>(
                 entity => new MultiMaterial() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { "BABYLON", "MultiMaterial", "ParseMultiMaterial" }, parsedMultiMaterial, scene
                 }
@@ -102,7 +103,7 @@ namespace BabylonJS
         {
             return EventHorizonBlazorInterop.FuncClass<Material>(
                 entity => new Material() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "getSubMaterial" }, index
                 }
@@ -120,20 +121,30 @@ namespace BabylonJS
             );
         }
 
+        public bool hasTexture(BaseTexture texture)
+        {
+            return EventHorizonBlazorInterop.Func<bool>(
+                new object[]
+                {
+                    new string[] { this.___guid, "hasTexture" }, texture
+                }
+            );
+        }
+
         public string getClassName()
         {
             return EventHorizonBlazorInterop.Func<string>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "getClassName" }
                 }
             );
         }
 
-        public bool isReadyForSubMesh(AbstractMesh mesh, BaseSubMesh subMesh, System.Nullable<bool> useInstances = null)
+        public bool isReadyForSubMesh(AbstractMesh mesh, SubMesh subMesh, System.Nullable<bool> useInstances = null)
         {
             return EventHorizonBlazorInterop.Func<bool>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "isReadyForSubMesh" }, mesh, subMesh, useInstances
                 }
@@ -144,7 +155,7 @@ namespace BabylonJS
         {
             return EventHorizonBlazorInterop.FuncClass<MultiMaterial>(
                 entity => new MultiMaterial() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "clone" }, name, cloneChildren
                 }
@@ -154,7 +165,7 @@ namespace BabylonJS
         public CachedEntity serialize()
         {
             return EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "serialize" }
                 }
@@ -164,7 +175,7 @@ namespace BabylonJS
         public void dispose(System.Nullable<bool> forceDisposeEffect = null, System.Nullable<bool> forceDisposeTextures = null, System.Nullable<bool> forceDisposeChildren = null)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "dispose" }, forceDisposeEffect, forceDisposeTextures, forceDisposeChildren
                 }

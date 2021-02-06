@@ -6,11 +6,12 @@ namespace BabylonJS
     using System.Text.Json.Serialization;
     using System.Threading.Tasks;
     using EventHorizon.Blazor.Interop;
+    using EventHorizon.Blazor.Interop.Callbacks;
     using Microsoft.JSInterop;
 
     public interface EngineOptions : ICachedEntity { }
     
-    [JsonConverter(typeof(CachedEntityConverter))]
+    [JsonConverter(typeof(CachedEntityConverter<EngineOptionsCachedEntity>))]
     public class EngineOptionsCachedEntity : CachedEntityObject, EngineOptions
     {
         #region Static Accessors
@@ -235,6 +236,69 @@ namespace BabylonJS
                 EventHorizonBlazorInterop.Set(
                     this.___guid,
                     "useHighPrecisionFloats",
+                    value
+                );
+            }
+        }
+
+        
+        public bool xrCompatible
+        {
+            get
+            {
+            return EventHorizonBlazorInterop.Get<bool>(
+                    this.___guid,
+                    "xrCompatible"
+                );
+            }
+            set
+            {
+
+                EventHorizonBlazorInterop.Set(
+                    this.___guid,
+                    "xrCompatible",
+                    value
+                );
+            }
+        }
+
+        
+        public bool useHighPrecisionMatrix
+        {
+            get
+            {
+            return EventHorizonBlazorInterop.Get<bool>(
+                    this.___guid,
+                    "useHighPrecisionMatrix"
+                );
+            }
+            set
+            {
+
+                EventHorizonBlazorInterop.Set(
+                    this.___guid,
+                    "useHighPrecisionMatrix",
+                    value
+                );
+            }
+        }
+
+        
+        public bool failIfMajorPerformanceCaveat
+        {
+            get
+            {
+            return EventHorizonBlazorInterop.Get<bool>(
+                    this.___guid,
+                    "failIfMajorPerformanceCaveat"
+                );
+            }
+            set
+            {
+
+                EventHorizonBlazorInterop.Set(
+                    this.___guid,
+                    "failIfMajorPerformanceCaveat",
                     value
                 );
             }

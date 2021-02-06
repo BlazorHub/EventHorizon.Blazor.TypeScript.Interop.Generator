@@ -6,11 +6,12 @@ namespace BabylonJS
     using System.Text.Json.Serialization;
     using System.Threading.Tasks;
     using EventHorizon.Blazor.Interop;
+    using EventHorizon.Blazor.Interop.Callbacks;
     using Microsoft.JSInterop;
 
     public interface HTMLCanvasElement : ICachedEntity { }
     
-    [JsonConverter(typeof(CachedEntityConverter))]
+    [JsonConverter(typeof(CachedEntityConverter<HTMLCanvasElementCachedEntity>))]
     public class HTMLCanvasElementCachedEntity : CachedEntityObject, HTMLCanvasElement
     {
         #region Static Accessors
@@ -68,7 +69,7 @@ namespace BabylonJS
         public void requestPointerLock()
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "requestPointerLock" }
                 }
@@ -78,7 +79,7 @@ namespace BabylonJS
         public void msRequestPointerLock()
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "msRequestPointerLock" }
                 }
@@ -88,7 +89,7 @@ namespace BabylonJS
         public void mozRequestPointerLock()
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "mozRequestPointerLock" }
                 }
@@ -98,7 +99,7 @@ namespace BabylonJS
         public void webkitRequestPointerLock()
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "webkitRequestPointerLock" }
                 }
@@ -109,7 +110,7 @@ namespace BabylonJS
         {
             return EventHorizonBlazorInterop.FuncClass<MediaStream>(
                 entity => new MediaStream() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "captureStream" }, fps
                 }

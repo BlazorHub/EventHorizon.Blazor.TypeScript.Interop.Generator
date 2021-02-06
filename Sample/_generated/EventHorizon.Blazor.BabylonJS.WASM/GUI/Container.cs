@@ -6,11 +6,12 @@ namespace BabylonJS.GUI
     using System.Text.Json.Serialization;
     using System.Threading.Tasks;
     using EventHorizon.Blazor.Interop;
+    using EventHorizon.Blazor.Interop.Callbacks;
     using Microsoft.JSInterop;
 
     
     
-    [JsonConverter(typeof(CachedEntityConverter))]
+    [JsonConverter(typeof(CachedEntityConverter<Container>))]
     public class Container : Control
     {
         #region Static Accessors
@@ -197,7 +198,7 @@ namespace BabylonJS.GUI
         {
             return EventHorizonBlazorInterop.FuncClass<Control>(
                 entity => new Control() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "getChildByName" }, name
                 }
@@ -208,7 +209,7 @@ namespace BabylonJS.GUI
         {
             return EventHorizonBlazorInterop.FuncClass<Control>(
                 entity => new Control() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "getChildByType" }, name, type
                 }
@@ -218,7 +219,7 @@ namespace BabylonJS.GUI
         public bool containsControl(Control control)
         {
             return EventHorizonBlazorInterop.Func<bool>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "containsControl" }, control
                 }
@@ -229,7 +230,7 @@ namespace BabylonJS.GUI
         {
             return EventHorizonBlazorInterop.FuncClass<Container>(
                 entity => new Container() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "addControl" }, control
                 }
@@ -240,7 +241,7 @@ namespace BabylonJS.GUI
         {
             return EventHorizonBlazorInterop.FuncClass<Container>(
                 entity => new Container() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "clearControls" }
                 }
@@ -251,19 +252,27 @@ namespace BabylonJS.GUI
         {
             return EventHorizonBlazorInterop.FuncClass<Container>(
                 entity => new Container() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "removeControl" }, control
                 }
             );
         }
 
-// getDescendantsToRef is not supported by the platform yet
+        public void getDescendantsToRef(Control[] results, System.Nullable<bool> directDescendantsOnly = null, ActionCallback<Control> predicate = null)
+        {
+            EventHorizonBlazorInterop.Func<CachedEntity>(
+                new object[]
+                {
+                    new string[] { this.___guid, "getDescendantsToRef" }, results, directDescendantsOnly, predicate
+                }
+            );
+        }
 
         public void dispose()
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "dispose" }
                 }

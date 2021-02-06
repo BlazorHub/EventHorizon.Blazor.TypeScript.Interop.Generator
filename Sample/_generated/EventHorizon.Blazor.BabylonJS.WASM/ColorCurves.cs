@@ -6,11 +6,12 @@ namespace BabylonJS
     using System.Text.Json.Serialization;
     using System.Threading.Tasks;
     using EventHorizon.Blazor.Interop;
+    using EventHorizon.Blazor.Interop.Callbacks;
     using Microsoft.JSInterop;
 
     
     
-    [JsonConverter(typeof(CachedEntityConverter))]
+    [JsonConverter(typeof(CachedEntityConverter<ColorCurves>))]
     public class ColorCurves : CachedEntityObject
     {
         #region Static Accessors
@@ -25,7 +26,7 @@ namespace BabylonJS
         public static void Bind(ColorCurves colorCurves, Effect effect, string positiveUniform = null, string neutralUniform = null, string negativeUniform = null)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { "BABYLON", "ColorCurves", "Bind" }, colorCurves, effect, positiveUniform, neutralUniform, negativeUniform
                 }
@@ -35,7 +36,7 @@ namespace BabylonJS
         public static void PrepareUniforms(string[] uniformsList)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { "BABYLON", "ColorCurves", "PrepareUniforms" }, uniformsList
                 }
@@ -46,7 +47,7 @@ namespace BabylonJS
         {
             return EventHorizonBlazorInterop.FuncClass<ColorCurves>(
                 entity => new ColorCurves() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { "BABYLON", "ColorCurves", "Parse" }, source
                 }
@@ -397,7 +398,7 @@ namespace BabylonJS
         #endregion
         
         #region Constructor
-        public ColorCurves() : base() { } 
+        public ColorCurves() : base() { }
 
         public ColorCurves(
             ICachedEntity entity
@@ -413,7 +414,7 @@ namespace BabylonJS
         public string getClassName()
         {
             return EventHorizonBlazorInterop.Func<string>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "getClassName" }
                 }
@@ -424,7 +425,7 @@ namespace BabylonJS
         {
             return EventHorizonBlazorInterop.FuncClass<ColorCurves>(
                 entity => new ColorCurves() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "clone" }
                 }
@@ -434,7 +435,7 @@ namespace BabylonJS
         public CachedEntity serialize()
         {
             return EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "serialize" }
                 }

@@ -6,11 +6,12 @@ namespace BabylonJS
     using System.Text.Json.Serialization;
     using System.Threading.Tasks;
     using EventHorizon.Blazor.Interop;
+    using EventHorizon.Blazor.Interop.Callbacks;
     using Microsoft.JSInterop;
 
     
     
-    [JsonConverter(typeof(CachedEntityConverter))]
+    [JsonConverter(typeof(CachedEntityConverter<MeshBuilder>))]
     public class MeshBuilder : CachedEntityObject
     {
         #region Static Accessors
@@ -26,7 +27,7 @@ namespace BabylonJS
         {
             return EventHorizonBlazorInterop.FuncClass<Mesh>(
                 entity => new Mesh() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { "BABYLON", "MeshBuilder", "CreateBox" }, name, options, scene
                 }
@@ -37,7 +38,7 @@ namespace BabylonJS
         {
             return EventHorizonBlazorInterop.FuncClass<Mesh>(
                 entity => new Mesh() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { "BABYLON", "MeshBuilder", "CreateTiledBox" }, name, options, scene
                 }
@@ -48,7 +49,7 @@ namespace BabylonJS
         {
             return EventHorizonBlazorInterop.FuncClass<Mesh>(
                 entity => new Mesh() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { "BABYLON", "MeshBuilder", "CreateSphere" }, name, options, scene
                 }
@@ -59,7 +60,7 @@ namespace BabylonJS
         {
             return EventHorizonBlazorInterop.FuncClass<Mesh>(
                 entity => new Mesh() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { "BABYLON", "MeshBuilder", "CreateDisc" }, name, options, scene
                 }
@@ -70,7 +71,7 @@ namespace BabylonJS
         {
             return EventHorizonBlazorInterop.FuncClass<Mesh>(
                 entity => new Mesh() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { "BABYLON", "MeshBuilder", "CreateIcoSphere" }, name, options, scene
                 }
@@ -81,7 +82,7 @@ namespace BabylonJS
         {
             return EventHorizonBlazorInterop.FuncClass<Mesh>(
                 entity => new Mesh() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { "BABYLON", "MeshBuilder", "CreateRibbon" }, name, options, scene
                 }
@@ -92,7 +93,7 @@ namespace BabylonJS
         {
             return EventHorizonBlazorInterop.FuncClass<Mesh>(
                 entity => new Mesh() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { "BABYLON", "MeshBuilder", "CreateCylinder" }, name, options, scene
                 }
@@ -103,7 +104,7 @@ namespace BabylonJS
         {
             return EventHorizonBlazorInterop.FuncClass<Mesh>(
                 entity => new Mesh() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { "BABYLON", "MeshBuilder", "CreateTorus" }, name, options, scene
                 }
@@ -114,7 +115,7 @@ namespace BabylonJS
         {
             return EventHorizonBlazorInterop.FuncClass<Mesh>(
                 entity => new Mesh() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { "BABYLON", "MeshBuilder", "CreateTorusKnot" }, name, options, scene
                 }
@@ -125,7 +126,7 @@ namespace BabylonJS
         {
             return EventHorizonBlazorInterop.FuncClass<LinesMesh>(
                 entity => new LinesMesh() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { "BABYLON", "MeshBuilder", "CreateLineSystem" }, name, options, scene
                 }
@@ -136,7 +137,7 @@ namespace BabylonJS
         {
             return EventHorizonBlazorInterop.FuncClass<LinesMesh>(
                 entity => new LinesMesh() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { "BABYLON", "MeshBuilder", "CreateLines" }, name, options, scene
                 }
@@ -147,7 +148,7 @@ namespace BabylonJS
         {
             return EventHorizonBlazorInterop.FuncClass<LinesMesh>(
                 entity => new LinesMesh() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { "BABYLON", "MeshBuilder", "CreateDashedLines" }, name, options, scene
                 }
@@ -158,7 +159,7 @@ namespace BabylonJS
         {
             return EventHorizonBlazorInterop.FuncClass<Mesh>(
                 entity => new Mesh() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { "BABYLON", "MeshBuilder", "ExtrudeShape" }, name, options, scene
                 }
@@ -169,7 +170,7 @@ namespace BabylonJS
         {
             return EventHorizonBlazorInterop.FuncClass<Mesh>(
                 entity => new Mesh() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { "BABYLON", "MeshBuilder", "ExtrudeShapeCustom" }, name, options, scene
                 }
@@ -180,7 +181,7 @@ namespace BabylonJS
         {
             return EventHorizonBlazorInterop.FuncClass<Mesh>(
                 entity => new Mesh() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { "BABYLON", "MeshBuilder", "CreateLathe" }, name, options, scene
                 }
@@ -191,7 +192,7 @@ namespace BabylonJS
         {
             return EventHorizonBlazorInterop.FuncClass<Mesh>(
                 entity => new Mesh() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { "BABYLON", "MeshBuilder", "CreateTiledPlane" }, name, options, scene
                 }
@@ -202,7 +203,7 @@ namespace BabylonJS
         {
             return EventHorizonBlazorInterop.FuncClass<Mesh>(
                 entity => new Mesh() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { "BABYLON", "MeshBuilder", "CreatePlane" }, name, options, scene
                 }
@@ -213,7 +214,7 @@ namespace BabylonJS
         {
             return EventHorizonBlazorInterop.FuncClass<Mesh>(
                 entity => new Mesh() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { "BABYLON", "MeshBuilder", "CreateGround" }, name, options, scene
                 }
@@ -224,7 +225,7 @@ namespace BabylonJS
         {
             return EventHorizonBlazorInterop.FuncClass<Mesh>(
                 entity => new Mesh() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { "BABYLON", "MeshBuilder", "CreateTiledGround" }, name, options, scene
                 }
@@ -235,7 +236,7 @@ namespace BabylonJS
         {
             return EventHorizonBlazorInterop.FuncClass<GroundMesh>(
                 entity => new GroundMesh() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { "BABYLON", "MeshBuilder", "CreateGroundFromHeightMap" }, name, url, options, scene
                 }
@@ -246,7 +247,7 @@ namespace BabylonJS
         {
             return EventHorizonBlazorInterop.FuncClass<Mesh>(
                 entity => new Mesh() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { "BABYLON", "MeshBuilder", "CreatePolygon" }, name, options, scene, earcutInjection
                 }
@@ -257,7 +258,7 @@ namespace BabylonJS
         {
             return EventHorizonBlazorInterop.FuncClass<Mesh>(
                 entity => new Mesh() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { "BABYLON", "MeshBuilder", "ExtrudePolygon" }, name, options, scene, earcutInjection
                 }
@@ -268,7 +269,7 @@ namespace BabylonJS
         {
             return EventHorizonBlazorInterop.FuncClass<Mesh>(
                 entity => new Mesh() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { "BABYLON", "MeshBuilder", "CreateTube" }, name, options, scene
                 }
@@ -279,7 +280,7 @@ namespace BabylonJS
         {
             return EventHorizonBlazorInterop.FuncClass<Mesh>(
                 entity => new Mesh() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { "BABYLON", "MeshBuilder", "CreatePolyhedron" }, name, options, scene
                 }
@@ -290,9 +291,20 @@ namespace BabylonJS
         {
             return EventHorizonBlazorInterop.FuncClass<Mesh>(
                 entity => new Mesh() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { "BABYLON", "MeshBuilder", "CreateDecal" }, name, sourceMesh, options
+                }
+            );
+        }
+
+        public static Mesh CreateCapsule(string name, ICreateCapsuleOptions options = null, Scene scene = null)
+        {
+            return EventHorizonBlazorInterop.FuncClass<Mesh>(
+                entity => new Mesh() { ___guid = entity.___guid },
+                new object[]
+                {
+                    new string[] { "BABYLON", "MeshBuilder", "CreateCapsule" }, name, options, scene
                 }
             );
         }
@@ -307,7 +319,7 @@ namespace BabylonJS
         #endregion
         
         #region Constructor
-        public MeshBuilder() : base() { } 
+        public MeshBuilder() : base() { }
 
         public MeshBuilder(
             ICachedEntity entity

@@ -6,12 +6,13 @@ namespace BabylonJS.GUI
     using System.Text.Json.Serialization;
     using System.Threading.Tasks;
     using EventHorizon.Blazor.Interop;
+    using EventHorizon.Blazor.Interop.Callbacks;
     using Microsoft.JSInterop;
 
     
     
-    [JsonConverter(typeof(CachedEntityConverter))]
-    public class Style : CachedEntityObject
+    [JsonConverter(typeof(CachedEntityConverter<Style>))]
+    public class Style : CachedEntityObject, _IDisposable
     {
         #region Static Accessors
 
@@ -143,18 +144,17 @@ __onChangedObservable = null;
         #endregion
         
         #region Constructor
-        public Style() : base() { } 
+        public Style() : base() { }
 
         public Style(
             ICachedEntity entity
         ) : base(entity)
         {
-            ___guid = entity.___guid;
         }
 
         public Style(
             AdvancedDynamicTexture host
-        )
+        ) : base()
         {
             var entity = EventHorizonBlazorInterop.New(
                 new string[] { "BABYLON", "GUI", "Style" },
@@ -168,7 +168,7 @@ __onChangedObservable = null;
         public void dispose()
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "dispose" }
                 }

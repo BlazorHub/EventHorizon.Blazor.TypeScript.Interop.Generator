@@ -9,15 +9,28 @@ namespace EventHorizon.Blazor.TypeScript.Interop.Generator.Writers
     {
         public static string Write(
             TypeStatement type,
-            bool root = false,
+            bool includeArraySymbol = true,
             bool ignorePrefix = false
         )
         {
+            if (type.IsTypeAlias 
+                && !type.IsNullable
+                && !type.IsModifier
+                && !type.IsArray
+            )
+            {
+                type = type.AliasType;
+            }
             var name = type.Name;
             var genericTypesAsString = string.Empty;
             // Observer -> PickerInfo -> PickerData
             // Observer<PickerInfo<PickerData>>   [[INTERFACE_POSTFIX]]
             var standardTemplate = "[[NAME]]";
+            var actionVoidTemplate = "ActionCallback";
+            var actionTemplate = "ActionCallback<[[GENERIC_TYPES]]>";
+            var taskVoidTemplate = "ValueTask";
+            var taskTemplate = "ValueTask<[[GENERIC_TYPES]]>";
+            var rootTaskTemplate = "[[GENERIC_TYPES]]";
             var standardArrayTemplate = "[[NAME]][]";
             var standardPostfixTemplate = "[[NAME]][[INTERFACE_POSTFIX]]";
             var genericTemplate = "[[NAME]]<[[GENERIC_TYPES]]>";
@@ -48,7 +61,8 @@ namespace EventHorizon.Blazor.TypeScript.Interop.Generator.Writers
                 var genericTypes = type.GenericTypes.Select(
                     a => Write(
                         a,
-                        root && (type.IsNullable || type.IsModifier)
+                        includeArraySymbol,
+                        ignorePrefix
                     )
                 );
 
@@ -59,15 +73,44 @@ namespace EventHorizon.Blazor.TypeScript.Interop.Generator.Writers
             }
             if (type.IsNullable
                 || type.IsModifier
-                || (type.IsArray && root)
+                || (type.IsArray && type.GenericTypes.Any() && !includeArraySymbol)
             )
             {
                 template = rootArrayTemplate;
             }
             if (type.IsAction)
             {
-                name = GenerationIdentifiedTypes.CachedEntity;
-                template = standardTemplate;
+                template = actionTemplate;
+
+                if (!type.GenericTypes.Any())
+                {
+                    template = actionVoidTemplate;
+                }
+            }
+            if (type.IsTask)
+            {
+                template = taskTemplate;
+                if (!includeArraySymbol)
+                {
+                    template = rootTaskTemplate;
+                }
+
+                if (!type.GenericTypes.Any()
+                    || type.GenericTypes.Any(type => type.Name == "void"))
+                {
+                    template = taskVoidTemplate;
+                    if (!includeArraySymbol)
+                    {
+                        template = rootTaskTemplate;
+                    }
+                }
+            }
+            if (type.IsEnum)
+            {
+                template = template.Replace(
+                    "[[NAME]]",
+                    "int"
+                );
             }
 
             return template.Replace(
@@ -78,7 +121,7 @@ namespace EventHorizon.Blazor.TypeScript.Interop.Generator.Writers
                 genericTypesAsString
             ).Replace(
                 "[[INTERFACE_POSTFIX]]",
-                ignorePrefix ? string.Empty : "CachedEntity"
+                ignorePrefix ? string.Empty : Constants.INTERFACE_POSTFIX
             );
         }
     }

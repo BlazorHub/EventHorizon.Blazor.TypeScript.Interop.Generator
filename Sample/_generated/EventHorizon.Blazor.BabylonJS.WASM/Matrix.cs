@@ -6,14 +6,27 @@ namespace BabylonJS
     using System.Text.Json.Serialization;
     using System.Threading.Tasks;
     using EventHorizon.Blazor.Interop;
+    using EventHorizon.Blazor.Interop.Callbacks;
     using Microsoft.JSInterop;
 
     
     
-    [JsonConverter(typeof(CachedEntityConverter))]
+    [JsonConverter(typeof(CachedEntityConverter<Matrix>))]
     public class Matrix : CachedEntityObject
     {
         #region Static Accessors
+        
+        public static bool Use64Bits
+        {
+            get
+            {
+            return EventHorizonBlazorInterop.Get<bool>(
+                    "BABYLON",
+                    "Matrix.Use64Bits"
+                );
+            }
+        }
+
         private static Matrix __IdentityReadOnly;
         public static Matrix IdentityReadOnly
         {
@@ -44,7 +57,7 @@ namespace BabylonJS
         {
             return EventHorizonBlazorInterop.FuncClass<Matrix>(
                 entity => new Matrix() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { "BABYLON", "Matrix", "FromArray" }, array, offset
                 }
@@ -54,7 +67,7 @@ namespace BabylonJS
         public static void FromArrayToRef(decimal[] array, decimal offset, Matrix result)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { "BABYLON", "Matrix", "FromArrayToRef" }, array, offset, result
                 }
@@ -64,7 +77,7 @@ namespace BabylonJS
         public static void FromFloat32ArrayToRefScaled(decimal[] array, decimal offset, decimal scale, Matrix result)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { "BABYLON", "Matrix", "FromFloat32ArrayToRefScaled" }, array, offset, scale, result
                 }
@@ -74,7 +87,7 @@ namespace BabylonJS
         public static void FromValuesToRef(decimal initialM11, decimal initialM12, decimal initialM13, decimal initialM14, decimal initialM21, decimal initialM22, decimal initialM23, decimal initialM24, decimal initialM31, decimal initialM32, decimal initialM33, decimal initialM34, decimal initialM41, decimal initialM42, decimal initialM43, decimal initialM44, Matrix result)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { "BABYLON", "Matrix", "FromValuesToRef" }, initialM11, initialM12, initialM13, initialM14, initialM21, initialM22, initialM23, initialM24, initialM31, initialM32, initialM33, initialM34, initialM41, initialM42, initialM43, initialM44, result
                 }
@@ -85,7 +98,7 @@ namespace BabylonJS
         {
             return EventHorizonBlazorInterop.FuncClass<Matrix>(
                 entity => new Matrix() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { "BABYLON", "Matrix", "FromValues" }, initialM11, initialM12, initialM13, initialM14, initialM21, initialM22, initialM23, initialM24, initialM31, initialM32, initialM33, initialM34, initialM41, initialM42, initialM43, initialM44
                 }
@@ -96,7 +109,7 @@ namespace BabylonJS
         {
             return EventHorizonBlazorInterop.FuncClass<Matrix>(
                 entity => new Matrix() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { "BABYLON", "Matrix", "Compose" }, scale, rotation, translation
                 }
@@ -106,7 +119,7 @@ namespace BabylonJS
         public static void ComposeToRef(Vector3 scale, Quaternion rotation, Vector3 translation, Matrix result)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { "BABYLON", "Matrix", "ComposeToRef" }, scale, rotation, translation, result
                 }
@@ -117,7 +130,7 @@ namespace BabylonJS
         {
             return EventHorizonBlazorInterop.FuncClass<Matrix>(
                 entity => new Matrix() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { "BABYLON", "Matrix", "Identity" }
                 }
@@ -127,7 +140,7 @@ namespace BabylonJS
         public static void IdentityToRef(Matrix result)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { "BABYLON", "Matrix", "IdentityToRef" }, result
                 }
@@ -138,7 +151,7 @@ namespace BabylonJS
         {
             return EventHorizonBlazorInterop.FuncClass<Matrix>(
                 entity => new Matrix() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { "BABYLON", "Matrix", "Zero" }
                 }
@@ -149,7 +162,7 @@ namespace BabylonJS
         {
             return EventHorizonBlazorInterop.FuncClass<Matrix>(
                 entity => new Matrix() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { "BABYLON", "Matrix", "RotationX" }, angle
                 }
@@ -160,7 +173,7 @@ namespace BabylonJS
         {
             return EventHorizonBlazorInterop.FuncClass<Matrix>(
                 entity => new Matrix() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { "BABYLON", "Matrix", "Invert" }, source
                 }
@@ -170,7 +183,7 @@ namespace BabylonJS
         public static void RotationXToRef(decimal angle, Matrix result)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { "BABYLON", "Matrix", "RotationXToRef" }, angle, result
                 }
@@ -181,7 +194,7 @@ namespace BabylonJS
         {
             return EventHorizonBlazorInterop.FuncClass<Matrix>(
                 entity => new Matrix() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { "BABYLON", "Matrix", "RotationY" }, angle
                 }
@@ -191,7 +204,7 @@ namespace BabylonJS
         public static void RotationYToRef(decimal angle, Matrix result)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { "BABYLON", "Matrix", "RotationYToRef" }, angle, result
                 }
@@ -202,7 +215,7 @@ namespace BabylonJS
         {
             return EventHorizonBlazorInterop.FuncClass<Matrix>(
                 entity => new Matrix() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { "BABYLON", "Matrix", "RotationZ" }, angle
                 }
@@ -212,7 +225,7 @@ namespace BabylonJS
         public static void RotationZToRef(decimal angle, Matrix result)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { "BABYLON", "Matrix", "RotationZToRef" }, angle, result
                 }
@@ -223,7 +236,7 @@ namespace BabylonJS
         {
             return EventHorizonBlazorInterop.FuncClass<Matrix>(
                 entity => new Matrix() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { "BABYLON", "Matrix", "RotationAxis" }, axis, angle
                 }
@@ -233,7 +246,7 @@ namespace BabylonJS
         public static void RotationAxisToRef(Vector3 axis, decimal angle, Matrix result)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { "BABYLON", "Matrix", "RotationAxisToRef" }, axis, angle, result
                 }
@@ -243,7 +256,7 @@ namespace BabylonJS
         public static void RotationAlignToRef(Vector3 from, Vector3 to, Matrix result)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { "BABYLON", "Matrix", "RotationAlignToRef" }, from, to, result
                 }
@@ -254,7 +267,7 @@ namespace BabylonJS
         {
             return EventHorizonBlazorInterop.FuncClass<Matrix>(
                 entity => new Matrix() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { "BABYLON", "Matrix", "RotationYawPitchRoll" }, yaw, pitch, roll
                 }
@@ -264,7 +277,7 @@ namespace BabylonJS
         public static void RotationYawPitchRollToRef(decimal yaw, decimal pitch, decimal roll, Matrix result)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { "BABYLON", "Matrix", "RotationYawPitchRollToRef" }, yaw, pitch, roll, result
                 }
@@ -275,7 +288,7 @@ namespace BabylonJS
         {
             return EventHorizonBlazorInterop.FuncClass<Matrix>(
                 entity => new Matrix() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { "BABYLON", "Matrix", "Scaling" }, x, y, z
                 }
@@ -285,7 +298,7 @@ namespace BabylonJS
         public static void ScalingToRef(decimal x, decimal y, decimal z, Matrix result)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { "BABYLON", "Matrix", "ScalingToRef" }, x, y, z, result
                 }
@@ -296,7 +309,7 @@ namespace BabylonJS
         {
             return EventHorizonBlazorInterop.FuncClass<Matrix>(
                 entity => new Matrix() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { "BABYLON", "Matrix", "Translation" }, x, y, z
                 }
@@ -306,7 +319,7 @@ namespace BabylonJS
         public static void TranslationToRef(decimal x, decimal y, decimal z, Matrix result)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { "BABYLON", "Matrix", "TranslationToRef" }, x, y, z, result
                 }
@@ -317,7 +330,7 @@ namespace BabylonJS
         {
             return EventHorizonBlazorInterop.FuncClass<Matrix>(
                 entity => new Matrix() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { "BABYLON", "Matrix", "Lerp" }, startValue, endValue, gradient
                 }
@@ -327,7 +340,7 @@ namespace BabylonJS
         public static void LerpToRef(Matrix startValue, Matrix endValue, decimal gradient, Matrix result)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { "BABYLON", "Matrix", "LerpToRef" }, startValue, endValue, gradient, result
                 }
@@ -338,7 +351,7 @@ namespace BabylonJS
         {
             return EventHorizonBlazorInterop.FuncClass<Matrix>(
                 entity => new Matrix() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { "BABYLON", "Matrix", "DecomposeLerp" }, startValue, endValue, gradient
                 }
@@ -348,7 +361,7 @@ namespace BabylonJS
         public static void DecomposeLerpToRef(Matrix startValue, Matrix endValue, decimal gradient, Matrix result)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { "BABYLON", "Matrix", "DecomposeLerpToRef" }, startValue, endValue, gradient, result
                 }
@@ -359,7 +372,7 @@ namespace BabylonJS
         {
             return EventHorizonBlazorInterop.FuncClass<Matrix>(
                 entity => new Matrix() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { "BABYLON", "Matrix", "LookAtLH" }, eye, target, up
                 }
@@ -369,7 +382,7 @@ namespace BabylonJS
         public static void LookAtLHToRef(Vector3 eye, Vector3 target, Vector3 up, Matrix result)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { "BABYLON", "Matrix", "LookAtLHToRef" }, eye, target, up, result
                 }
@@ -380,7 +393,7 @@ namespace BabylonJS
         {
             return EventHorizonBlazorInterop.FuncClass<Matrix>(
                 entity => new Matrix() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { "BABYLON", "Matrix", "LookAtRH" }, eye, target, up
                 }
@@ -390,7 +403,7 @@ namespace BabylonJS
         public static void LookAtRHToRef(Vector3 eye, Vector3 target, Vector3 up, Matrix result)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { "BABYLON", "Matrix", "LookAtRHToRef" }, eye, target, up, result
                 }
@@ -401,7 +414,7 @@ namespace BabylonJS
         {
             return EventHorizonBlazorInterop.FuncClass<Matrix>(
                 entity => new Matrix() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { "BABYLON", "Matrix", "OrthoLH" }, width, height, znear, zfar
                 }
@@ -411,7 +424,7 @@ namespace BabylonJS
         public static void OrthoLHToRef(decimal width, decimal height, decimal znear, decimal zfar, Matrix result)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { "BABYLON", "Matrix", "OrthoLHToRef" }, width, height, znear, zfar, result
                 }
@@ -422,7 +435,7 @@ namespace BabylonJS
         {
             return EventHorizonBlazorInterop.FuncClass<Matrix>(
                 entity => new Matrix() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { "BABYLON", "Matrix", "OrthoOffCenterLH" }, left, right, bottom, top, znear, zfar
                 }
@@ -432,7 +445,7 @@ namespace BabylonJS
         public static void OrthoOffCenterLHToRef(decimal left, decimal right, decimal bottom, decimal top, decimal znear, decimal zfar, Matrix result)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { "BABYLON", "Matrix", "OrthoOffCenterLHToRef" }, left, right, bottom, top, znear, zfar, result
                 }
@@ -443,7 +456,7 @@ namespace BabylonJS
         {
             return EventHorizonBlazorInterop.FuncClass<Matrix>(
                 entity => new Matrix() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { "BABYLON", "Matrix", "OrthoOffCenterRH" }, left, right, bottom, top, znear, zfar
                 }
@@ -453,7 +466,7 @@ namespace BabylonJS
         public static void OrthoOffCenterRHToRef(decimal left, decimal right, decimal bottom, decimal top, decimal znear, decimal zfar, Matrix result)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { "BABYLON", "Matrix", "OrthoOffCenterRHToRef" }, left, right, bottom, top, znear, zfar, result
                 }
@@ -464,7 +477,7 @@ namespace BabylonJS
         {
             return EventHorizonBlazorInterop.FuncClass<Matrix>(
                 entity => new Matrix() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { "BABYLON", "Matrix", "PerspectiveLH" }, width, height, znear, zfar
                 }
@@ -475,7 +488,7 @@ namespace BabylonJS
         {
             return EventHorizonBlazorInterop.FuncClass<Matrix>(
                 entity => new Matrix() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { "BABYLON", "Matrix", "PerspectiveFovLH" }, fov, aspect, znear, zfar
                 }
@@ -485,7 +498,7 @@ namespace BabylonJS
         public static void PerspectiveFovLHToRef(decimal fov, decimal aspect, decimal znear, decimal zfar, Matrix result, System.Nullable<bool> isVerticalFovFixed = null)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { "BABYLON", "Matrix", "PerspectiveFovLHToRef" }, fov, aspect, znear, zfar, result, isVerticalFovFixed
                 }
@@ -495,7 +508,7 @@ namespace BabylonJS
         public static void PerspectiveFovReverseLHToRef(decimal fov, decimal aspect, decimal znear, decimal zfar, Matrix result, System.Nullable<bool> isVerticalFovFixed = null)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { "BABYLON", "Matrix", "PerspectiveFovReverseLHToRef" }, fov, aspect, znear, zfar, result, isVerticalFovFixed
                 }
@@ -506,7 +519,7 @@ namespace BabylonJS
         {
             return EventHorizonBlazorInterop.FuncClass<Matrix>(
                 entity => new Matrix() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { "BABYLON", "Matrix", "PerspectiveFovRH" }, fov, aspect, znear, zfar
                 }
@@ -516,7 +529,7 @@ namespace BabylonJS
         public static void PerspectiveFovRHToRef(decimal fov, decimal aspect, decimal znear, decimal zfar, Matrix result, System.Nullable<bool> isVerticalFovFixed = null)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { "BABYLON", "Matrix", "PerspectiveFovRHToRef" }, fov, aspect, znear, zfar, result, isVerticalFovFixed
                 }
@@ -526,7 +539,7 @@ namespace BabylonJS
         public static void PerspectiveFovReverseRHToRef(decimal fov, decimal aspect, decimal znear, decimal zfar, Matrix result, System.Nullable<bool> isVerticalFovFixed = null)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { "BABYLON", "Matrix", "PerspectiveFovReverseRHToRef" }, fov, aspect, znear, zfar, result, isVerticalFovFixed
                 }
@@ -536,7 +549,7 @@ namespace BabylonJS
         public static void PerspectiveFovWebVRToRef(object fov, decimal znear, decimal zfar, Matrix result, System.Nullable<bool> rightHanded = null)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { "BABYLON", "Matrix", "PerspectiveFovWebVRToRef" }, fov, znear, zfar, result, rightHanded
                 }
@@ -547,7 +560,7 @@ namespace BabylonJS
         {
             return EventHorizonBlazorInterop.FuncClass<Matrix>(
                 entity => new Matrix() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { "BABYLON", "Matrix", "GetFinalMatrix" }, viewport, world, view, projection, zmin, zmax
                 }
@@ -578,7 +591,7 @@ namespace BabylonJS
         {
             return EventHorizonBlazorInterop.FuncClass<Matrix>(
                 entity => new Matrix() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { "BABYLON", "Matrix", "Transpose" }, matrix
                 }
@@ -588,28 +601,28 @@ namespace BabylonJS
         public static void TransposeToRef(Matrix matrix, Matrix result)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { "BABYLON", "Matrix", "TransposeToRef" }, matrix, result
                 }
             );
         }
 
-        public static Matrix Reflection(IPlaneLikeCachedEntity plane)
+        public static Matrix Reflection(IPlaneLike plane)
         {
             return EventHorizonBlazorInterop.FuncClass<Matrix>(
                 entity => new Matrix() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { "BABYLON", "Matrix", "Reflection" }, plane
                 }
             );
         }
 
-        public static void ReflectionToRef(IPlaneLikeCachedEntity plane, Matrix result)
+        public static void ReflectionToRef(IPlaneLike plane, Matrix result)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { "BABYLON", "Matrix", "ReflectionToRef" }, plane, result
                 }
@@ -619,7 +632,7 @@ namespace BabylonJS
         public static void FromXYZAxesToRef(Vector3 xaxis, Vector3 yaxis, Vector3 zaxis, Matrix result)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { "BABYLON", "Matrix", "FromXYZAxesToRef" }, xaxis, yaxis, zaxis, result
                 }
@@ -629,7 +642,7 @@ namespace BabylonJS
         public static void FromQuaternionToRef(Quaternion quat, Matrix result)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { "BABYLON", "Matrix", "FromQuaternionToRef" }, quat, result
                 }
@@ -675,7 +688,7 @@ namespace BabylonJS
         #endregion
         
         #region Constructor
-        public Matrix() : base() { } 
+        public Matrix() : base() { }
 
         public Matrix(
             ICachedEntity entity
@@ -691,7 +704,7 @@ namespace BabylonJS
         public bool isIdentity()
         {
             return EventHorizonBlazorInterop.Func<bool>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "isIdentity" }
                 }
@@ -701,7 +714,7 @@ namespace BabylonJS
         public bool isIdentityAs3x2()
         {
             return EventHorizonBlazorInterop.Func<bool>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "isIdentityAs3x2" }
                 }
@@ -711,7 +724,7 @@ namespace BabylonJS
         public decimal determinant()
         {
             return EventHorizonBlazorInterop.Func<decimal>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "determinant" }
                 }
@@ -742,7 +755,7 @@ namespace BabylonJS
         {
             return EventHorizonBlazorInterop.FuncClass<Matrix>(
                 entity => new Matrix() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "invert" }
                 }
@@ -753,7 +766,7 @@ namespace BabylonJS
         {
             return EventHorizonBlazorInterop.FuncClass<Matrix>(
                 entity => new Matrix() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "reset" }
                 }
@@ -764,7 +777,7 @@ namespace BabylonJS
         {
             return EventHorizonBlazorInterop.FuncClass<Matrix>(
                 entity => new Matrix() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "add" }, other
                 }
@@ -775,7 +788,7 @@ namespace BabylonJS
         {
             return EventHorizonBlazorInterop.FuncClass<Matrix>(
                 entity => new Matrix() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "addToRef" }, other, result
                 }
@@ -786,7 +799,7 @@ namespace BabylonJS
         {
             return EventHorizonBlazorInterop.FuncClass<Matrix>(
                 entity => new Matrix() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "addToSelf" }, other
                 }
@@ -797,7 +810,7 @@ namespace BabylonJS
         {
             return EventHorizonBlazorInterop.FuncClass<Matrix>(
                 entity => new Matrix() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "invertToRef" }, other
                 }
@@ -808,7 +821,7 @@ namespace BabylonJS
         {
             return EventHorizonBlazorInterop.FuncClass<Matrix>(
                 entity => new Matrix() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "addAtIndex" }, index, value
                 }
@@ -819,7 +832,7 @@ namespace BabylonJS
         {
             return EventHorizonBlazorInterop.FuncClass<Matrix>(
                 entity => new Matrix() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "multiplyAtIndex" }, index, value
                 }
@@ -830,7 +843,7 @@ namespace BabylonJS
         {
             return EventHorizonBlazorInterop.FuncClass<Matrix>(
                 entity => new Matrix() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "setTranslationFromFloats" }, x, y, z
                 }
@@ -841,7 +854,7 @@ namespace BabylonJS
         {
             return EventHorizonBlazorInterop.FuncClass<Matrix>(
                 entity => new Matrix() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "addTranslationFromFloats" }, x, y, z
                 }
@@ -852,7 +865,7 @@ namespace BabylonJS
         {
             return EventHorizonBlazorInterop.FuncClass<Matrix>(
                 entity => new Matrix() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "setTranslation" }, vector3
                 }
@@ -863,7 +876,7 @@ namespace BabylonJS
         {
             return EventHorizonBlazorInterop.FuncClass<Vector3>(
                 entity => new Vector3() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "getTranslation" }
                 }
@@ -874,7 +887,7 @@ namespace BabylonJS
         {
             return EventHorizonBlazorInterop.FuncClass<Matrix>(
                 entity => new Matrix() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "getTranslationToRef" }, result
                 }
@@ -885,7 +898,7 @@ namespace BabylonJS
         {
             return EventHorizonBlazorInterop.FuncClass<Matrix>(
                 entity => new Matrix() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "removeRotationAndScaling" }
                 }
@@ -896,7 +909,7 @@ namespace BabylonJS
         {
             return EventHorizonBlazorInterop.FuncClass<Matrix>(
                 entity => new Matrix() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "multiply" }, other
                 }
@@ -907,7 +920,7 @@ namespace BabylonJS
         {
             return EventHorizonBlazorInterop.FuncClass<Matrix>(
                 entity => new Matrix() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "copyFrom" }, other
                 }
@@ -918,7 +931,7 @@ namespace BabylonJS
         {
             return EventHorizonBlazorInterop.FuncClass<Matrix>(
                 entity => new Matrix() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "copyToArray" }, array, offset
                 }
@@ -929,7 +942,7 @@ namespace BabylonJS
         {
             return EventHorizonBlazorInterop.FuncClass<Matrix>(
                 entity => new Matrix() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "multiplyToRef" }, other, result
                 }
@@ -940,7 +953,7 @@ namespace BabylonJS
         {
             return EventHorizonBlazorInterop.FuncClass<Matrix>(
                 entity => new Matrix() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "multiplyToArray" }, other, result, offset
                 }
@@ -950,7 +963,7 @@ namespace BabylonJS
         public bool equals(Matrix value)
         {
             return EventHorizonBlazorInterop.Func<bool>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "equals" }, value
                 }
@@ -961,7 +974,7 @@ namespace BabylonJS
         {
             return EventHorizonBlazorInterop.FuncClass<Matrix>(
                 entity => new Matrix() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "clone" }
                 }
@@ -971,7 +984,7 @@ namespace BabylonJS
         public string getClassName()
         {
             return EventHorizonBlazorInterop.Func<string>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "getClassName" }
                 }
@@ -981,7 +994,7 @@ namespace BabylonJS
         public decimal getHashCode()
         {
             return EventHorizonBlazorInterop.Func<decimal>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "getHashCode" }
                 }
@@ -991,7 +1004,7 @@ namespace BabylonJS
         public bool decompose(Vector3 scale = null, Quaternion rotation = null, Vector3 translation = null)
         {
             return EventHorizonBlazorInterop.Func<bool>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "decompose" }, scale, rotation, translation
                 }
@@ -1002,7 +1015,7 @@ namespace BabylonJS
         {
             return EventHorizonBlazorInterop.FuncClass<Vector4>(
                 entity => new Vector4() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "getRow" }, index
                 }
@@ -1013,7 +1026,7 @@ namespace BabylonJS
         {
             return EventHorizonBlazorInterop.FuncClass<Matrix>(
                 entity => new Matrix() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "setRow" }, index, row
                 }
@@ -1024,7 +1037,7 @@ namespace BabylonJS
         {
             return EventHorizonBlazorInterop.FuncClass<Matrix>(
                 entity => new Matrix() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "transpose" }
                 }
@@ -1035,7 +1048,7 @@ namespace BabylonJS
         {
             return EventHorizonBlazorInterop.FuncClass<Matrix>(
                 entity => new Matrix() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "transposeToRef" }, result
                 }
@@ -1046,7 +1059,7 @@ namespace BabylonJS
         {
             return EventHorizonBlazorInterop.FuncClass<Matrix>(
                 entity => new Matrix() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "setRowFromFloats" }, index, x, y, z, w
                 }
@@ -1057,7 +1070,7 @@ namespace BabylonJS
         {
             return EventHorizonBlazorInterop.FuncClass<Matrix>(
                 entity => new Matrix() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "scale" }, scale
                 }
@@ -1068,7 +1081,7 @@ namespace BabylonJS
         {
             return EventHorizonBlazorInterop.FuncClass<Matrix>(
                 entity => new Matrix() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "scaleToRef" }, scale, result
                 }
@@ -1079,7 +1092,7 @@ namespace BabylonJS
         {
             return EventHorizonBlazorInterop.FuncClass<Matrix>(
                 entity => new Matrix() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "scaleAndAddToRef" }, scale, result
                 }
@@ -1089,7 +1102,7 @@ namespace BabylonJS
         public void toNormalMatrix(Matrix @ref)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "toNormalMatrix" }, @ref
                 }
@@ -1100,7 +1113,7 @@ namespace BabylonJS
         {
             return EventHorizonBlazorInterop.FuncClass<Matrix>(
                 entity => new Matrix() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "getRotationMatrix" }
                 }
@@ -1111,7 +1124,7 @@ namespace BabylonJS
         {
             return EventHorizonBlazorInterop.FuncClass<Matrix>(
                 entity => new Matrix() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "getRotationMatrixToRef" }, result
                 }
@@ -1121,7 +1134,7 @@ namespace BabylonJS
         public void toggleModelMatrixHandInPlace()
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "toggleModelMatrixHandInPlace" }
                 }
@@ -1131,7 +1144,7 @@ namespace BabylonJS
         public void toggleProjectionMatrixHandInPlace()
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "toggleProjectionMatrixHandInPlace" }
                 }

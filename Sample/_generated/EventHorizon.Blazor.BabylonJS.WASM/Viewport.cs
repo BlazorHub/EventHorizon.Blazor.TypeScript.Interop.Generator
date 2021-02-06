@@ -6,11 +6,12 @@ namespace BabylonJS
     using System.Text.Json.Serialization;
     using System.Threading.Tasks;
     using EventHorizon.Blazor.Interop;
+    using EventHorizon.Blazor.Interop.Callbacks;
     using Microsoft.JSInterop;
 
     
     
-    [JsonConverter(typeof(CachedEntityConverter))]
+    [JsonConverter(typeof(CachedEntityConverter<Viewport>))]
     public class Viewport : CachedEntityObject
     {
         #region Static Accessors
@@ -116,7 +117,7 @@ namespace BabylonJS
         #endregion
         
         #region Constructor
-        public Viewport() : base() { } 
+        public Viewport() : base() { }
 
         public Viewport(
             ICachedEntity entity
@@ -142,7 +143,7 @@ namespace BabylonJS
         {
             return EventHorizonBlazorInterop.FuncClass<Viewport>(
                 entity => new Viewport() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "toGlobal" }, renderWidth, renderHeight
                 }
@@ -153,7 +154,7 @@ namespace BabylonJS
         {
             return EventHorizonBlazorInterop.FuncClass<Viewport>(
                 entity => new Viewport() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "toGlobalToRef" }, renderWidth, renderHeight, @ref
                 }
@@ -164,7 +165,7 @@ namespace BabylonJS
         {
             return EventHorizonBlazorInterop.FuncClass<Viewport>(
                 entity => new Viewport() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "clone" }
                 }

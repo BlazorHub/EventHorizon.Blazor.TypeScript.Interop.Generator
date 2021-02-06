@@ -6,11 +6,12 @@ namespace BabylonJS
     using System.Text.Json.Serialization;
     using System.Threading.Tasks;
     using EventHorizon.Blazor.Interop;
+    using EventHorizon.Blazor.Interop.Callbacks;
     using Microsoft.JSInterop;
 
     public interface IEasingFunction : ICachedEntity { }
     
-    [JsonConverter(typeof(CachedEntityConverter))]
+    [JsonConverter(typeof(CachedEntityConverter<IEasingFunctionCachedEntity>))]
     public class IEasingFunctionCachedEntity : CachedEntityObject, IEasingFunction
     {
         #region Static Accessors
@@ -49,7 +50,7 @@ namespace BabylonJS
         public decimal ease(decimal gradient)
         {
             return EventHorizonBlazorInterop.Func<decimal>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "ease" }, gradient
                 }

@@ -6,11 +6,12 @@ namespace BabylonJS
     using System.Text.Json.Serialization;
     using System.Threading.Tasks;
     using EventHorizon.Blazor.Interop;
+    using EventHorizon.Blazor.Interop.Callbacks;
     using Microsoft.JSInterop;
 
     
     
-    [JsonConverter(typeof(CachedEntityConverter))]
+    [JsonConverter(typeof(CachedEntityConverter<FresnelParameters>))]
     public class FresnelParameters : CachedEntityObject
     {
         #region Static Accessors
@@ -22,11 +23,11 @@ namespace BabylonJS
         #endregion
 
         #region Static Methods
-        public static FresnelParameters Parse(object parsedFresnelParameters)
+        public static FresnelParameters Parse(CachedEntity parsedFresnelParameters)
         {
             return EventHorizonBlazorInterop.FuncClass<FresnelParameters>(
                 entity => new FresnelParameters() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { "BABYLON", "FresnelParameters", "Parse" }, parsedFresnelParameters
                 }
@@ -160,7 +161,7 @@ __rightColor = null;
         #endregion
         
         #region Constructor
-        public FresnelParameters() : base() { } 
+        public FresnelParameters() : base() { }
 
         public FresnelParameters(
             ICachedEntity entity
@@ -169,7 +170,16 @@ __rightColor = null;
             ___guid = entity.___guid;
         }
 
-
+        public FresnelParameters(
+            CachedEntity options = null
+        )
+        {
+            var entity = EventHorizonBlazorInterop.New(
+                new string[] { "BABYLON", "FresnelParameters" },
+                options
+            );
+            ___guid = entity.___guid;
+        }
         #endregion
 
         #region Methods
@@ -177,9 +187,19 @@ __rightColor = null;
         {
             return EventHorizonBlazorInterop.FuncClass<FresnelParameters>(
                 entity => new FresnelParameters() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "clone" }
+                }
+            );
+        }
+
+        public bool equals(FresnelParameters otherFresnelParameters)
+        {
+            return EventHorizonBlazorInterop.Func<bool>(
+                new object[]
+                {
+                    new string[] { this.___guid, "equals" }, otherFresnelParameters
                 }
             );
         }
@@ -187,7 +207,7 @@ __rightColor = null;
         public CachedEntity serialize()
         {
             return EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "serialize" }
                 }

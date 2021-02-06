@@ -6,11 +6,12 @@ namespace Static.Primitive
     using System.Text.Json.Serialization;
     using System.Threading.Tasks;
     using EventHorizon.Blazor.Interop;
+    using EventHorizon.Blazor.Interop.Callbacks;
     using Microsoft.JSInterop;
 
     
     
-    [JsonConverter(typeof(CachedEntityConverter))]
+    [JsonConverter(typeof(CachedEntityConverter<ExampleClass<CachedEntity>>))]
     public class ExampleClass<T> : CachedEntityObject where T : CachedEntity, new()
     {
         #region Static Accessors
@@ -88,7 +89,7 @@ namespace Static.Primitive
         #endregion
         
         #region Constructor
-        public ExampleClass() : base() { } 
+        public ExampleClass() : base() { }
 
         public ExampleClass(
             ICachedEntity entity

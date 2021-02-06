@@ -6,11 +6,12 @@ namespace Examples
     using System.Text.Json.Serialization;
     using System.Threading.Tasks;
     using EventHorizon.Blazor.Interop;
+    using EventHorizon.Blazor.Interop.Callbacks;
     using Microsoft.JSInterop;
 
     
     
-    [JsonConverter(typeof(CachedEntityConverter))]
+    [JsonConverter(typeof(CachedEntityConverter<ExampleClass>))]
     public class ExampleClass : CachedEntityObject
     {
         #region Static Accessors
@@ -25,7 +26,7 @@ namespace Examples
         public static int methodStaticCheck(Vector3 arg1, decimal arg2)
         {
             return EventHorizonBlazorInterop.Func<int>(
-                new object[] 
+                new object[]
                 {
                     new string[] { "Examples", "ExampleClass", "methodStaticCheck" }, arg1, arg2
                 }
@@ -35,7 +36,7 @@ namespace Examples
         public static bool vectorStaticMethodCheck(OverrideVector4 arg1, decimal arg2)
         {
             return EventHorizonBlazorInterop.Func<bool>(
-                new object[] 
+                new object[]
                 {
                     new string[] { "Examples", "ExampleClass", "vectorStaticMethodCheck" }, arg1, arg2
                 }
@@ -45,7 +46,7 @@ namespace Examples
         public static bool primativeStaticMethodCheck(Vector3 arg1, int arg2)
         {
             return EventHorizonBlazorInterop.Func<bool>(
-                new object[] 
+                new object[]
                 {
                     new string[] { "Examples", "ExampleClass", "primativeStaticMethodCheck" }, arg1, arg2
                 }
@@ -62,7 +63,7 @@ namespace Examples
         #endregion
         
         #region Constructor
-        public ExampleClass() : base() { } 
+        public ExampleClass() : base() { }
 
         public ExampleClass(
             ICachedEntity entity
@@ -79,7 +80,7 @@ namespace Examples
         {
             return EventHorizonBlazorInterop.FuncClass<OverrideVector4>(
                 entity => new OverrideVector4() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "methodCheck" }, arg1, arg2
                 }
@@ -89,7 +90,7 @@ namespace Examples
         public bool vectorMethodCheck(OverrideVector4 arg1, decimal arg2)
         {
             return EventHorizonBlazorInterop.Func<bool>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "vectorMethodCheck" }, arg1, arg2
                 }
@@ -99,7 +100,7 @@ namespace Examples
         public bool primativeMethodCheck(Vector3 arg1, int arg2)
         {
             return EventHorizonBlazorInterop.Func<bool>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "primativeMethodCheck" }, arg1, arg2
                 }

@@ -6,11 +6,12 @@ namespace BabylonJS
     using System.Text.Json.Serialization;
     using System.Threading.Tasks;
     using EventHorizon.Blazor.Interop;
+    using EventHorizon.Blazor.Interop.Callbacks;
     using Microsoft.JSInterop;
 
     public interface ILoadingScreen : ICachedEntity { }
     
-    [JsonConverter(typeof(CachedEntityConverter))]
+    [JsonConverter(typeof(CachedEntityConverter<ILoadingScreenCachedEntity>))]
     public class ILoadingScreenCachedEntity : CachedEntityObject, ILoadingScreen
     {
         #region Static Accessors
@@ -105,6 +106,15 @@ namespace BabylonJS
             return handle;
         }
 
+        public bool displayLoadingUI_Remove(
+            string handle
+        )
+        {
+            return _displayLoadingUIActionMap.Remove(
+                handle
+            );
+        }
+
         private void SetupDisplayLoadingUILoop()
         {
             if (_isDisplayLoadingUIEnabled)
@@ -147,6 +157,15 @@ namespace BabylonJS
             );
 
             return handle;
+        }
+
+        public bool hideLoadingUI_Remove(
+            string handle
+        )
+        {
+            return _hideLoadingUIActionMap.Remove(
+                handle
+            );
         }
 
         private void SetupHideLoadingUILoop()

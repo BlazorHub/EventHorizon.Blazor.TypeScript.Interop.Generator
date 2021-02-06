@@ -6,11 +6,12 @@ namespace BabylonJS
     using System.Text.Json.Serialization;
     using System.Threading.Tasks;
     using EventHorizon.Blazor.Interop;
+    using EventHorizon.Blazor.Interop.Callbacks;
     using Microsoft.JSInterop;
 
     
     
-    [JsonConverter(typeof(CachedEntityConverter))]
+    [JsonConverter(typeof(CachedEntityConverter<Animatable>))]
     public class Animatable : CachedEntityObject
     {
         #region Static Accessors
@@ -107,9 +108,13 @@ namespace BabylonJS
         {
             get
             {
-            return EventHorizonBlazorInterop.Get<CachedEntity>(
+            return EventHorizonBlazorInterop.GetClass<CachedEntity>(
                     this.___guid,
-                    "target"
+                    "target",
+                    (entity) =>
+                    {
+                        return new CachedEntity() { ___guid = entity.___guid };
+                    }
                 );
             }
             set
@@ -181,6 +186,27 @@ namespace BabylonJS
                 EventHorizonBlazorInterop.Set(
                     this.___guid,
                     "loopAnimation",
+                    value
+                );
+            }
+        }
+
+        
+        public bool isAdditive
+        {
+            get
+            {
+            return EventHorizonBlazorInterop.Get<bool>(
+                    this.___guid,
+                    "isAdditive"
+                );
+            }
+            set
+            {
+
+                EventHorizonBlazorInterop.Set(
+                    this.___guid,
+                    "isAdditive",
                     value
                 );
             }
@@ -288,7 +314,7 @@ __onAnimationLoopObservable = null;
         #endregion
         
         #region Constructor
-        public Animatable() : base() { } 
+        public Animatable() : base() { }
 
         public Animatable(
             ICachedEntity entity
@@ -298,12 +324,12 @@ __onAnimationLoopObservable = null;
         }
 
         public Animatable(
-            Scene scene, object target, System.Nullable<decimal> fromFrame = null, System.Nullable<decimal> toFrame = null, System.Nullable<bool> loopAnimation = null, System.Nullable<decimal> speedRatio = null, CachedEntity onAnimationEnd = null, Animation[] animations = null, CachedEntity onAnimationLoop = null
+            Scene scene, object target, System.Nullable<decimal> fromFrame = null, System.Nullable<decimal> toFrame = null, System.Nullable<bool> loopAnimation = null, System.Nullable<decimal> speedRatio = null, ActionCallback onAnimationEnd = null, Animation[] animations = null, ActionCallback onAnimationLoop = null, System.Nullable<bool> isAdditive = null
         )
         {
             var entity = EventHorizonBlazorInterop.New(
                 new string[] { "BABYLON", "Animatable" },
-                scene, target, fromFrame, toFrame, loopAnimation, speedRatio, onAnimationEnd, animations, onAnimationLoop
+                scene, target, fromFrame, toFrame, loopAnimation, speedRatio, onAnimationEnd, animations, onAnimationLoop, isAdditive
             );
             ___guid = entity.___guid;
         }
@@ -327,6 +353,15 @@ __onAnimationLoopObservable = null;
             );
 
             return handle;
+        }
+
+        public bool onAnimationEnd_Remove(
+            string handle
+        )
+        {
+            return _onAnimationEndActionMap.Remove(
+                handle
+            );
         }
 
         private void SetupOnAnimationEndLoop()
@@ -373,6 +408,15 @@ __onAnimationLoopObservable = null;
             return handle;
         }
 
+        public bool onAnimationLoop_Remove(
+            string handle
+        )
+        {
+            return _onAnimationLoopActionMap.Remove(
+                handle
+            );
+        }
+
         private void SetupOnAnimationLoopLoop()
         {
             if (_isOnAnimationLoopEnabled)
@@ -402,7 +446,7 @@ __onAnimationLoopObservable = null;
         {
             return EventHorizonBlazorInterop.FuncClass<Animatable>(
                 entity => new Animatable() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "syncWith" }, root
                 }
@@ -423,7 +467,7 @@ __onAnimationLoopObservable = null;
         public void appendAnimations(object target, Animation[] animations)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "appendAnimations" }, target, animations
                 }
@@ -434,7 +478,7 @@ __onAnimationLoopObservable = null;
         {
             return EventHorizonBlazorInterop.FuncClass<Animation>(
                 entity => new Animation() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "getAnimationByTargetProperty" }, property
                 }
@@ -445,7 +489,7 @@ __onAnimationLoopObservable = null;
         {
             return EventHorizonBlazorInterop.FuncClass<RuntimeAnimation>(
                 entity => new RuntimeAnimation() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "getRuntimeAnimationByTargetProperty" }, property
                 }
@@ -455,7 +499,7 @@ __onAnimationLoopObservable = null;
         public void reset()
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "reset" }
                 }
@@ -465,7 +509,7 @@ __onAnimationLoopObservable = null;
         public void enableBlending(decimal blendingSpeed)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "enableBlending" }, blendingSpeed
                 }
@@ -475,7 +519,7 @@ __onAnimationLoopObservable = null;
         public void disableBlending()
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "disableBlending" }
                 }
@@ -485,7 +529,7 @@ __onAnimationLoopObservable = null;
         public void goToFrame(decimal frame)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "goToFrame" }, frame
                 }
@@ -495,7 +539,7 @@ __onAnimationLoopObservable = null;
         public void pause()
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "pause" }
                 }
@@ -505,19 +549,28 @@ __onAnimationLoopObservable = null;
         public void restart()
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "restart" }
                 }
             );
         }
 
-// stop is not supported by the platform yet
-
-        public void waitAsync()
+        public void stop(string animationName = null, ActionCallback<object> targetMask = null)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
+                {
+                    new string[] { this.___guid, "stop" }, animationName, targetMask
+                }
+            );
+        }
+
+        public ValueTask<Animatable> waitAsync()
+        {
+            return EventHorizonBlazorInterop.TaskClass<Animatable>(
+                entity => new Animatable() { ___guid = entity.___guid },
+                new object[]
                 {
                     new string[] { this.___guid, "waitAsync" }
                 }

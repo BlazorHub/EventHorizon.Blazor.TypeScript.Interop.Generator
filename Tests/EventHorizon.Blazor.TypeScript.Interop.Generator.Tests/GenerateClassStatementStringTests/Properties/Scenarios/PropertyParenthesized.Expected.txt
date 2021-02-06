@@ -6,11 +6,12 @@ namespace Static.Primitive
     using System.Text.Json.Serialization;
     using System.Threading.Tasks;
     using EventHorizon.Blazor.Interop;
+    using EventHorizon.Blazor.Interop.Callbacks;
     using Microsoft.JSInterop;
 
     
     
-    [JsonConverter(typeof(CachedEntityConverter))]
+    [JsonConverter(typeof(CachedEntityConverter<ExampleClass>))]
     public class ExampleClass : CachedEntityObject
     {
         #region Static Accessors
@@ -90,7 +91,7 @@ __height = null;
         #endregion
         
         #region Constructor
-        public ExampleClass() : base() { } 
+        public ExampleClass() : base() { }
 
         public ExampleClass(
             ICachedEntity entity
@@ -120,6 +121,15 @@ __height = null;
             );
 
             return handle;
+        }
+
+        public bool functionType_Remove(
+            string handle
+        )
+        {
+            return _functionTypeActionMap.Remove(
+                handle
+            );
         }
 
         private void SetupFunctionTypeLoop()

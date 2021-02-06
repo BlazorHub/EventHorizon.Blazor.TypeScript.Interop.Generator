@@ -6,11 +6,12 @@ namespace BabylonJS
     using System.Text.Json.Serialization;
     using System.Threading.Tasks;
     using EventHorizon.Blazor.Interop;
+    using EventHorizon.Blazor.Interop.Callbacks;
     using Microsoft.JSInterop;
 
     
     
-    [JsonConverter(typeof(CachedEntityConverter))]
+    [JsonConverter(typeof(CachedEntityConverter<DynamicTexture>))]
     public class DynamicTexture : Texture
     {
         #region Static Accessors
@@ -53,12 +54,12 @@ namespace BabylonJS
         }
 
         public DynamicTexture(
-            string name, object options, bool generateMipMaps, Scene scene = null, System.Nullable<decimal> samplingMode = null, System.Nullable<decimal> format = null
+            string name, object options, bool generateMipMaps, Scene scene = null, System.Nullable<decimal> samplingMode = null, System.Nullable<decimal> format = null, System.Nullable<bool> invertY = null
         ) : base()
         {
             var entity = EventHorizonBlazorInterop.New(
                 new string[] { "BABYLON", "DynamicTexture" },
-                name, options, scene, generateMipMaps, samplingMode, format
+                name, options, scene, generateMipMaps, samplingMode, format, invertY
             );
             ___guid = entity.___guid;
         }
@@ -68,7 +69,7 @@ namespace BabylonJS
         public string getClassName()
         {
             return EventHorizonBlazorInterop.Func<string>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "getClassName" }
                 }
@@ -78,7 +79,7 @@ namespace BabylonJS
         public void scale(decimal ratio)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "scale" }, ratio
                 }
@@ -88,7 +89,7 @@ namespace BabylonJS
         public void scaleTo(decimal width, decimal height)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "scaleTo" }, width, height
                 }
@@ -99,7 +100,7 @@ namespace BabylonJS
         {
             return EventHorizonBlazorInterop.FuncClass<CanvasRenderingContext2DCachedEntity>(
                 entity => new CanvasRenderingContext2DCachedEntity() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "getContext" }
                 }
@@ -109,7 +110,7 @@ namespace BabylonJS
         public void clear()
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "clear" }
                 }
@@ -119,17 +120,17 @@ namespace BabylonJS
         public void update(System.Nullable<bool> invertY = null, System.Nullable<bool> premulAlpha = null)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "update" }, invertY, premulAlpha
                 }
             );
         }
 
-        public void drawText(string text, string font, string color, string clearColor, System.Nullable<decimal> x = null, System.Nullable<decimal> y = null, System.Nullable<bool> invertY = null, System.Nullable<bool> update = null)
+        public void drawText(string text, string font, string clearColor, System.Nullable<decimal> x = null, System.Nullable<decimal> y = null, string color = null, System.Nullable<bool> invertY = null, System.Nullable<bool> update = null)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "drawText" }, text, x, y, font, color, clearColor, invertY, update
                 }
@@ -140,7 +141,7 @@ namespace BabylonJS
         {
             return EventHorizonBlazorInterop.FuncClass<DynamicTexture>(
                 entity => new DynamicTexture() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "clone" }
                 }
@@ -150,7 +151,7 @@ namespace BabylonJS
         public CachedEntity serialize()
         {
             return EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "serialize" }
                 }

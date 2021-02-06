@@ -6,11 +6,12 @@ namespace BabylonJS
     using System.Text.Json.Serialization;
     using System.Threading.Tasks;
     using EventHorizon.Blazor.Interop;
+    using EventHorizon.Blazor.Interop.Callbacks;
     using Microsoft.JSInterop;
 
     
     
-    [JsonConverter(typeof(CachedEntityConverter))]
+    [JsonConverter(typeof(CachedEntityConverter<Observable<CachedEntity>>))]
     public class Observable<T> : CachedEntityObject where T : CachedEntity, new()
     {
         #region Static Accessors
@@ -48,7 +49,7 @@ namespace BabylonJS
         #endregion
         
         #region Constructor
-        public Observable() : base() { } 
+        public Observable() : base() { }
 
         public Observable(
             ICachedEntity entity
@@ -58,7 +59,7 @@ namespace BabylonJS
         }
 
         public Observable(
-            CachedEntity onObserverAdded = null
+            ActionCallback<Observer<T>> onObserverAdded = null
         )
         {
             var entity = EventHorizonBlazorInterop.New(
@@ -87,6 +88,15 @@ namespace BabylonJS
             );
 
             return handle;
+        }
+
+        public bool add_Remove(
+            string handle
+        )
+        {
+            return _addActionMap.Remove(
+                handle
+            );
         }
 
         private void SetupAddLoop()
@@ -133,6 +143,15 @@ namespace BabylonJS
             return handle;
         }
 
+        public bool addOnce_Remove(
+            string handle
+        )
+        {
+            return _addOnceActionMap.Remove(
+                handle
+            );
+        }
+
         private void SetupAddOnceLoop()
         {
             if (_isAddOnceEnabled)
@@ -161,7 +180,7 @@ namespace BabylonJS
         public bool remove(Observer<T> observer)
         {
             return EventHorizonBlazorInterop.Func<bool>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "remove" }, observer
                 }
@@ -185,6 +204,15 @@ namespace BabylonJS
             );
 
             return handle;
+        }
+
+        public bool removeCallback_Remove(
+            string handle
+        )
+        {
+            return _removeCallbackActionMap.Remove(
+                handle
+            );
         }
 
         private void SetupRemoveCallbackLoop()
@@ -215,7 +243,7 @@ namespace BabylonJS
         public void makeObserverTopPriority(Observer<T> observer)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "makeObserverTopPriority" }, observer
                 }
@@ -225,29 +253,30 @@ namespace BabylonJS
         public void makeObserverBottomPriority(Observer<T> observer)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "makeObserverBottomPriority" }, observer
                 }
             );
         }
 
-        public bool notifyObservers(T eventData, System.Nullable<decimal> mask = null, object target = null, object currentTarget = null)
+        public bool notifyObservers(T eventData, System.Nullable<decimal> mask = null, object target = null, object currentTarget = null, object userInfo = null)
         {
             return EventHorizonBlazorInterop.Func<bool>(
-                new object[] 
+                new object[]
                 {
-                    new string[] { this.___guid, "notifyObservers" }, eventData, mask, target, currentTarget
+                    new string[] { this.___guid, "notifyObservers" }, eventData, mask, target, currentTarget, userInfo
                 }
             );
         }
 
-        public void notifyObserversWithPromise(T eventData, System.Nullable<decimal> mask = null, object target = null, object currentTarget = null)
+        public ValueTask<T> notifyObserversWithPromise(T eventData, System.Nullable<decimal> mask = null, object target = null, object currentTarget = null, object userInfo = null)
         {
-            EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+            return EventHorizonBlazorInterop.TaskClass<T>(
+                entity => new T() { ___guid = entity.___guid },
+                new object[]
                 {
-                    new string[] { this.___guid, "notifyObserversWithPromise" }, eventData, mask, target, currentTarget
+                    new string[] { this.___guid, "notifyObserversWithPromise" }, eventData, mask, target, currentTarget, userInfo
                 }
             );
         }
@@ -255,7 +284,7 @@ namespace BabylonJS
         public void notifyObserver(Observer<T> observer, T eventData, System.Nullable<decimal> mask = null)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "notifyObserver" }, observer, eventData, mask
                 }
@@ -265,7 +294,7 @@ namespace BabylonJS
         public bool hasObservers()
         {
             return EventHorizonBlazorInterop.Func<bool>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "hasObservers" }
                 }
@@ -275,7 +304,7 @@ namespace BabylonJS
         public void clear()
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "clear" }
                 }
@@ -286,7 +315,7 @@ namespace BabylonJS
         {
             return EventHorizonBlazorInterop.FuncClass<Observable<T>>(
                 entity => new Observable<T>() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "clone" }
                 }
@@ -296,7 +325,7 @@ namespace BabylonJS
         public bool hasSpecificMask(System.Nullable<decimal> mask = null)
         {
             return EventHorizonBlazorInterop.Func<bool>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "hasSpecificMask" }, mask
                 }

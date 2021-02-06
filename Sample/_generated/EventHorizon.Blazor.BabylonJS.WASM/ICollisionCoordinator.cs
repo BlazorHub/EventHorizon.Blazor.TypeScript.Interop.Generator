@@ -6,11 +6,12 @@ namespace BabylonJS
     using System.Text.Json.Serialization;
     using System.Threading.Tasks;
     using EventHorizon.Blazor.Interop;
+    using EventHorizon.Blazor.Interop.Callbacks;
     using Microsoft.JSInterop;
 
     public interface ICollisionCoordinator : ICachedEntity { }
     
-    [JsonConverter(typeof(CachedEntityConverter))]
+    [JsonConverter(typeof(CachedEntityConverter<ICollisionCoordinatorCachedEntity>))]
     public class ICollisionCoordinatorCachedEntity : CachedEntityObject, ICollisionCoordinator
     {
         #region Static Accessors
@@ -50,19 +51,27 @@ namespace BabylonJS
         {
             return EventHorizonBlazorInterop.FuncClass<Collider>(
                 entity => new Collider() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "createCollider" }
                 }
             );
         }
 
-// getNewPosition is not supported by the platform yet
+        public void getNewPosition(Vector3 position, Vector3 displacement, Collider collider, decimal maximumRetry, AbstractMesh excludedMesh, ActionCallback<decimal, Vector3, AbstractMesh> onNewPosition, decimal collisionIndex)
+        {
+            EventHorizonBlazorInterop.Func<CachedEntity>(
+                new object[]
+                {
+                    new string[] { this.___guid, "getNewPosition" }, position, displacement, collider, maximumRetry, excludedMesh, onNewPosition, collisionIndex
+                }
+            );
+        }
 
         public void init(Scene scene)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "init" }, scene
                 }

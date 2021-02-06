@@ -6,11 +6,12 @@ namespace BabylonJS
     using System.Text.Json.Serialization;
     using System.Threading.Tasks;
     using EventHorizon.Blazor.Interop;
+    using EventHorizon.Blazor.Interop.Callbacks;
     using Microsoft.JSInterop;
 
     public interface IShadowGenerator : ICachedEntity { }
     
-    [JsonConverter(typeof(CachedEntityConverter))]
+    [JsonConverter(typeof(CachedEntityConverter<IShadowGeneratorCachedEntity>))]
     public class IShadowGeneratorCachedEntity : CachedEntityObject, IShadowGenerator
     {
         #region Static Accessors
@@ -30,7 +31,26 @@ namespace BabylonJS
         #endregion
 
         #region Properties
+        
+        public string id
+        {
+            get
+            {
+            return EventHorizonBlazorInterop.Get<string>(
+                    this.___guid,
+                    "id"
+                );
+            }
+            set
+            {
 
+                EventHorizonBlazorInterop.Set(
+                    this.___guid,
+                    "id",
+                    value
+                );
+            }
+        }
         #endregion
         
         #region Constructor
@@ -50,19 +70,19 @@ namespace BabylonJS
         {
             return EventHorizonBlazorInterop.FuncClass<RenderTargetTexture>(
                 entity => new RenderTargetTexture() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "getShadowMap" }
                 }
             );
         }
 
-        public bool isReady(SubMesh subMesh, bool useInstances)
+        public bool isReady(SubMesh subMesh, bool useInstances, bool isTransparent)
         {
             return EventHorizonBlazorInterop.Func<bool>(
-                new object[] 
+                new object[]
                 {
-                    new string[] { this.___guid, "isReady" }, subMesh, useInstances
+                    new string[] { this.___guid, "isReady" }, subMesh, useInstances, isTransparent
                 }
             );
         }
@@ -70,7 +90,7 @@ namespace BabylonJS
         public void prepareDefines(MaterialDefines defines, decimal lightIndex)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "prepareDefines" }, defines, lightIndex
                 }
@@ -80,7 +100,7 @@ namespace BabylonJS
         public void bindShadowLight(string lightIndex, Effect effect)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "bindShadowLight" }, lightIndex, effect
                 }
@@ -91,7 +111,7 @@ namespace BabylonJS
         {
             return EventHorizonBlazorInterop.FuncClass<Matrix>(
                 entity => new Matrix() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "getTransformMatrix" }
                 }
@@ -101,61 +121,27 @@ namespace BabylonJS
         public void recreateShadowMap()
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "recreateShadowMap" }
                 }
             );
         }
 
-        #region forceCompilation TODO: Get Comments as metadata identification
-        private bool _isForceCompilationEnabled = false;
-        private readonly IDictionary<string, Func<IShadowGeneratorCachedEntity, Task>> _forceCompilationActionMap = new Dictionary<string, Func<IShadowGeneratorCachedEntity, Task>>();
-
-        public string forceCompilation(
-            Func<IShadowGeneratorCachedEntity, Task> callback
-        )
-        {
-            SetupForceCompilationLoop();
-
-            var handle = Guid.NewGuid().ToString();
-            _forceCompilationActionMap.Add(
-                handle,
-                callback
-            );
-
-            return handle;
-        }
-
-        private void SetupForceCompilationLoop()
-        {
-            if (_isForceCompilationEnabled)
-            {
-                return;
-            }
-            EventHorizonBlazorInterop.FuncCallback(
-                this,
-                "forceCompilation",
-                "CallForceCompilationActions",
-                _invokableReference
-            );
-            _isForceCompilationEnabled = true;
-        }
-
-        [JSInvokable]
-        public async Task CallForceCompilationActions(IShadowGeneratorCachedEntity generator)
-        {
-            foreach (var action in _forceCompilationActionMap.Values)
-            {
-                await action(generator);
-            }
-        }
-        #endregion
-
-        public void forceCompilationAsync(object options = null)
+        public void forceCompilation(ActionCallback<IShadowGenerator> onCompiled = null, CachedEntity options = null)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
+                {
+                    new string[] { this.___guid, "forceCompilation" }, onCompiled, options
+                }
+            );
+        }
+
+        public async ValueTask forceCompilationAsync(CachedEntity options = null)
+        {
+            await EventHorizonBlazorInterop.Task<CachedEntity>(
+                new object[]
                 {
                     new string[] { this.___guid, "forceCompilationAsync" }, options
                 }
@@ -165,7 +151,7 @@ namespace BabylonJS
         public CachedEntity serialize()
         {
             return EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "serialize" }
                 }
@@ -175,7 +161,7 @@ namespace BabylonJS
         public void dispose()
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "dispose" }
                 }

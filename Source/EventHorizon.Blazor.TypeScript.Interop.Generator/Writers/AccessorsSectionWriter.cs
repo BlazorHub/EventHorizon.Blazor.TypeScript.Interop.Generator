@@ -35,6 +35,10 @@ namespace EventHorizon.Blazor.TypeScript.Interop.Generator.Writers
                 var isArray = ArrayResponseIdentifier.Identify(
                     accessor.Type
                 );
+                var isEnum = TypeEnumIdentifier.Identify(
+                    accessor.Type
+                );
+
                 var template = templates.Accessor;
                 var propertyGetterResultType = templates.InteropGet;
                 var root = "this.___guid";
@@ -72,7 +76,11 @@ namespace EventHorizon.Blazor.TypeScript.Interop.Generator.Writers
                     }
                 }
 
-                if (isClassResponse && isArray)
+                if(isEnum)
+                {
+                    propertyGetterResultType = templates.InteropGet;
+                }
+                else if (isClassResponse && isArray)
                 {
                     propertyGetterResultType = templates.InteropGetArrayClass;
                 }
@@ -87,17 +95,6 @@ namespace EventHorizon.Blazor.TypeScript.Interop.Generator.Writers
                 {
                     propertyGetterResultType = templates.InteropGetArray;
                 }
-                var propType = TypeStatementWriter.Write(
-                    accessor.Type
-                );
-                var arrayType = TypeStatementWriter.Write(
-                    accessor.Type,
-                    true
-                );
-                var newType = TypeStatementWriter.Write(
-                    accessor.Type,
-                    true
-                );
 
                 template = template
                     .Replace(
@@ -147,13 +144,13 @@ namespace EventHorizon.Blazor.TypeScript.Interop.Generator.Writers
                         "[[ARRAY_TYPE]]",
                         TypeStatementWriter.Write(
                             accessor.Type,
-                            true
+                            false
                         )
                     ).Replace(
                         "[[NEW_TYPE]]",
                         TypeStatementWriter.Write(
                             accessor.Type,
-                            true
+                            false
                         )
                     ).Replace(
                         "[[PROPERTY]]",

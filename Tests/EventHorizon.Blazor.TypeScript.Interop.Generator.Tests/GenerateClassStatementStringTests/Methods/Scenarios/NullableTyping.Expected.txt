@@ -6,11 +6,12 @@ namespace Static.Class
     using System.Text.Json.Serialization;
     using System.Threading.Tasks;
     using EventHorizon.Blazor.Interop;
+    using EventHorizon.Blazor.Interop.Callbacks;
     using Microsoft.JSInterop;
 
     
     
-    [JsonConverter(typeof(CachedEntityConverter))]
+    [JsonConverter(typeof(CachedEntityConverter<ExampleClass>))]
     public class ExampleClass : CachedEntityObject
     {
         #region Static Accessors
@@ -34,7 +35,7 @@ namespace Static.Class
         #endregion
         
         #region Constructor
-        public ExampleClass() : base() { } 
+        public ExampleClass() : base() { }
 
         public ExampleClass(
             ICachedEntity entity
@@ -51,7 +52,7 @@ namespace Static.Class
         {
             return EventHorizonBlazorInterop.FuncClass<Style>(
                 entity => new Style() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "nullableClassStyle" }
                 }
@@ -61,17 +62,17 @@ namespace Static.Class
         public decimal nullableGenericNumber()
         {
             return EventHorizonBlazorInterop.Func<decimal>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "nullableGenericNumber" }
                 }
             );
         }
 
-        public void orderNullArguments(Animatable[] animatables, Scene scene = null, CachedEntity targetConverter = null)
+        public void orderNullArguments(Animatable[] animatables, Scene scene = null, ActionCallback<CachedEntity> targetConverter = null)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "orderNullArguments" }, scene, animatables, targetConverter
                 }
@@ -82,7 +83,7 @@ namespace Static.Class
         {
             return EventHorizonBlazorInterop.FuncClass<ExampleClass>(
                 entity => new ExampleClass() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "undefinedStringArgument" }, name
                 }
@@ -93,7 +94,7 @@ namespace Static.Class
         {
             return EventHorizonBlazorInterop.FuncClass<LinesMesh>(
                 entity => new LinesMesh() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "mixedUndefinedAndOptional" }, name, points, scene, updatable, instance
                 }

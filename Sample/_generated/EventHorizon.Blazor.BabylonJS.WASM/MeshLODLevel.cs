@@ -6,11 +6,12 @@ namespace BabylonJS
     using System.Text.Json.Serialization;
     using System.Threading.Tasks;
     using EventHorizon.Blazor.Interop;
+    using EventHorizon.Blazor.Interop.Callbacks;
     using Microsoft.JSInterop;
 
     
     
-    [JsonConverter(typeof(CachedEntityConverter))]
+    [JsonConverter(typeof(CachedEntityConverter<MeshLODLevel>))]
     public class MeshLODLevel : CachedEntityObject
     {
         #region Static Accessors
@@ -82,7 +83,7 @@ __mesh = null;
         #endregion
         
         #region Constructor
-        public MeshLODLevel() : base() { } 
+        public MeshLODLevel() : base() { }
 
         public MeshLODLevel(
             ICachedEntity entity

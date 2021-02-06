@@ -6,11 +6,12 @@ namespace BabylonJS.GUI
     using System.Text.Json.Serialization;
     using System.Threading.Tasks;
     using EventHorizon.Blazor.Interop;
+    using EventHorizon.Blazor.Interop.Callbacks;
     using Microsoft.JSInterop;
 
     
     
-    [JsonConverter(typeof(CachedEntityConverter))]
+    [JsonConverter(typeof(CachedEntityConverter<AdvancedDynamicTexture>))]
     public class AdvancedDynamicTexture : DynamicTexture
     {
         #region Static Accessors
@@ -22,13 +23,24 @@ namespace BabylonJS.GUI
         #endregion
 
         #region Static Methods
-        public static AdvancedDynamicTexture CreateForMesh(AbstractMesh mesh, System.Nullable<decimal> width = null, System.Nullable<decimal> height = null, System.Nullable<bool> supportPointerMove = null, System.Nullable<bool> onlyAlphaTesting = null)
+        public static AdvancedDynamicTexture CreateForMesh(AbstractMesh mesh, System.Nullable<decimal> width = null, System.Nullable<decimal> height = null, System.Nullable<bool> supportPointerMove = null, System.Nullable<bool> onlyAlphaTesting = null, System.Nullable<bool> invertY = null)
         {
             return EventHorizonBlazorInterop.FuncClass<AdvancedDynamicTexture>(
                 entity => new AdvancedDynamicTexture() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
-                    new string[] { "BABYLON", "GUI", "AdvancedDynamicTexture", "CreateForMesh" }, mesh, width, height, supportPointerMove, onlyAlphaTesting
+                    new string[] { "BABYLON", "GUI", "AdvancedDynamicTexture", "CreateForMesh" }, mesh, width, height, supportPointerMove, onlyAlphaTesting, invertY
+                }
+            );
+        }
+
+        public static AdvancedDynamicTexture CreateForMeshTexture(AbstractMesh mesh, System.Nullable<decimal> width = null, System.Nullable<decimal> height = null, System.Nullable<bool> supportPointerMove = null, System.Nullable<bool> invertY = null)
+        {
+            return EventHorizonBlazorInterop.FuncClass<AdvancedDynamicTexture>(
+                entity => new AdvancedDynamicTexture() { ___guid = entity.___guid },
+                new object[]
+                {
+                    new string[] { "BABYLON", "GUI", "AdvancedDynamicTexture", "CreateForMeshTexture" }, mesh, width, height, supportPointerMove, invertY
                 }
             );
         }
@@ -37,7 +49,7 @@ namespace BabylonJS.GUI
         {
             return EventHorizonBlazorInterop.FuncClass<AdvancedDynamicTexture>(
                 entity => new AdvancedDynamicTexture() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { "BABYLON", "GUI", "AdvancedDynamicTexture", "CreateFullscreenUI" }, name, foreground, scene, sampling
                 }
@@ -536,6 +548,27 @@ __onEndRenderObservable = null;
                 );
             }
         }
+
+        
+        public bool applyYInversionOnUpdate
+        {
+            get
+            {
+            return EventHorizonBlazorInterop.Get<bool>(
+                    this.___guid,
+                    "applyYInversionOnUpdate"
+                );
+            }
+            set
+            {
+
+                EventHorizonBlazorInterop.Set(
+                    this.___guid,
+                    "applyYInversionOnUpdate",
+                    value
+                );
+            }
+        }
         #endregion
         
         #region Constructor
@@ -548,12 +581,12 @@ __onEndRenderObservable = null;
         }
 
         public AdvancedDynamicTexture(
-            string name, Scene scene, System.Nullable<decimal> width = null, System.Nullable<decimal> height = null, System.Nullable<bool> generateMipMaps = null, System.Nullable<decimal> samplingMode = null
+            string name, Scene scene, System.Nullable<decimal> width = null, System.Nullable<decimal> height = null, System.Nullable<bool> generateMipMaps = null, System.Nullable<decimal> samplingMode = null, System.Nullable<bool> invertY = null
         ) : base()
         {
             var entity = EventHorizonBlazorInterop.New(
                 new string[] { "BABYLON", "GUI", "AdvancedDynamicTexture" },
-                name, width, height, scene, generateMipMaps, samplingMode
+                name, width, height, scene, generateMipMaps, samplingMode, invertY
             );
             ___guid = entity.___guid;
         }
@@ -571,66 +604,41 @@ __onEndRenderObservable = null;
             );
         }
 
-// getDescendants is not supported by the platform yet
+        public Control[] getDescendants(System.Nullable<bool> directDescendantsOnly = null, ActionCallback<Control> predicate = null)
+        {
+            return EventHorizonBlazorInterop.FuncArrayClass<Control>(
+                entity => new Control() { ___guid = entity.___guid },
+                new object[]
+                {
+                    new string[] { this.___guid, "getDescendants" }, directDescendantsOnly, predicate
+                }
+            );
+        }
 
         public string getClassName()
         {
             return EventHorizonBlazorInterop.Func<string>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "getClassName" }
                 }
             );
         }
 
-        #region executeOnAllControls TODO: Get Comments as metadata identification
-        private bool _isExecuteOnAllControlsEnabled = false;
-        private readonly IDictionary<string, Func<Control, Task>> _executeOnAllControlsActionMap = new Dictionary<string, Func<Control, Task>>();
-
-        public string executeOnAllControls(
-            Func<Control, Task> callback
-        )
+        public void executeOnAllControls(ActionCallback<Control> func, Container container = null)
         {
-            SetupExecuteOnAllControlsLoop();
-
-            var handle = Guid.NewGuid().ToString();
-            _executeOnAllControlsActionMap.Add(
-                handle,
-                callback
+            EventHorizonBlazorInterop.Func<CachedEntity>(
+                new object[]
+                {
+                    new string[] { this.___guid, "executeOnAllControls" }, func, container
+                }
             );
-
-            return handle;
         }
-
-        private void SetupExecuteOnAllControlsLoop()
-        {
-            if (_isExecuteOnAllControlsEnabled)
-            {
-                return;
-            }
-            EventHorizonBlazorInterop.FuncCallback(
-                this,
-                "executeOnAllControls",
-                "CallExecuteOnAllControlsActions",
-                _invokableReference
-            );
-            _isExecuteOnAllControlsEnabled = true;
-        }
-
-        [JSInvokable]
-        public async Task CallExecuteOnAllControlsActions(Control control)
-        {
-            foreach (var action in _executeOnAllControlsActionMap.Values)
-            {
-                await action(control);
-            }
-        }
-        #endregion
 
         public void invalidateRect(decimal invalidMinX, decimal invalidMinY, decimal invalidMaxX, decimal invalidMaxY)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "invalidateRect" }, invalidMinX, invalidMinY, invalidMaxX, invalidMaxY
                 }
@@ -640,7 +648,7 @@ __onEndRenderObservable = null;
         public void markAsDirty()
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "markAsDirty" }
                 }
@@ -651,7 +659,7 @@ __onEndRenderObservable = null;
         {
             return EventHorizonBlazorInterop.FuncClass<Style>(
                 entity => new Style() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "createStyle" }
                 }
@@ -662,7 +670,7 @@ __onEndRenderObservable = null;
         {
             return EventHorizonBlazorInterop.FuncClass<AdvancedDynamicTexture>(
                 entity => new AdvancedDynamicTexture() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "addControl" }, control
                 }
@@ -673,7 +681,7 @@ __onEndRenderObservable = null;
         {
             return EventHorizonBlazorInterop.FuncClass<AdvancedDynamicTexture>(
                 entity => new AdvancedDynamicTexture() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "removeControl" }, control
                 }
@@ -683,7 +691,7 @@ __onEndRenderObservable = null;
         public void dispose()
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "dispose" }
                 }
@@ -694,9 +702,20 @@ __onEndRenderObservable = null;
         {
             return EventHorizonBlazorInterop.FuncClass<Vector2>(
                 entity => new Vector2() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "getProjectedPosition" }, position, worldMatrix
+                }
+            );
+        }
+
+        public Vector3 getProjectedPositionWithZ(Vector3 position, Matrix worldMatrix)
+        {
+            return EventHorizonBlazorInterop.FuncClass<Vector3>(
+                entity => new Vector3() { ___guid = entity.___guid },
+                new object[]
+                {
+                    new string[] { this.___guid, "getProjectedPositionWithZ" }, position, worldMatrix
                 }
             );
         }
@@ -704,7 +723,7 @@ __onEndRenderObservable = null;
         public void attach()
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "attach" }
                 }
@@ -714,7 +733,7 @@ __onEndRenderObservable = null;
         public void registerClipboardEvents()
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "registerClipboardEvents" }
                 }
@@ -724,7 +743,7 @@ __onEndRenderObservable = null;
         public void unRegisterClipboardEvents()
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "unRegisterClipboardEvents" }
                 }
@@ -734,17 +753,17 @@ __onEndRenderObservable = null;
         public void attachToMesh(AbstractMesh mesh, System.Nullable<bool> supportPointerMove = null)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "attachToMesh" }, mesh, supportPointerMove
                 }
             );
         }
 
-        public void moveFocusToControl(IFocusableControlCachedEntity control)
+        public void moveFocusToControl(IFocusableControl control)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "moveFocusToControl" }, control
                 }

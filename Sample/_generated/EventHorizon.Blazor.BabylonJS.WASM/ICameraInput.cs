@@ -6,11 +6,12 @@ namespace BabylonJS
     using System.Text.Json.Serialization;
     using System.Threading.Tasks;
     using EventHorizon.Blazor.Interop;
+    using EventHorizon.Blazor.Interop.Callbacks;
     using Microsoft.JSInterop;
 
     public interface ICameraInput<TCamera> : ICachedEntity { }
     
-    [JsonConverter(typeof(CachedEntityConverter))]
+    [JsonConverter(typeof(CachedEntityConverter<ICameraInputCachedEntity<CachedEntity>>))]
     public class ICameraInputCachedEntity<TCamera> : CachedEntityObject, ICameraInput<TCamera> where TCamera : CachedEntity, new()
     {
         #region Static Accessors
@@ -76,7 +77,7 @@ __camera = null;
         public string getClassName()
         {
             return EventHorizonBlazorInterop.Func<string>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "getClassName" }
                 }
@@ -86,29 +87,29 @@ __camera = null;
         public string getSimpleName()
         {
             return EventHorizonBlazorInterop.Func<string>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "getSimpleName" }
                 }
             );
         }
 
-        public void attachControl(object element, System.Nullable<bool> noPreventDefault = null)
+        public void attachControl(System.Nullable<bool> noPreventDefault = null)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
-                    new string[] { this.___guid, "attachControl" }, element, noPreventDefault
+                    new string[] { this.___guid, "attachControl" }, noPreventDefault
                 }
             );
         }
 
-        public void detachControl(CachedEntity element)
+        public void detachControl()
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
-                    new string[] { this.___guid, "detachControl" }, element
+                    new string[] { this.___guid, "detachControl" }
                 }
             );
         }
@@ -130,6 +131,15 @@ __camera = null;
             );
 
             return handle;
+        }
+
+        public bool checkInputs_Remove(
+            string handle
+        )
+        {
+            return _checkInputsActionMap.Remove(
+                handle
+            );
         }
 
         private void SetupCheckInputsLoop()

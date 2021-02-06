@@ -6,11 +6,12 @@ namespace BabylonJS
     using System.Text.Json.Serialization;
     using System.Threading.Tasks;
     using EventHorizon.Blazor.Interop;
+    using EventHorizon.Blazor.Interop.Callbacks;
     using Microsoft.JSInterop;
 
     public interface EXT_disjoint_timer_query : ICachedEntity { }
     
-    [JsonConverter(typeof(CachedEntityConverter))]
+    [JsonConverter(typeof(CachedEntityConverter<EXT_disjoint_timer_queryCachedEntity>))]
     public class EXT_disjoint_timer_queryCachedEntity : CachedEntityObject, EXT_disjoint_timer_query
     {
         #region Static Accessors
@@ -170,10 +171,10 @@ namespace BabylonJS
         #endregion
 
         #region Methods
-        public void queryCounterEXT(WebGLQueryCachedEntity query, decimal target)
+        public void queryCounterEXT(WebGLQuery query, decimal target)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "queryCounterEXT" }, query, target
                 }
@@ -184,17 +185,17 @@ namespace BabylonJS
         {
             return EventHorizonBlazorInterop.FuncClass<WebGLQueryCachedEntity>(
                 entity => new WebGLQueryCachedEntity() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "createQueryEXT" }
                 }
             );
         }
 
-        public void beginQueryEXT(decimal target, WebGLQueryCachedEntity query)
+        public void beginQueryEXT(decimal target, WebGLQuery query)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "beginQueryEXT" }, target, query
                 }
@@ -204,27 +205,27 @@ namespace BabylonJS
         public void endQueryEXT(decimal target)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "endQueryEXT" }, target
                 }
             );
         }
 
-        public CachedEntity getQueryObjectEXT(WebGLQueryCachedEntity query, decimal target)
+        public CachedEntity getQueryObjectEXT(WebGLQuery query, decimal target)
         {
             return EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "getQueryObjectEXT" }, query, target
                 }
             );
         }
 
-        public void deleteQueryEXT(WebGLQueryCachedEntity query)
+        public void deleteQueryEXT(WebGLQuery query)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "deleteQueryEXT" }, query
                 }

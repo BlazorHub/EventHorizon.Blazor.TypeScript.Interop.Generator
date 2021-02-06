@@ -6,11 +6,12 @@ namespace BabylonJS
     using System.Text.Json.Serialization;
     using System.Threading.Tasks;
     using EventHorizon.Blazor.Interop;
+    using EventHorizon.Blazor.Interop.Callbacks;
     using Microsoft.JSInterop;
 
     
     
-    [JsonConverter(typeof(CachedEntityConverter))]
+    [JsonConverter(typeof(CachedEntityConverter<ActionManager>))]
     public class ActionManager : AbstractActionManager
     {
         #region Static Accessors
@@ -227,7 +228,7 @@ namespace BabylonJS
         public static void Parse(object parsedActions, AbstractMesh @object, Scene scene)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { "BABYLON", "ActionManager", "Parse" }, parsedActions, @object, scene
                 }
@@ -237,7 +238,7 @@ namespace BabylonJS
         public static string GetTriggerName(decimal trigger)
         {
             return EventHorizonBlazorInterop.Func<string>(
-                new object[] 
+                new object[]
                 {
                     new string[] { "BABYLON", "ActionManager", "GetTriggerName" }, trigger
                 }
@@ -300,7 +301,7 @@ namespace BabylonJS
         public void dispose()
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "dispose" }
                 }
@@ -311,7 +312,7 @@ namespace BabylonJS
         {
             return EventHorizonBlazorInterop.FuncClass<Scene>(
                 entity => new Scene() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "getScene" }
                 }
@@ -321,7 +322,7 @@ namespace BabylonJS
         public bool hasSpecificTriggers(decimal[] triggers)
         {
             return EventHorizonBlazorInterop.Func<bool>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "hasSpecificTriggers" }, triggers
                 }
@@ -331,40 +332,48 @@ namespace BabylonJS
         public bool hasSpecificTriggers2(decimal triggerA, decimal triggerB)
         {
             return EventHorizonBlazorInterop.Func<bool>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "hasSpecificTriggers2" }, triggerA, triggerB
                 }
             );
         }
 
-// hasSpecificTrigger is not supported by the platform yet
+        public bool hasSpecificTrigger(decimal trigger, ActionCallback<object> parameterPredicate = null)
+        {
+            return EventHorizonBlazorInterop.Func<bool>(
+                new object[]
+                {
+                    new string[] { this.___guid, "hasSpecificTrigger" }, trigger, parameterPredicate
+                }
+            );
+        }
 
-        public IActionCachedEntity registerAction(IActionCachedEntity action)
+        public IActionCachedEntity registerAction(IAction action)
         {
             return EventHorizonBlazorInterop.FuncClass<IActionCachedEntity>(
                 entity => new IActionCachedEntity() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "registerAction" }, action
                 }
             );
         }
 
-        public bool unregisterAction(IActionCachedEntity action)
+        public bool unregisterAction(IAction action)
         {
             return EventHorizonBlazorInterop.Func<bool>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "unregisterAction" }, action
                 }
             );
         }
 
-        public void processTrigger(decimal trigger, IActionEventCachedEntity evt = null)
+        public void processTrigger(decimal trigger, IActionEvent evt = null)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "processTrigger" }, trigger, evt
                 }
@@ -374,7 +383,7 @@ namespace BabylonJS
         public CachedEntity serialize(string name)
         {
             return EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "serialize" }, name
                 }

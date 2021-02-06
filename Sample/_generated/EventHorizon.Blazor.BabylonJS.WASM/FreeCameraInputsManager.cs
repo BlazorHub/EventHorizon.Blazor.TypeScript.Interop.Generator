@@ -6,11 +6,12 @@ namespace BabylonJS
     using System.Text.Json.Serialization;
     using System.Threading.Tasks;
     using EventHorizon.Blazor.Interop;
+    using EventHorizon.Blazor.Interop.Callbacks;
     using Microsoft.JSInterop;
 
     
     
-    [JsonConverter(typeof(CachedEntityConverter))]
+    [JsonConverter(typeof(CachedEntityConverter<FreeCameraInputsManager>))]
     public class FreeCameraInputsManager : CameraInputsManager<FreeCamera>
     {
         #region Static Accessors
@@ -59,7 +60,7 @@ namespace BabylonJS
         {
             return EventHorizonBlazorInterop.FuncClass<FreeCameraInputsManager>(
                 entity => new FreeCameraInputsManager() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "addKeyboard" }
                 }
@@ -70,7 +71,7 @@ namespace BabylonJS
         {
             return EventHorizonBlazorInterop.FuncClass<FreeCameraInputsManager>(
                 entity => new FreeCameraInputsManager() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "addMouse" }, touchEnabled
                 }
@@ -81,9 +82,31 @@ namespace BabylonJS
         {
             return EventHorizonBlazorInterop.FuncClass<FreeCameraInputsManager>(
                 entity => new FreeCameraInputsManager() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "removeMouse" }
+                }
+            );
+        }
+
+        public FreeCameraInputsManager addMouseWheel()
+        {
+            return EventHorizonBlazorInterop.FuncClass<FreeCameraInputsManager>(
+                entity => new FreeCameraInputsManager() { ___guid = entity.___guid },
+                new object[]
+                {
+                    new string[] { this.___guid, "addMouseWheel" }
+                }
+            );
+        }
+
+        public FreeCameraInputsManager removeMouseWheel()
+        {
+            return EventHorizonBlazorInterop.FuncClass<FreeCameraInputsManager>(
+                entity => new FreeCameraInputsManager() { ___guid = entity.___guid },
+                new object[]
+                {
+                    new string[] { this.___guid, "removeMouseWheel" }
                 }
             );
         }
@@ -92,7 +115,7 @@ namespace BabylonJS
         {
             return EventHorizonBlazorInterop.FuncClass<FreeCameraInputsManager>(
                 entity => new FreeCameraInputsManager() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "addTouch" }
                 }
@@ -102,7 +125,7 @@ namespace BabylonJS
         public void clear()
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "clear" }
                 }

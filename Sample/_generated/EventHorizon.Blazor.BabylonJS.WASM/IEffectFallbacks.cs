@@ -6,11 +6,12 @@ namespace BabylonJS
     using System.Text.Json.Serialization;
     using System.Threading.Tasks;
     using EventHorizon.Blazor.Interop;
+    using EventHorizon.Blazor.Interop.Callbacks;
     using Microsoft.JSInterop;
 
     public interface IEffectFallbacks : ICachedEntity { }
     
-    [JsonConverter(typeof(CachedEntityConverter))]
+    [JsonConverter(typeof(CachedEntityConverter<IEffectFallbacksCachedEntity>))]
     public class IEffectFallbacksCachedEntity : CachedEntityObject, IEffectFallbacks
     {
         #region Static Accessors
@@ -68,7 +69,7 @@ namespace BabylonJS
         public string reduce(string currentDefines, Effect effect)
         {
             return EventHorizonBlazorInterop.Func<string>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "reduce" }, currentDefines, effect
                 }
@@ -78,7 +79,7 @@ namespace BabylonJS
         public void unBindMesh()
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "unBindMesh" }
                 }

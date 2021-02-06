@@ -6,11 +6,12 @@ namespace BabylonJS
     using System.Text.Json.Serialization;
     using System.Threading.Tasks;
     using EventHorizon.Blazor.Interop;
+    using EventHorizon.Blazor.Interop.Callbacks;
     using Microsoft.JSInterop;
 
     
     
-    [JsonConverter(typeof(CachedEntityConverter))]
+    [JsonConverter(typeof(CachedEntityConverter<GroundMesh>))]
     public class GroundMesh : Mesh
     {
         #region Static Accessors
@@ -26,7 +27,7 @@ namespace BabylonJS
         {
             return EventHorizonBlazorInterop.FuncClass<GroundMesh>(
                 entity => new GroundMesh() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { "BABYLON", "GroundMesh", "Parse" }, parsedMesh, scene
                 }
@@ -120,7 +121,7 @@ namespace BabylonJS
         public string getClassName()
         {
             return EventHorizonBlazorInterop.Func<string>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "getClassName" }
                 }
@@ -130,7 +131,7 @@ namespace BabylonJS
         public void optimize(decimal chunksCount, System.Nullable<decimal> octreeBlocksSize = null)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "optimize" }, chunksCount, octreeBlocksSize
                 }
@@ -140,7 +141,7 @@ namespace BabylonJS
         public decimal getHeightAtCoordinates(decimal x, decimal z)
         {
             return EventHorizonBlazorInterop.Func<decimal>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "getHeightAtCoordinates" }, x, z
                 }
@@ -151,7 +152,7 @@ namespace BabylonJS
         {
             return EventHorizonBlazorInterop.FuncClass<Vector3>(
                 entity => new Vector3() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "getNormalAtCoordinates" }, x, z
                 }
@@ -162,7 +163,7 @@ namespace BabylonJS
         {
             return EventHorizonBlazorInterop.FuncClass<GroundMesh>(
                 entity => new GroundMesh() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "getNormalAtCoordinatesToRef" }, x, z, @ref
                 }
@@ -173,7 +174,7 @@ namespace BabylonJS
         {
             return EventHorizonBlazorInterop.FuncClass<GroundMesh>(
                 entity => new GroundMesh() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "updateCoordinateHeights" }
                 }
@@ -183,7 +184,7 @@ namespace BabylonJS
         public void serialize(object serializationObject)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "serialize" }, serializationObject
                 }

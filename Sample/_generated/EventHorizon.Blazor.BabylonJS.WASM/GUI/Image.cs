@@ -6,11 +6,12 @@ namespace BabylonJS.GUI
     using System.Text.Json.Serialization;
     using System.Threading.Tasks;
     using EventHorizon.Blazor.Interop;
+    using EventHorizon.Blazor.Interop.Callbacks;
     using Microsoft.JSInterop;
 
     
     
-    [JsonConverter(typeof(CachedEntityConverter))]
+    [JsonConverter(typeof(CachedEntityConverter<Image>))]
     public class Image : Control
     {
         #region Static Accessors
@@ -571,7 +572,7 @@ __onSVGAttributesComputedObservable = null;
         public bool contains(decimal x, decimal y)
         {
             return EventHorizonBlazorInterop.Func<bool>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "contains" }, x, y
                 }
@@ -581,7 +582,7 @@ __onSVGAttributesComputedObservable = null;
         public void synchronizeSizeWithContent()
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "synchronizeSizeWithContent" }
                 }
@@ -591,7 +592,7 @@ __onSVGAttributesComputedObservable = null;
         public void dispose()
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "dispose" }
                 }

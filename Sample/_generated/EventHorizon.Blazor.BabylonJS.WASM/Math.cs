@@ -6,11 +6,12 @@ namespace BabylonJS
     using System.Text.Json.Serialization;
     using System.Threading.Tasks;
     using EventHorizon.Blazor.Interop;
+    using EventHorizon.Blazor.Interop.Callbacks;
     using Microsoft.JSInterop;
 
     public interface Math : ICachedEntity { }
     
-    [JsonConverter(typeof(CachedEntityConverter))]
+    [JsonConverter(typeof(CachedEntityConverter<MathCachedEntity>))]
     public class MathCachedEntity : CachedEntityObject, Math
     {
         #region Static Accessors
@@ -49,7 +50,7 @@ namespace BabylonJS
         public decimal fround(decimal x)
         {
             return EventHorizonBlazorInterop.Func<decimal>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "fround" }, x
                 }
@@ -59,7 +60,7 @@ namespace BabylonJS
         public decimal imul(decimal a, decimal b)
         {
             return EventHorizonBlazorInterop.Func<decimal>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "imul" }, a, b
                 }

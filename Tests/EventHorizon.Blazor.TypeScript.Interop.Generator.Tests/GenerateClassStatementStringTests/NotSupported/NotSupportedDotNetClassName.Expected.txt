@@ -6,11 +6,12 @@ namespace Examples
     using System.Text.Json.Serialization;
     using System.Threading.Tasks;
     using EventHorizon.Blazor.Interop;
+    using EventHorizon.Blazor.Interop.Callbacks;
     using Microsoft.JSInterop;
 
     
     
-    [JsonConverter(typeof(CachedEntityConverter))]
+    [JsonConverter(typeof(CachedEntityConverter<_IDisposable>))]
     public class _IDisposable : CachedEntityObject
     {
         #region Static Accessors
@@ -61,7 +62,7 @@ __disposeProperty = null;
         #endregion
         
         #region Constructor
-        public _IDisposable() : base() { } 
+        public _IDisposable() : base() { }
 
         public _IDisposable(
             ICachedEntity entity
@@ -78,7 +79,7 @@ __disposeProperty = null;
         {
             return EventHorizonBlazorInterop.FuncClass<_IDisposable>(
                 entity => new _IDisposable() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "disposeMethod" }, arg1
                 }

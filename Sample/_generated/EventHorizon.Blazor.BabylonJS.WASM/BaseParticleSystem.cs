@@ -6,11 +6,12 @@ namespace BabylonJS
     using System.Text.Json.Serialization;
     using System.Threading.Tasks;
     using EventHorizon.Blazor.Interop;
+    using EventHorizon.Blazor.Interop.Callbacks;
     using Microsoft.JSInterop;
 
     
     
-    [JsonConverter(typeof(CachedEntityConverter))]
+    [JsonConverter(typeof(CachedEntityConverter<BaseParticleSystem>))]
     public class BaseParticleSystem : CachedEntityObject
     {
         #region Static Accessors
@@ -373,6 +374,27 @@ __imageProcessingConfiguration = null;
         }
 
         
+        public decimal uniqueId
+        {
+            get
+            {
+            return EventHorizonBlazorInterop.Get<decimal>(
+                    this.___guid,
+                    "uniqueId"
+                );
+            }
+            set
+            {
+
+                EventHorizonBlazorInterop.Set(
+                    this.___guid,
+                    "uniqueId",
+                    value
+                );
+            }
+        }
+
+        
         public string id
         {
             get
@@ -409,6 +431,27 @@ __imageProcessingConfiguration = null;
                 EventHorizonBlazorInterop.Set(
                     this.___guid,
                     "name",
+                    value
+                );
+            }
+        }
+
+        
+        public string snippetId
+        {
+            get
+            {
+            return EventHorizonBlazorInterop.Get<string>(
+                    this.___guid,
+                    "snippetId"
+                );
+            }
+            set
+            {
+
+                EventHorizonBlazorInterop.Set(
+                    this.___guid,
+                    "snippetId",
                     value
                 );
             }
@@ -863,19 +906,19 @@ __emitter = null;
             }
         }
 
-        private Texture __particleTexture;
-        public Texture particleTexture
+        private BaseTexture __particleTexture;
+        public BaseTexture particleTexture
         {
             get
             {
             if(__particleTexture == null)
             {
-                __particleTexture = EventHorizonBlazorInterop.GetClass<Texture>(
+                __particleTexture = EventHorizonBlazorInterop.GetClass<BaseTexture>(
                     this.___guid,
                     "particleTexture",
                     (entity) =>
                     {
-                        return new Texture() { ___guid = entity.___guid };
+                        return new BaseTexture() { ___guid = entity.___guid };
                     }
                 );
             }
@@ -918,9 +961,13 @@ __particleTexture = null;
         {
             get
             {
-            return EventHorizonBlazorInterop.Get<CachedEntity>(
+            return EventHorizonBlazorInterop.GetClass<CachedEntity>(
                     this.___guid,
-                    "customShader"
+                    "customShader",
+                    (entity) =>
+                    {
+                        return new CachedEntity() { ___guid = entity.___guid };
+                    }
                 );
             }
             set
@@ -985,11 +1032,11 @@ __noiseStrength = null;
         }
 
         
-        public CachedEntity onAnimationEnd
+        public ActionCallback onAnimationEnd
         {
             get
             {
-            return EventHorizonBlazorInterop.Get<CachedEntity>(
+            return EventHorizonBlazorInterop.Get<ActionCallback>(
                     this.___guid,
                     "onAnimationEnd"
                 );
@@ -1596,7 +1643,7 @@ __particleEmitterType = null;
         #endregion
         
         #region Constructor
-        public BaseParticleSystem() : base() { } 
+        public BaseParticleSystem() : base() { }
 
         public BaseParticleSystem(
             ICachedEntity entity
@@ -1622,7 +1669,7 @@ __particleEmitterType = null;
         {
             return EventHorizonBlazorInterop.FuncClass<Scene>(
                 entity => new Scene() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "getScene" }
                 }
@@ -1754,7 +1801,7 @@ __particleEmitterType = null;
         {
             return EventHorizonBlazorInterop.FuncClass<PointParticleEmitter>(
                 entity => new PointParticleEmitter() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "createPointEmitter" }, direction1, direction2
                 }
@@ -1765,7 +1812,7 @@ __particleEmitterType = null;
         {
             return EventHorizonBlazorInterop.FuncClass<HemisphericParticleEmitter>(
                 entity => new HemisphericParticleEmitter() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "createHemisphericEmitter" }, radius, radiusRange
                 }
@@ -1776,7 +1823,7 @@ __particleEmitterType = null;
         {
             return EventHorizonBlazorInterop.FuncClass<SphereParticleEmitter>(
                 entity => new SphereParticleEmitter() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "createSphereEmitter" }, radius, radiusRange
                 }
@@ -1787,7 +1834,7 @@ __particleEmitterType = null;
         {
             return EventHorizonBlazorInterop.FuncClass<SphereDirectedParticleEmitter>(
                 entity => new SphereDirectedParticleEmitter() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "createDirectedSphereEmitter" }, radius, direction1, direction2
                 }
@@ -1798,7 +1845,7 @@ __particleEmitterType = null;
         {
             return EventHorizonBlazorInterop.FuncClass<CylinderParticleEmitter>(
                 entity => new CylinderParticleEmitter() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "createCylinderEmitter" }, radius, height, radiusRange, directionRandomizer
                 }
@@ -1809,7 +1856,7 @@ __particleEmitterType = null;
         {
             return EventHorizonBlazorInterop.FuncClass<CylinderDirectedParticleEmitter>(
                 entity => new CylinderDirectedParticleEmitter() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "createDirectedCylinderEmitter" }, radius, height, radiusRange, direction1, direction2
                 }
@@ -1820,7 +1867,7 @@ __particleEmitterType = null;
         {
             return EventHorizonBlazorInterop.FuncClass<ConeParticleEmitter>(
                 entity => new ConeParticleEmitter() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "createConeEmitter" }, radius, angle
                 }
@@ -1831,7 +1878,7 @@ __particleEmitterType = null;
         {
             return EventHorizonBlazorInterop.FuncClass<BoxParticleEmitter>(
                 entity => new BoxParticleEmitter() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "createBoxEmitter" }, direction1, direction2, minEmitBox, maxEmitBox
                 }

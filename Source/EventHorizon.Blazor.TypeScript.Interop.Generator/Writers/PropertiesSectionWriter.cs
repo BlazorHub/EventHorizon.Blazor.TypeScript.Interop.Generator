@@ -32,11 +32,17 @@ namespace EventHorizon.Blazor.TypeScript.Interop.Generator.Writers
                     property.Type,
                     property.UsedClassNames
                 );
+                var isLiteral = TypeLiteralIdentifier.Identify(
+                    property.Type
+                );
                 var isArray = ArrayResponseIdentifier.Identify(
                     property.Type
                 );
                 var isNotSupported = NotSupportedIdentifier.Identify(
                     property
+                );
+                var isEnum = TypeEnumIdentifier.Identify(
+                    property.Type
                 );
 
                 var template = templates.AccessorWithSetter;
@@ -77,7 +83,11 @@ namespace EventHorizon.Blazor.TypeScript.Interop.Generator.Writers
                     }
                 }
 
-                if (isClassResponse && isArray)
+                if (isEnum)
+                {
+                    propertyGetterResultType = templates.InteropGet;
+                }
+                else if (isClassResponse && isArray)
                 {
                     propertyGetterResultType = templates.InteropGetArrayClass;
                 }
@@ -88,21 +98,18 @@ namespace EventHorizon.Blazor.TypeScript.Interop.Generator.Writers
                     cacheSection = "private [[STATIC]][[TYPE]] __[[CACHE_NAME]];";
                     cacheSetterSection = "__[[CACHE_NAME]] = null;";
                 }
+                else if (isArray && isLiteral)
+                {
+                    propertyGetterResultType = templates.InteropGetArrayClass;
+                }
                 else if (isArray)
                 {
                     propertyGetterResultType = templates.InteropGetArray;
                 }
-                var propType = TypeStatementWriter.Write(
-                    property.Type
-                );
-                var arrayType = TypeStatementWriter.Write(
-                    property.Type,
-                    true
-                );
-                var newType = TypeStatementWriter.Write(
-                    property.Type,
-                    true
-                );
+                else if(isLiteral && property.Type.Name == GenerationIdentifiedTypes.CachedEntity)
+                {
+                    propertyGetterResultType = templates.InteropGetClass;
+                }
 
                 if (isNotSupported)
                 {
@@ -154,13 +161,13 @@ namespace EventHorizon.Blazor.TypeScript.Interop.Generator.Writers
                         "[[ARRAY_TYPE]]",
                         TypeStatementWriter.Write(
                             property.Type,
-                            true
+                            false
                         )
                     ).Replace(
                         "[[NEW_TYPE]]",
                         TypeStatementWriter.Write(
                             property.Type,
-                            true
+                            false
                         )
                     ).Replace(
                         "[[PROPERTY]]",

@@ -4,17 +4,25 @@ using System.Linq;
 using System.Threading.Tasks;
 using BabylonJS;
 using EventHorizon.Blazor.BabylonJS.Model;
+using EventHorizon.Blazor.Interop.Callbacks;
 
 namespace EventHorizon.Blazor.BabylonJS.Pages
 {
-    public partial class Index
+    public partial class Index : IDisposable
     {
+        private Engine _engine;
+
         protected override void OnAfterRender(bool firstRender)
         {
             if (firstRender)
             {
                 CreateScene();
             }
+        }
+
+        public void Dispose()
+        {
+            _engine?.dispose();
         }
 
         public void CreateScene()
@@ -53,28 +61,28 @@ namespace EventHorizon.Blazor.BabylonJS.Pages
                 0,
                 0
             );
-            var freeCamera = new FreeCamera(
-                "FreeCamera",
-                new Vector3(
-                    0,
-                    0,
-                    5
-                ),
+            var camera = new ArcRotateCamera(
+                "ArcRotateCamera",
+                (decimal)(System.Math.PI / 2),
+                (decimal)(System.Math.PI / 4),
+                6,
+                new Vector3(1, 0, 0),
                 scene
             )
             {
-                rotation = new Vector3(
-                    0m,
-                    (decimal)System.Math.PI,
-                    0m
-                ),
+                lowerRadiusLimit = 2,
+                upperRadiusLimit = 10,
+                wheelDeltaPercentage = 0.01m
             };
-            scene.activeCamera = freeCamera;
-            freeCamera.attachControl(
-                canvas,
+            scene.activeCamera = camera;
+            camera.attachControl(
                 false
             );
-            engine.runRenderLoop(() => Task.Run(() => scene.render(true, false)));
+            engine.runRenderLoop(new ActionCallback(
+                () => Task.Run(() => scene.render(true, false))
+            ));
+
+            _engine = engine;
         }
     }
 }

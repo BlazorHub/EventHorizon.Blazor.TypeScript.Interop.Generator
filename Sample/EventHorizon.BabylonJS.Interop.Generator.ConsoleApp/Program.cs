@@ -47,6 +47,7 @@ namespace EventHorizon.Blazor.TypeScript.Interop.Generator.ConsoleApp
                 "Control",
                 "Button",
                 "UniversalCamera",
+                "ArcRotateCamera",
                 "PointLight",
                 "Grid",
                 "StackPanel",
@@ -57,6 +58,9 @@ namespace EventHorizon.Blazor.TypeScript.Interop.Generator.ConsoleApp
                 "PointerInfo",
                 "PointerInfoBase",
                 "SceneLoader",
+                "ParticleHelper",
+                "Sound",
+                "Tools",
             };
 
             // Remove any already Generated Source.

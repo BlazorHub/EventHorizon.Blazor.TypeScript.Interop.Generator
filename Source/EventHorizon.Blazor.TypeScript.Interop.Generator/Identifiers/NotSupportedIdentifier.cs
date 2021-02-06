@@ -18,10 +18,6 @@ namespace EventHorizon.Blazor.TypeScript.Interop.Generator.Identifiers
         {
             return Identify(
                 statement.Type
-            )
-            // Check for not supported Action Arguments
-            || (statement.Arguments.Any(a => a.Type.IsAction)
-                && !(statement.Arguments.Take(1).Any(a => a.Type.IsAction))
             );
         }
 
@@ -42,6 +38,7 @@ namespace EventHorizon.Blazor.TypeScript.Interop.Generator.Identifiers
             if (!typeStatement.IsArray
                 && !typeStatement.IsNullable
                 && !typeStatement.IsAction
+                && !typeStatement.IsTask
                 && typeStatement.GenericTypes.Any()
                 && PrimitiveTypeIdentifier.Identify(
                     typeStatement.GenericTypes.First().Name
@@ -49,6 +46,32 @@ namespace EventHorizon.Blazor.TypeScript.Interop.Generator.Identifiers
             )
             {
                 return true;
+            }
+            // Check for Array in Array
+            if (HasAnArrayInArray(typeStatement))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        private static bool HasAnArrayInArray(
+            TypeStatement typeStatement
+        )
+        {
+            if (typeStatement.IsArray)
+            {
+                if (typeStatement.GenericTypes.Any(a => a.IsArray))
+                {
+                    return true;
+                }
+            }
+            foreach (var genericType in typeStatement.GenericTypes)
+            {
+                return HasAnArrayInArray(
+                    genericType
+                );
             }
             return false;
         }

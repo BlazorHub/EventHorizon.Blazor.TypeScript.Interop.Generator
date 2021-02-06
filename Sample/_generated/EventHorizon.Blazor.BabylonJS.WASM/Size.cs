@@ -6,11 +6,12 @@ namespace BabylonJS
     using System.Text.Json.Serialization;
     using System.Threading.Tasks;
     using EventHorizon.Blazor.Interop;
+    using EventHorizon.Blazor.Interop.Callbacks;
     using Microsoft.JSInterop;
 
     
     
-    [JsonConverter(typeof(CachedEntityConverter))]
+    [JsonConverter(typeof(CachedEntityConverter<Size>))]
     public class Size : CachedEntityObject, ISize
     {
         #region Static Accessors
@@ -26,7 +27,7 @@ namespace BabylonJS
         {
             return EventHorizonBlazorInterop.FuncClass<Size>(
                 entity => new Size() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { "BABYLON", "Size", "Zero" }
                 }
@@ -37,7 +38,7 @@ namespace BabylonJS
         {
             return EventHorizonBlazorInterop.FuncClass<Size>(
                 entity => new Size() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { "BABYLON", "Size", "Lerp" }, start, end, amount
                 }
@@ -128,7 +129,7 @@ namespace BabylonJS
         public string toString()
         {
             return EventHorizonBlazorInterop.Func<string>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "toString" }
                 }
@@ -138,7 +139,7 @@ namespace BabylonJS
         public string getClassName()
         {
             return EventHorizonBlazorInterop.Func<string>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "getClassName" }
                 }
@@ -148,7 +149,7 @@ namespace BabylonJS
         public decimal getHashCode()
         {
             return EventHorizonBlazorInterop.Func<decimal>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "getHashCode" }
                 }
@@ -158,7 +159,7 @@ namespace BabylonJS
         public void copyFrom(Size src)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "copyFrom" }, src
                 }
@@ -169,7 +170,7 @@ namespace BabylonJS
         {
             return EventHorizonBlazorInterop.FuncClass<Size>(
                 entity => new Size() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "copyFromFloats" }, width, height
                 }
@@ -180,7 +181,7 @@ namespace BabylonJS
         {
             return EventHorizonBlazorInterop.FuncClass<Size>(
                 entity => new Size() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "set" }, width, height
                 }
@@ -191,7 +192,7 @@ namespace BabylonJS
         {
             return EventHorizonBlazorInterop.FuncClass<Size>(
                 entity => new Size() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "multiplyByFloats" }, w, h
                 }
@@ -202,7 +203,7 @@ namespace BabylonJS
         {
             return EventHorizonBlazorInterop.FuncClass<Size>(
                 entity => new Size() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "clone" }
                 }
@@ -212,7 +213,7 @@ namespace BabylonJS
         public bool equals(Size other)
         {
             return EventHorizonBlazorInterop.Func<bool>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "equals" }, other
                 }
@@ -223,7 +224,7 @@ namespace BabylonJS
         {
             return EventHorizonBlazorInterop.FuncClass<Size>(
                 entity => new Size() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "add" }, otherSize
                 }
@@ -234,7 +235,7 @@ namespace BabylonJS
         {
             return EventHorizonBlazorInterop.FuncClass<Size>(
                 entity => new Size() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "subtract" }, otherSize
                 }

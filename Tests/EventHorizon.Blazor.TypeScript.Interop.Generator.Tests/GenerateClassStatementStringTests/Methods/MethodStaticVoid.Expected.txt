@@ -6,11 +6,12 @@ namespace Static.Class
     using System.Text.Json.Serialization;
     using System.Threading.Tasks;
     using EventHorizon.Blazor.Interop;
+    using EventHorizon.Blazor.Interop.Callbacks;
     using Microsoft.JSInterop;
 
     
     
-    [JsonConverter(typeof(CachedEntityConverter))]
+    [JsonConverter(typeof(CachedEntityConverter<ExampleClass<CachedEntity>>))]
     public class ExampleClass<T> : CachedEntityObject where T : CachedEntity, new()
     {
         #region Static Accessors
@@ -25,7 +26,7 @@ namespace Static.Class
         public static void makeObserverTopPriority(Observer<T> observer)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { "Static", "Class", "ExampleClass", "makeObserverTopPriority" }, observer
                 }
@@ -35,7 +36,7 @@ namespace Static.Class
         public static void VoidMethodNoIdentifier()
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { "Static", "Class", "ExampleClass", "VoidMethodNoIdentifier" }
                 }
@@ -52,7 +53,7 @@ namespace Static.Class
         #endregion
         
         #region Constructor
-        public ExampleClass() : base() { } 
+        public ExampleClass() : base() { }
 
         public ExampleClass(
             ICachedEntity entity

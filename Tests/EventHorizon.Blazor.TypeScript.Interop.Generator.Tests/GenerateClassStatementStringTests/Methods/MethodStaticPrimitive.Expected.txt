@@ -6,11 +6,12 @@ namespace Static.Class
     using System.Text.Json.Serialization;
     using System.Threading.Tasks;
     using EventHorizon.Blazor.Interop;
+    using EventHorizon.Blazor.Interop.Callbacks;
     using Microsoft.JSInterop;
 
     
     
-    [JsonConverter(typeof(CachedEntityConverter))]
+    [JsonConverter(typeof(CachedEntityConverter<ExampleClass>))]
     public class ExampleClass : CachedEntityObject
     {
         #region Static Accessors
@@ -25,7 +26,7 @@ namespace Static.Class
         public static decimal numberMethod()
         {
             return EventHorizonBlazorInterop.Func<decimal>(
-                new object[] 
+                new object[]
                 {
                     new string[] { "Static", "Class", "ExampleClass", "numberMethod" }
                 }
@@ -42,7 +43,7 @@ namespace Static.Class
         #endregion
         
         #region Constructor
-        public ExampleClass() : base() { } 
+        public ExampleClass() : base() { }
 
         public ExampleClass(
             ICachedEntity entity

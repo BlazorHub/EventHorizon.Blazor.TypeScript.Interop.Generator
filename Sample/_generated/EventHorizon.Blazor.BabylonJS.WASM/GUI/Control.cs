@@ -6,11 +6,12 @@ namespace BabylonJS.GUI
     using System.Text.Json.Serialization;
     using System.Threading.Tasks;
     using EventHorizon.Blazor.Interop;
+    using EventHorizon.Blazor.Interop.Callbacks;
     using Microsoft.JSInterop;
 
     
     
-    [JsonConverter(typeof(CachedEntityConverter))]
+    [JsonConverter(typeof(CachedEntityConverter<Control>))]
     public class Control : CachedEntityObject
     {
         #region Static Accessors
@@ -128,6 +129,15 @@ namespace BabylonJS.GUI
             );
 
             return handle;
+        }
+
+        public static bool AddHeader_Remove(
+            string handle
+        )
+        {
+            return AddHeaderActionMap.Remove(
+                handle
+            );
         }
 
         private static void SetupAddHeaderStaticLoop()
@@ -796,19 +806,19 @@ __style = null;
             }
         }
 
-        private AbstractMesh __linkedMesh;
-        public AbstractMesh linkedMesh
+        private TransformNode __linkedMesh;
+        public TransformNode linkedMesh
         {
             get
             {
             if(__linkedMesh == null)
             {
-                __linkedMesh = EventHorizonBlazorInterop.GetClass<AbstractMesh>(
+                __linkedMesh = EventHorizonBlazorInterop.GetClass<TransformNode>(
                     this.___guid,
                     "linkedMesh",
                     (entity) =>
                     {
-                        return new AbstractMesh() { ___guid = entity.___guid };
+                        return new TransformNode() { ___guid = entity.___guid };
                     }
                 );
             }
@@ -1317,9 +1327,13 @@ __parent = null;
         {
             get
             {
-            return EventHorizonBlazorInterop.Get<CachedEntity>(
+            return EventHorizonBlazorInterop.GetClass<CachedEntity>(
                     this.___guid,
-                    "metadata"
+                    "metadata",
+                    (entity) =>
+                    {
+                        return new CachedEntity() { ___guid = entity.___guid };
+                    }
                 );
             }
             set
@@ -1769,10 +1783,60 @@ __onAfterDrawObservable = null;
                 );
             }
         }
+
+        private Observable<Control> __onDisposeObservable;
+        public Observable<Control> onDisposeObservable
+        {
+            get
+            {
+            if(__onDisposeObservable == null)
+            {
+                __onDisposeObservable = EventHorizonBlazorInterop.GetClass<Observable<Control>>(
+                    this.___guid,
+                    "onDisposeObservable",
+                    (entity) =>
+                    {
+                        return new Observable<Control>() { ___guid = entity.___guid };
+                    }
+                );
+            }
+            return __onDisposeObservable;
+            }
+            set
+            {
+__onDisposeObservable = null;
+                EventHorizonBlazorInterop.Set(
+                    this.___guid,
+                    "onDisposeObservable",
+                    value
+                );
+            }
+        }
+
+        
+        public decimal fixedRatio
+        {
+            get
+            {
+            return EventHorizonBlazorInterop.Get<decimal>(
+                    this.___guid,
+                    "fixedRatio"
+                );
+            }
+            set
+            {
+
+                EventHorizonBlazorInterop.Set(
+                    this.___guid,
+                    "fixedRatio",
+                    value
+                );
+            }
+        }
         #endregion
         
         #region Constructor
-        public Control() : base() { } 
+        public Control() : base() { }
 
         public Control(
             ICachedEntity entity
@@ -1797,7 +1861,7 @@ __onAfterDrawObservable = null;
         public string getClassName()
         {
             return EventHorizonBlazorInterop.Func<string>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "getClassName" }
                 }
@@ -1808,7 +1872,7 @@ __onAfterDrawObservable = null;
         {
             return EventHorizonBlazorInterop.FuncClass<Control>(
                 entity => new Control() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "getAscendantOfClass" }, className
                 }
@@ -1818,7 +1882,7 @@ __onAfterDrawObservable = null;
         public bool isAscendant(Control container)
         {
             return EventHorizonBlazorInterop.Func<bool>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "isAscendant" }, container
                 }
@@ -1829,7 +1893,7 @@ __onAfterDrawObservable = null;
         {
             return EventHorizonBlazorInterop.FuncClass<Vector2>(
                 entity => new Vector2() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "getLocalCoordinates" }, globalCoordinates
                 }
@@ -1840,7 +1904,7 @@ __onAfterDrawObservable = null;
         {
             return EventHorizonBlazorInterop.FuncClass<Control>(
                 entity => new Control() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "getLocalCoordinatesToRef" }, globalCoordinates, result
                 }
@@ -1851,7 +1915,7 @@ __onAfterDrawObservable = null;
         {
             return EventHorizonBlazorInterop.FuncClass<Vector2>(
                 entity => new Vector2() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "getParentLocalCoordinates" }, globalCoordinates
                 }
@@ -1861,21 +1925,38 @@ __onAfterDrawObservable = null;
         public void moveToVector3(Vector3 position, Scene scene)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "moveToVector3" }, position, scene
                 }
             );
         }
 
-// getDescendantsToRef is not supported by the platform yet
-
-// getDescendants is not supported by the platform yet
-
-        public void linkWithMesh(AbstractMesh mesh)
+        public void getDescendantsToRef(Control[] results, System.Nullable<bool> directDescendantsOnly = null, ActionCallback<Control> predicate = null)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
+                {
+                    new string[] { this.___guid, "getDescendantsToRef" }, results, directDescendantsOnly, predicate
+                }
+            );
+        }
+
+        public Control[] getDescendants(System.Nullable<bool> directDescendantsOnly = null, ActionCallback<Control> predicate = null)
+        {
+            return EventHorizonBlazorInterop.FuncArrayClass<Control>(
+                entity => new Control() { ___guid = entity.___guid },
+                new object[]
+                {
+                    new string[] { this.___guid, "getDescendants" }, directDescendantsOnly, predicate
+                }
+            );
+        }
+
+        public void linkWithMesh(TransformNode mesh)
+        {
+            EventHorizonBlazorInterop.Func<CachedEntity>(
+                new object[]
                 {
                     new string[] { this.___guid, "linkWithMesh" }, mesh
                 }
@@ -1885,7 +1966,7 @@ __onAfterDrawObservable = null;
         public bool contains(decimal x, decimal y)
         {
             return EventHorizonBlazorInterop.Func<bool>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "contains" }, x, y
                 }
@@ -1895,7 +1976,7 @@ __onAfterDrawObservable = null;
         public void dispose()
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "dispose" }
                 }

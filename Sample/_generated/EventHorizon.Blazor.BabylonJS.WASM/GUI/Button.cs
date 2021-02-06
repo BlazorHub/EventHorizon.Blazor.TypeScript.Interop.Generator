@@ -6,11 +6,12 @@ namespace BabylonJS.GUI
     using System.Text.Json.Serialization;
     using System.Threading.Tasks;
     using EventHorizon.Blazor.Interop;
+    using EventHorizon.Blazor.Interop.Callbacks;
     using Microsoft.JSInterop;
 
     
     
-    [JsonConverter(typeof(CachedEntityConverter))]
+    [JsonConverter(typeof(CachedEntityConverter<Button>))]
     public class Button : Rectangle
     {
         #region Static Accessors
@@ -26,7 +27,7 @@ namespace BabylonJS.GUI
         {
             return EventHorizonBlazorInterop.FuncClass<Button>(
                 entity => new Button() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { "BABYLON", "GUI", "Button", "CreateImageButton" }, name, text, imageUrl
                 }
@@ -37,7 +38,7 @@ namespace BabylonJS.GUI
         {
             return EventHorizonBlazorInterop.FuncClass<Button>(
                 entity => new Button() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { "BABYLON", "GUI", "Button", "CreateImageOnlyButton" }, name, imageUrl
                 }
@@ -48,7 +49,7 @@ namespace BabylonJS.GUI
         {
             return EventHorizonBlazorInterop.FuncClass<Button>(
                 entity => new Button() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { "BABYLON", "GUI", "Button", "CreateSimpleButton" }, name, text
                 }
@@ -59,7 +60,7 @@ namespace BabylonJS.GUI
         {
             return EventHorizonBlazorInterop.FuncClass<Button>(
                 entity => new Button() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { "BABYLON", "GUI", "Button", "CreateImageWithCenterTextButton" }, name, text, imageUrl
                 }
@@ -194,6 +195,15 @@ namespace BabylonJS.GUI
             return handle;
         }
 
+        public bool pointerEnterAnimation_Remove(
+            string handle
+        )
+        {
+            return _pointerEnterAnimationActionMap.Remove(
+                handle
+            );
+        }
+
         private void SetupPointerEnterAnimationLoop()
         {
             if (_isPointerEnterAnimationEnabled)
@@ -236,6 +246,15 @@ namespace BabylonJS.GUI
             );
 
             return handle;
+        }
+
+        public bool pointerOutAnimation_Remove(
+            string handle
+        )
+        {
+            return _pointerOutAnimationActionMap.Remove(
+                handle
+            );
         }
 
         private void SetupPointerOutAnimationLoop()
@@ -282,6 +301,15 @@ namespace BabylonJS.GUI
             return handle;
         }
 
+        public bool pointerDownAnimation_Remove(
+            string handle
+        )
+        {
+            return _pointerDownAnimationActionMap.Remove(
+                handle
+            );
+        }
+
         private void SetupPointerDownAnimationLoop()
         {
             if (_isPointerDownAnimationEnabled)
@@ -324,6 +352,15 @@ namespace BabylonJS.GUI
             );
 
             return handle;
+        }
+
+        public bool pointerUpAnimation_Remove(
+            string handle
+        )
+        {
+            return _pointerUpAnimationActionMap.Remove(
+                handle
+            );
         }
 
         private void SetupPointerUpAnimationLoop()

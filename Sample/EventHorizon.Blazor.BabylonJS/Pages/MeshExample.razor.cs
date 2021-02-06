@@ -4,17 +4,24 @@ using System.Linq;
 using System.Threading.Tasks;
 using BabylonJS;
 using EventHorizon.Blazor.BabylonJS.Model;
+using EventHorizon.Blazor.Interop.Callbacks;
 
 namespace EventHorizon.Blazor.BabylonJS.Pages
 {
-    public partial class MeshExample
+    public partial class MeshExample : IDisposable
     {
+        private Engine _engine;
         protected override void OnAfterRender(bool firstRender)
         {
             if (firstRender)
             {
                 CreateScene();
             }
+        }
+
+        public void Dispose()
+        {
+            _engine?.dispose();
         }
 
         public void CreateScene()
@@ -71,10 +78,13 @@ namespace EventHorizon.Blazor.BabylonJS.Pages
             };
             scene.activeCamera = freeCamera;
             freeCamera.attachControl(
-                canvas,
                 false
             );
-            engine.runRenderLoop(() => Task.Run(() => scene.render(true, false)));
+            engine.runRenderLoop(new ActionCallback(
+                () => Task.Run(() => scene.render(true, false))
+            ));
+
+            _engine = engine;
         }
     }
 }

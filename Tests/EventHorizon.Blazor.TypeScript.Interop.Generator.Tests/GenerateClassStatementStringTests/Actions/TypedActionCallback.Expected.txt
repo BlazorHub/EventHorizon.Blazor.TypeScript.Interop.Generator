@@ -6,11 +6,12 @@ namespace Examples
     using System.Text.Json.Serialization;
     using System.Threading.Tasks;
     using EventHorizon.Blazor.Interop;
+    using EventHorizon.Blazor.Interop.Callbacks;
     using Microsoft.JSInterop;
 
     
     
-    [JsonConverter(typeof(CachedEntityConverter))]
+    [JsonConverter(typeof(CachedEntityConverter<ExampleClass<CachedEntity>>))]
     public class ExampleClass<T> : CachedEntityObject where T : CachedEntity, new()
     {
         #region Static Accessors
@@ -34,7 +35,7 @@ namespace Examples
         #endregion
         
         #region Constructor
-        public ExampleClass() : base() { } 
+        public ExampleClass() : base() { }
 
         public ExampleClass(
             ICachedEntity entity
@@ -66,6 +67,15 @@ namespace Examples
             return handle;
         }
 
+        public bool add_Remove(
+            string handle
+        )
+        {
+            return _addActionMap.Remove(
+                handle
+            );
+        }
+
         private void SetupAddLoop()
         {
             if (_isAddEnabled)
@@ -91,51 +101,25 @@ namespace Examples
         }
         #endregion
 
-// getNewPosition is not supported by the platform yet
-
-        #region setImmediate TODO: Get Comments as metadata identification
-        private bool _isSetImmediateEnabled = false;
-        private readonly IDictionary<string, Func<CachedEntity[], Task>> _setImmediateActionMap = new Dictionary<string, Func<CachedEntity[], Task>>();
-
-        public string setImmediate(
-            Func<CachedEntity[], Task> callback
-        )
+        public void getNewPosition(Vector3 position, Vector3 displacement, Collider collider, decimal maximumRetry, AbstractMesh excludedMesh, ActionCallback<decimal, Vector3, AbstractMesh> onNewPosition, decimal collisionIndex)
         {
-            SetupSetImmediateLoop();
-
-            var handle = Guid.NewGuid().ToString();
-            _setImmediateActionMap.Add(
-                handle,
-                callback
+            EventHorizonBlazorInterop.Func<CachedEntity>(
+                new object[]
+                {
+                    new string[] { this.___guid, "getNewPosition" }, position, displacement, collider, maximumRetry, excludedMesh, onNewPosition, collisionIndex
+                }
             );
-
-            return handle;
         }
 
-        private void SetupSetImmediateLoop()
+        public decimal setImmediate(ActionCallback<CachedEntity[]> handler)
         {
-            if (_isSetImmediateEnabled)
-            {
-                return;
-            }
-            EventHorizonBlazorInterop.FuncCallback(
-                this,
-                "setImmediate",
-                "CallSetImmediateActions",
-                _invokableReference
+            return EventHorizonBlazorInterop.Func<decimal>(
+                new object[]
+                {
+                    new string[] { this.___guid, "setImmediate" }, handler
+                }
             );
-            _isSetImmediateEnabled = true;
         }
-
-        [JSInvokable]
-        public async Task CallSetImmediateActions(CachedEntity[] args)
-        {
-            foreach (var action in _setImmediateActionMap.Values)
-            {
-                await action(args);
-            }
-        }
-        #endregion
         #endregion
     }
 }

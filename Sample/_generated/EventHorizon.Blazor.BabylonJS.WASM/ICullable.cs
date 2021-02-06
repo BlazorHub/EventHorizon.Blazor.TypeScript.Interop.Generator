@@ -6,11 +6,12 @@ namespace BabylonJS
     using System.Text.Json.Serialization;
     using System.Threading.Tasks;
     using EventHorizon.Blazor.Interop;
+    using EventHorizon.Blazor.Interop.Callbacks;
     using Microsoft.JSInterop;
 
     public interface ICullable : ICachedEntity { }
     
-    [JsonConverter(typeof(CachedEntityConverter))]
+    [JsonConverter(typeof(CachedEntityConverter<ICullableCachedEntity>))]
     public class ICullableCachedEntity : CachedEntityObject, ICullable
     {
         #region Static Accessors
@@ -49,7 +50,7 @@ namespace BabylonJS
         public bool isInFrustum(Plane[] frustumPlanes)
         {
             return EventHorizonBlazorInterop.Func<bool>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "isInFrustum" }, frustumPlanes
                 }
@@ -59,7 +60,7 @@ namespace BabylonJS
         public bool isCompletelyInFrustum(Plane[] frustumPlanes)
         {
             return EventHorizonBlazorInterop.Func<bool>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "isCompletelyInFrustum" }, frustumPlanes
                 }

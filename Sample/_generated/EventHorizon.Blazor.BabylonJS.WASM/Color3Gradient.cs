@@ -6,11 +6,12 @@ namespace BabylonJS
     using System.Text.Json.Serialization;
     using System.Threading.Tasks;
     using EventHorizon.Blazor.Interop;
+    using EventHorizon.Blazor.Interop.Callbacks;
     using Microsoft.JSInterop;
 
     
     
-    [JsonConverter(typeof(CachedEntityConverter))]
+    [JsonConverter(typeof(CachedEntityConverter<Color3Gradient>))]
     public class Color3Gradient : CachedEntityObject, IValueGradient
     {
         #region Static Accessors
@@ -90,7 +91,16 @@ __color = null;
         {
         }
 
-
+        public Color3Gradient(
+            decimal gradient, Color3 color
+        ) : base()
+        {
+            var entity = EventHorizonBlazorInterop.New(
+                new string[] { "BABYLON", "Color3Gradient" },
+                gradient, color
+            );
+            ___guid = entity.___guid;
+        }
         #endregion
 
         #region Methods

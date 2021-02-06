@@ -6,11 +6,12 @@ namespace BabylonJS
     using System.Text.Json.Serialization;
     using System.Threading.Tasks;
     using EventHorizon.Blazor.Interop;
+    using EventHorizon.Blazor.Interop.Callbacks;
     using Microsoft.JSInterop;
 
     public interface IOfflineProvider : ICachedEntity { }
     
-    [JsonConverter(typeof(CachedEntityConverter))]
+    [JsonConverter(typeof(CachedEntityConverter<IOfflineProviderCachedEntity>))]
     public class IOfflineProviderCachedEntity : CachedEntityObject, IOfflineProvider
     {
         #region Static Accessors
@@ -86,61 +87,35 @@ namespace BabylonJS
         #endregion
 
         #region Methods
-        #region open TODO: Get Comments as metadata identification
-        private bool _isOpenEnabled = false;
-        private readonly IDictionary<string, Func<Task>> _openActionMap = new Dictionary<string, Func<Task>>();
-
-        public string open(
-            Func<Task> callback
-        )
+        public void open(ActionCallback successCallback, ActionCallback errorCallback)
         {
-            SetupOpenLoop();
-
-            var handle = Guid.NewGuid().ToString();
-            _openActionMap.Add(
-                handle,
-                callback
+            EventHorizonBlazorInterop.Func<CachedEntity>(
+                new object[]
+                {
+                    new string[] { this.___guid, "open" }, successCallback, errorCallback
+                }
             );
-
-            return handle;
         }
-
-        private void SetupOpenLoop()
-        {
-            if (_isOpenEnabled)
-            {
-                return;
-            }
-            EventHorizonBlazorInterop.FuncCallback(
-                this,
-                "open",
-                "CallOpenActions",
-                _invokableReference
-            );
-            _isOpenEnabled = true;
-        }
-
-        [JSInvokable]
-        public async Task CallOpenActions()
-        {
-            foreach (var action in _openActionMap.Values)
-            {
-                await action();
-            }
-        }
-        #endregion
 
         public void loadImage(string url, HTMLImageElement image)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "loadImage" }, url, image
                 }
             );
         }
 
-// loadFile is not supported by the platform yet
+        public void loadFile(string url, ActionCallback<object> sceneLoaded, ActionCallback<object> progressCallBack = null, ActionCallback errorCallback = null, System.Nullable<bool> useArrayBuffer = null)
+        {
+            EventHorizonBlazorInterop.Func<CachedEntity>(
+                new object[]
+                {
+                    new string[] { this.___guid, "loadFile" }, url, sceneLoaded, progressCallBack, errorCallback, useArrayBuffer
+                }
+            );
+        }
         #endregion
     }
 }

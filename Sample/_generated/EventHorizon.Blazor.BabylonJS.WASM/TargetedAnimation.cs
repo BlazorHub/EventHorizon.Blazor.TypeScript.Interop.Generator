@@ -6,11 +6,12 @@ namespace BabylonJS
     using System.Text.Json.Serialization;
     using System.Threading.Tasks;
     using EventHorizon.Blazor.Interop;
+    using EventHorizon.Blazor.Interop.Callbacks;
     using Microsoft.JSInterop;
 
     
     
-    [JsonConverter(typeof(CachedEntityConverter))]
+    [JsonConverter(typeof(CachedEntityConverter<TargetedAnimation>))]
     public class TargetedAnimation : CachedEntityObject
     {
         #region Static Accessors
@@ -64,9 +65,13 @@ __animation = null;
         {
             get
             {
-            return EventHorizonBlazorInterop.Get<CachedEntity>(
+            return EventHorizonBlazorInterop.GetClass<CachedEntity>(
                     this.___guid,
-                    "target"
+                    "target",
+                    (entity) =>
+                    {
+                        return new CachedEntity() { ___guid = entity.___guid };
+                    }
                 );
             }
             set
@@ -82,7 +87,7 @@ __animation = null;
         #endregion
         
         #region Constructor
-        public TargetedAnimation() : base() { } 
+        public TargetedAnimation() : base() { }
 
         public TargetedAnimation(
             ICachedEntity entity
@@ -95,10 +100,20 @@ __animation = null;
         #endregion
 
         #region Methods
+        public string getClassName()
+        {
+            return EventHorizonBlazorInterop.Func<string>(
+                new object[]
+                {
+                    new string[] { this.___guid, "getClassName" }
+                }
+            );
+        }
+
         public CachedEntity serialize()
         {
             return EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "serialize" }
                 }

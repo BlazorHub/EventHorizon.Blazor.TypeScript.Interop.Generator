@@ -6,11 +6,12 @@ namespace BabylonJS
     using System.Text.Json.Serialization;
     using System.Threading.Tasks;
     using EventHorizon.Blazor.Interop;
+    using EventHorizon.Blazor.Interop.Callbacks;
     using Microsoft.JSInterop;
 
     public interface IMatrixLike : ICachedEntity { }
     
-    [JsonConverter(typeof(CachedEntityConverter))]
+    [JsonConverter(typeof(CachedEntityConverter<IMatrixLikeCachedEntity>))]
     public class IMatrixLikeCachedEntity : CachedEntityObject, IMatrixLike
     {
         #region Static Accessors
@@ -31,11 +32,11 @@ namespace BabylonJS
 
         #region Properties
         
-        public int updateFlag
+        public decimal updateFlag
         {
             get
             {
-            return EventHorizonBlazorInterop.Get<int>(
+            return EventHorizonBlazorInterop.Get<decimal>(
                     this.___guid,
                     "updateFlag"
                 );

@@ -6,11 +6,12 @@ namespace BabylonJS
     using System.Text.Json.Serialization;
     using System.Threading.Tasks;
     using EventHorizon.Blazor.Interop;
+    using EventHorizon.Blazor.Interop.Callbacks;
     using Microsoft.JSInterop;
 
     
     
-    [JsonConverter(typeof(CachedEntityConverter))]
+    [JsonConverter(typeof(CachedEntityConverter<PostProcess>))]
     public class PostProcess : CachedEntityObject
     {
         #region Static Accessors
@@ -22,7 +23,16 @@ namespace BabylonJS
         #endregion
 
         #region Static Methods
-
+        public static PostProcess Parse(object parsedPostProcess, Scene scene, string rootUrl)
+        {
+            return EventHorizonBlazorInterop.FuncClass<PostProcess>(
+                entity => new PostProcess() { ___guid = entity.___guid },
+                new object[]
+                {
+                    new string[] { "BABYLON", "PostProcess", "Parse" }, parsedPostProcess, scene, rootUrl
+                }
+            );
+        }
         #endregion
 
         #region Accessors
@@ -123,27 +133,6 @@ __inputTexture = null;
 
         #region Properties
         
-        public string name
-        {
-            get
-            {
-            return EventHorizonBlazorInterop.Get<string>(
-                    this.___guid,
-                    "name"
-                );
-            }
-            set
-            {
-
-                EventHorizonBlazorInterop.Set(
-                    this.___guid,
-                    "name",
-                    value
-                );
-            }
-        }
-
-        
         public decimal uniqueId
         {
             get
@@ -159,6 +148,27 @@ __inputTexture = null;
                 EventHorizonBlazorInterop.Set(
                     this.___guid,
                     "uniqueId",
+                    value
+                );
+            }
+        }
+
+        
+        public string name
+        {
+            get
+            {
+            return EventHorizonBlazorInterop.Get<string>(
+                    this.___guid,
+                    "name"
+                );
+            }
+            set
+            {
+
+                EventHorizonBlazorInterop.Set(
+                    this.___guid,
+                    "name",
                     value
                 );
             }
@@ -201,6 +211,35 @@ __inputTexture = null;
                 EventHorizonBlazorInterop.Set(
                     this.___guid,
                     "height",
+                    value
+                );
+            }
+        }
+
+        private NodeMaterial __nodeMaterialSource;
+        public NodeMaterial nodeMaterialSource
+        {
+            get
+            {
+            if(__nodeMaterialSource == null)
+            {
+                __nodeMaterialSource = EventHorizonBlazorInterop.GetClass<NodeMaterial>(
+                    this.___guid,
+                    "nodeMaterialSource",
+                    (entity) =>
+                    {
+                        return new NodeMaterial() { ___guid = entity.___guid };
+                    }
+                );
+            }
+            return __nodeMaterialSource;
+            }
+            set
+            {
+__nodeMaterialSource = null;
+                EventHorizonBlazorInterop.Set(
+                    this.___guid,
+                    "nodeMaterialSource",
                     value
                 );
             }
@@ -629,7 +668,7 @@ __onAfterRenderObservable = null;
         #endregion
         
         #region Constructor
-        public PostProcess() : base() { } 
+        public PostProcess() : base() { }
 
         public PostProcess(
             ICachedEntity entity
@@ -654,9 +693,19 @@ __onAfterRenderObservable = null;
         public string getEffectName()
         {
             return EventHorizonBlazorInterop.Func<string>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "getEffectName" }
+                }
+            );
+        }
+
+        public void restoreDefaultInputTexture()
+        {
+            EventHorizonBlazorInterop.Func<CachedEntity>(
+                new object[]
+                {
+                    new string[] { this.___guid, "restoreDefaultInputTexture" }
                 }
             );
         }
@@ -665,7 +714,7 @@ __onAfterRenderObservable = null;
         {
             return EventHorizonBlazorInterop.FuncClass<Camera>(
                 entity => new Camera() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "getCamera" }
                 }
@@ -675,7 +724,7 @@ __onAfterRenderObservable = null;
         public string getClassName()
         {
             return EventHorizonBlazorInterop.Func<string>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "getClassName" }
                 }
@@ -686,7 +735,7 @@ __onAfterRenderObservable = null;
         {
             return EventHorizonBlazorInterop.FuncClass<Engine>(
                 entity => new Engine() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "getEngine" }
                 }
@@ -697,7 +746,7 @@ __onAfterRenderObservable = null;
         {
             return EventHorizonBlazorInterop.FuncClass<Effect>(
                 entity => new Effect() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "getEffect" }
                 }
@@ -708,7 +757,7 @@ __onAfterRenderObservable = null;
         {
             return EventHorizonBlazorInterop.FuncClass<PostProcess>(
                 entity => new PostProcess() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "shareOutputWith" }, postProcess
                 }
@@ -718,19 +767,27 @@ __onAfterRenderObservable = null;
         public void useOwnOutput()
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "useOwnOutput" }
                 }
             );
         }
 
-// updateEffect is not supported by the platform yet
+        public void updateEffect(string defines = null, string[] uniforms = null, string[] samplers = null, object indexParameters = null, ActionCallback<Effect> onCompiled = null, ActionCallback<Effect, string> onError = null, string vertexUrl = null, string fragmentUrl = null)
+        {
+            EventHorizonBlazorInterop.Func<CachedEntity>(
+                new object[]
+                {
+                    new string[] { this.___guid, "updateEffect" }, defines, uniforms, samplers, indexParameters, onCompiled, onError, vertexUrl, fragmentUrl
+                }
+            );
+        }
 
         public bool isReusable()
         {
             return EventHorizonBlazorInterop.Func<bool>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "isReusable" }
                 }
@@ -740,7 +797,7 @@ __onAfterRenderObservable = null;
         public void markTextureDirty()
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "markTextureDirty" }
                 }
@@ -751,7 +808,7 @@ __onAfterRenderObservable = null;
         {
             return EventHorizonBlazorInterop.FuncClass<InternalTexture>(
                 entity => new InternalTexture() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "activate" }, camera, sourceTexture, forceDepthStencil
                 }
@@ -761,7 +818,7 @@ __onAfterRenderObservable = null;
         public bool isReady()
         {
             return EventHorizonBlazorInterop.Func<bool>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "isReady" }
                 }
@@ -772,9 +829,19 @@ __onAfterRenderObservable = null;
         {
             return EventHorizonBlazorInterop.FuncClass<Effect>(
                 entity => new Effect() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "apply" }
+                }
+            );
+        }
+
+        public bool setPrePassRenderer(PrePassRenderer prePassRenderer)
+        {
+            return EventHorizonBlazorInterop.Func<bool>(
+                new object[]
+                {
+                    new string[] { this.___guid, "setPrePassRenderer" }, prePassRenderer
                 }
             );
         }
@@ -782,9 +849,19 @@ __onAfterRenderObservable = null;
         public void dispose(Camera camera = null)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "dispose" }, camera
+                }
+            );
+        }
+
+        public CachedEntity serialize()
+        {
+            return EventHorizonBlazorInterop.Func<CachedEntity>(
+                new object[]
+                {
+                    new string[] { this.___guid, "serialize" }
                 }
             );
         }

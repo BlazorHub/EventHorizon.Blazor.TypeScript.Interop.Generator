@@ -6,11 +6,12 @@ namespace BabylonJS
     using System.Text.Json.Serialization;
     using System.Threading.Tasks;
     using EventHorizon.Blazor.Interop;
+    using EventHorizon.Blazor.Interop.Callbacks;
     using Microsoft.JSInterop;
 
     
     
-    [JsonConverter(typeof(CachedEntityConverter))]
+    [JsonConverter(typeof(CachedEntityConverter<AlphaState>))]
     public class AlphaState : CachedEntityObject
     {
         #region Static Accessors
@@ -65,7 +66,7 @@ namespace BabylonJS
         #endregion
         
         #region Constructor
-        public AlphaState() : base() { } 
+        public AlphaState() : base() { }
 
         public AlphaState(
             ICachedEntity entity
@@ -81,7 +82,7 @@ namespace BabylonJS
         public void setAlphaBlendConstants(decimal r, decimal g, decimal b, decimal a)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "setAlphaBlendConstants" }, r, g, b, a
                 }
@@ -91,7 +92,7 @@ namespace BabylonJS
         public void setAlphaBlendFunctionParameters(decimal value0, decimal value1, decimal value2, decimal value3)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "setAlphaBlendFunctionParameters" }, value0, value1, value2, value3
                 }
@@ -101,7 +102,7 @@ namespace BabylonJS
         public void setAlphaEquationParameters(decimal rgb, decimal alpha)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "setAlphaEquationParameters" }, rgb, alpha
                 }
@@ -111,17 +112,17 @@ namespace BabylonJS
         public void reset()
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "reset" }
                 }
             );
         }
 
-        public void apply(WebGLRenderingContextCachedEntity gl)
+        public void apply(WebGLRenderingContext gl)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "apply" }, gl
                 }

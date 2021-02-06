@@ -6,11 +6,12 @@ namespace BabylonJS
     using System.Text.Json.Serialization;
     using System.Threading.Tasks;
     using EventHorizon.Blazor.Interop;
+    using EventHorizon.Blazor.Interop.Callbacks;
     using Microsoft.JSInterop;
 
     public interface Window : ICachedEntity { }
     
-    [JsonConverter(typeof(CachedEntityConverter))]
+    [JsonConverter(typeof(CachedEntityConverter<WindowCachedEntity>))]
     public class WindowCachedEntity : CachedEntityObject, Window
     {
         #region Static Accessors
@@ -209,9 +210,13 @@ __MSGesture = null;
         {
             get
             {
-            return EventHorizonBlazorInterop.Get<CachedEntity>(
+            return EventHorizonBlazorInterop.GetClass<CachedEntity>(
                     this.___guid,
-                    "CANNON"
+                    "CANNON",
+                    (entity) =>
+                    {
+                        return new CachedEntity() { ___guid = entity.___guid };
+                    }
                 );
             }
             set
@@ -288,9 +293,13 @@ __webkitAudioContext = null;
         {
             get
             {
-            return EventHorizonBlazorInterop.Get<CachedEntity>(
+            return EventHorizonBlazorInterop.GetClass<CachedEntity>(
                     this.___guid,
-                    "PointerEvent"
+                    "PointerEvent",
+                    (entity) =>
+                    {
+                        return new CachedEntity() { ___guid = entity.___guid };
+                    }
                 );
             }
             set
@@ -454,9 +463,13 @@ __msURL = null;
         {
             get
             {
-            return EventHorizonBlazorInterop.Get<CachedEntity>(
+            return EventHorizonBlazorInterop.GetClass<CachedEntity>(
                     this.___guid,
-                    "VRFrameData"
+                    "VRFrameData",
+                    (entity) =>
+                    {
+                        return new CachedEntity() { ___guid = entity.___guid };
+                    }
                 );
             }
             set
@@ -475,9 +488,13 @@ __msURL = null;
         {
             get
             {
-            return EventHorizonBlazorInterop.Get<CachedEntity>(
+            return EventHorizonBlazorInterop.GetClass<CachedEntity>(
                     this.___guid,
-                    "DracoDecoderModule"
+                    "DracoDecoderModule",
+                    (entity) =>
+                    {
+                        return new CachedEntity() { ___guid = entity.___guid };
+                    }
                 );
             }
             set
@@ -508,7 +525,7 @@ __msURL = null;
         public decimal mozRequestAnimationFrame(FrameRequestCallback callback)
         {
             return EventHorizonBlazorInterop.Func<decimal>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "mozRequestAnimationFrame" }, callback
                 }
@@ -518,56 +535,22 @@ __msURL = null;
         public decimal oRequestAnimationFrame(FrameRequestCallback callback)
         {
             return EventHorizonBlazorInterop.Func<decimal>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "oRequestAnimationFrame" }, callback
                 }
             );
         }
 
-        #region setImmediate TODO: Get Comments as metadata identification
-        private bool _isSetImmediateEnabled = false;
-        private readonly IDictionary<string, Func<CachedEntity[], Task>> _setImmediateActionMap = new Dictionary<string, Func<CachedEntity[], Task>>();
-
-        public string setImmediate(
-            Func<CachedEntity[], Task> callback
-        )
+        public decimal setImmediate(ActionCallback<CachedEntity[]> handler)
         {
-            SetupSetImmediateLoop();
-
-            var handle = Guid.NewGuid().ToString();
-            _setImmediateActionMap.Add(
-                handle,
-                callback
+            return EventHorizonBlazorInterop.Func<decimal>(
+                new object[]
+                {
+                    new string[] { this.___guid, "setImmediate" }, handler
+                }
             );
-
-            return handle;
         }
-
-        private void SetupSetImmediateLoop()
-        {
-            if (_isSetImmediateEnabled)
-            {
-                return;
-            }
-            EventHorizonBlazorInterop.FuncCallback(
-                this,
-                "setImmediate",
-                "CallSetImmediateActions",
-                _invokableReference
-            );
-            _isSetImmediateEnabled = true;
-        }
-
-        [JSInvokable]
-        public async Task CallSetImmediateActions(CachedEntity[] args)
-        {
-            foreach (var action in _setImmediateActionMap.Values)
-            {
-                await action(args);
-            }
-        }
-        #endregion
         #endregion
     }
 }

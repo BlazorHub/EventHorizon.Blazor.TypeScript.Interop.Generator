@@ -6,11 +6,12 @@ namespace BabylonJS
     using System.Text.Json.Serialization;
     using System.Threading.Tasks;
     using EventHorizon.Blazor.Interop;
+    using EventHorizon.Blazor.Interop.Callbacks;
     using Microsoft.JSInterop;
 
     
     
-    [JsonConverter(typeof(CachedEntityConverter))]
+    [JsonConverter(typeof(CachedEntityConverter<MorphTarget>))]
     public class MorphTarget : CachedEntityObject, IAnimatable
     {
         #region Static Accessors
@@ -26,7 +27,7 @@ namespace BabylonJS
         {
             return EventHorizonBlazorInterop.FuncClass<MorphTarget>(
                 entity => new MorphTarget() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { "BABYLON", "MorphTarget", "Parse" }, serializationObject
                 }
@@ -37,7 +38,7 @@ namespace BabylonJS
         {
             return EventHorizonBlazorInterop.FuncClass<MorphTarget>(
                 entity => new MorphTarget() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { "BABYLON", "MorphTarget", "FromMesh" }, mesh, name, influence
                 }
@@ -253,7 +254,7 @@ __animationPropertiesOverride = null;
         public void setPositions(decimal[] data)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "setPositions" }, data
                 }
@@ -273,7 +274,7 @@ __animationPropertiesOverride = null;
         public void setNormals(decimal[] data)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "setNormals" }, data
                 }
@@ -293,7 +294,7 @@ __animationPropertiesOverride = null;
         public void setTangents(decimal[] data)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "setTangents" }, data
                 }
@@ -313,7 +314,7 @@ __animationPropertiesOverride = null;
         public void setUVs(decimal[] data)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "setUVs" }, data
                 }
@@ -334,7 +335,7 @@ __animationPropertiesOverride = null;
         {
             return EventHorizonBlazorInterop.FuncClass<MorphTarget>(
                 entity => new MorphTarget() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "clone" }
                 }
@@ -344,7 +345,7 @@ __animationPropertiesOverride = null;
         public CachedEntity serialize()
         {
             return EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "serialize" }
                 }
@@ -354,7 +355,7 @@ __animationPropertiesOverride = null;
         public string getClassName()
         {
             return EventHorizonBlazorInterop.Func<string>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "getClassName" }
                 }

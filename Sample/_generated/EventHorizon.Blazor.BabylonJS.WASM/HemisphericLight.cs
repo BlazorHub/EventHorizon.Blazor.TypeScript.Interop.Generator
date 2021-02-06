@@ -6,11 +6,12 @@ namespace BabylonJS
     using System.Text.Json.Serialization;
     using System.Threading.Tasks;
     using EventHorizon.Blazor.Interop;
+    using EventHorizon.Blazor.Interop.Callbacks;
     using Microsoft.JSInterop;
 
     
     
-    [JsonConverter(typeof(CachedEntityConverter))]
+    [JsonConverter(typeof(CachedEntityConverter<HemisphericLight>))]
     public class HemisphericLight : Light
     {
         #region Static Accessors
@@ -114,7 +115,7 @@ __direction = null;
         public string getClassName()
         {
             return EventHorizonBlazorInterop.Func<string>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "getClassName" }
                 }
@@ -125,7 +126,7 @@ __direction = null;
         {
             return EventHorizonBlazorInterop.FuncClass<Vector3>(
                 entity => new Vector3() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "setDirectionToTarget" }, target
                 }
@@ -136,7 +137,7 @@ __direction = null;
         {
             return EventHorizonBlazorInterop.FuncClass<IShadowGeneratorCachedEntity>(
                 entity => new IShadowGeneratorCachedEntity() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "getShadowGenerator" }
                 }
@@ -147,7 +148,7 @@ __direction = null;
         {
             return EventHorizonBlazorInterop.FuncClass<HemisphericLight>(
                 entity => new HemisphericLight() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "transferToEffect" }, effect, lightIndex
                 }
@@ -158,7 +159,7 @@ __direction = null;
         {
             return EventHorizonBlazorInterop.FuncClass<HemisphericLight>(
                 entity => new HemisphericLight() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "transferToNodeMaterialEffect" }, effect, lightDataUniformName
                 }
@@ -169,7 +170,7 @@ __direction = null;
         {
             return EventHorizonBlazorInterop.FuncClass<Matrix>(
                 entity => new Matrix() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "computeWorldMatrix" }
                 }
@@ -179,7 +180,7 @@ __direction = null;
         public decimal getTypeID()
         {
             return EventHorizonBlazorInterop.Func<decimal>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "getTypeID" }
                 }
@@ -189,7 +190,7 @@ __direction = null;
         public void prepareLightSpecificDefines(object defines, decimal lightIndex)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "prepareLightSpecificDefines" }, defines, lightIndex
                 }

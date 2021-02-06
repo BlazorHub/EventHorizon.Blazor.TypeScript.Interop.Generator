@@ -6,11 +6,12 @@ namespace BabylonJS
     using System.Text.Json.Serialization;
     using System.Threading.Tasks;
     using EventHorizon.Blazor.Interop;
+    using EventHorizon.Blazor.Interop.Callbacks;
     using Microsoft.JSInterop;
 
     
     
-    [JsonConverter(typeof(CachedEntityConverter))]
+    [JsonConverter(typeof(CachedEntityConverter<ClipboardInfo>))]
     public class ClipboardInfo : CachedEntityObject
     {
         #region Static Accessors
@@ -25,7 +26,7 @@ namespace BabylonJS
         public static decimal GetTypeFromCharacter(decimal keyCode)
         {
             return EventHorizonBlazorInterop.Func<decimal>(
-                new object[] 
+                new object[]
                 {
                     new string[] { "BABYLON", "ClipboardInfo", "GetTypeFromCharacter" }, keyCode
                 }
@@ -90,7 +91,7 @@ __event = null;
         #endregion
         
         #region Constructor
-        public ClipboardInfo() : base() { } 
+        public ClipboardInfo() : base() { }
 
         public ClipboardInfo(
             ICachedEntity entity

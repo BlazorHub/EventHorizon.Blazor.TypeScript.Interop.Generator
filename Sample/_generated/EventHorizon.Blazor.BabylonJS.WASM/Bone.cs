@@ -6,11 +6,12 @@ namespace BabylonJS
     using System.Text.Json.Serialization;
     using System.Threading.Tasks;
     using EventHorizon.Blazor.Interop;
+    using EventHorizon.Blazor.Interop.Callbacks;
     using Microsoft.JSInterop;
 
     
     
-    [JsonConverter(typeof(CachedEntityConverter))]
+    [JsonConverter(typeof(CachedEntityConverter<Bone>))]
     public class Bone : Node
     {
         #region Static Accessors
@@ -282,7 +283,7 @@ __scaling = null;
         public string getClassName()
         {
             return EventHorizonBlazorInterop.Func<string>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "getClassName" }
                 }
@@ -293,7 +294,7 @@ __scaling = null;
         {
             return EventHorizonBlazorInterop.FuncClass<Skeleton>(
                 entity => new Skeleton() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "getSkeleton" }
                 }
@@ -304,7 +305,7 @@ __scaling = null;
         {
             return EventHorizonBlazorInterop.FuncClass<Bone>(
                 entity => new Bone() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "getParent" }
                 }
@@ -325,7 +326,7 @@ __scaling = null;
         public decimal getIndex()
         {
             return EventHorizonBlazorInterop.Func<decimal>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "getIndex" }
                 }
@@ -335,7 +336,7 @@ __scaling = null;
         public void setParent(Bone parent, System.Nullable<bool> updateDifferenceMatrix = null)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "setParent" }, parent, updateDifferenceMatrix
                 }
@@ -346,7 +347,7 @@ __scaling = null;
         {
             return EventHorizonBlazorInterop.FuncClass<Matrix>(
                 entity => new Matrix() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "getLocalMatrix" }
                 }
@@ -357,7 +358,7 @@ __scaling = null;
         {
             return EventHorizonBlazorInterop.FuncClass<Matrix>(
                 entity => new Matrix() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "getBaseMatrix" }
                 }
@@ -368,9 +369,40 @@ __scaling = null;
         {
             return EventHorizonBlazorInterop.FuncClass<Matrix>(
                 entity => new Matrix() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "getRestPose" }
+                }
+            );
+        }
+
+        public void setRestPose(Matrix matrix)
+        {
+            EventHorizonBlazorInterop.Func<CachedEntity>(
+                new object[]
+                {
+                    new string[] { this.___guid, "setRestPose" }, matrix
+                }
+            );
+        }
+
+        public Matrix getBindPose()
+        {
+            return EventHorizonBlazorInterop.FuncClass<Matrix>(
+                entity => new Matrix() { ___guid = entity.___guid },
+                new object[]
+                {
+                    new string[] { this.___guid, "getBindPose" }
+                }
+            );
+        }
+
+        public void setBindPose(Matrix matrix)
+        {
+            EventHorizonBlazorInterop.Func<CachedEntity>(
+                new object[]
+                {
+                    new string[] { this.___guid, "setBindPose" }, matrix
                 }
             );
         }
@@ -379,7 +411,7 @@ __scaling = null;
         {
             return EventHorizonBlazorInterop.FuncClass<Matrix>(
                 entity => new Matrix() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "getWorldMatrix" }
                 }
@@ -389,7 +421,7 @@ __scaling = null;
         public void returnToRest()
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "returnToRest" }
                 }
@@ -400,7 +432,7 @@ __scaling = null;
         {
             return EventHorizonBlazorInterop.FuncClass<Matrix>(
                 entity => new Matrix() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "getInvertedAbsoluteTransform" }
                 }
@@ -411,7 +443,7 @@ __scaling = null;
         {
             return EventHorizonBlazorInterop.FuncClass<Matrix>(
                 entity => new Matrix() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "getAbsoluteTransform" }
                 }
@@ -421,7 +453,7 @@ __scaling = null;
         public void linkTransformNode(TransformNode transformNode)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "linkTransformNode" }, transformNode
                 }
@@ -432,7 +464,7 @@ __scaling = null;
         {
             return EventHorizonBlazorInterop.FuncClass<TransformNode>(
                 entity => new TransformNode() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "getTransformNode" }
                 }
@@ -442,7 +474,7 @@ __scaling = null;
         public void updateMatrix(Matrix matrix, System.Nullable<bool> updateDifferenceMatrix = null, System.Nullable<bool> updateLocalMatrix = null)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "updateMatrix" }, matrix, updateDifferenceMatrix, updateLocalMatrix
                 }
@@ -452,27 +484,27 @@ __scaling = null;
         public void markAsDirty()
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "markAsDirty" }
                 }
             );
         }
 
-        public void translate(Vector3 vec, Space space = null, AbstractMesh mesh = null)
+        public void translate(Vector3 vec, System.Nullable<int> space = null, AbstractMesh mesh = null)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "translate" }, vec, space, mesh
                 }
             );
         }
 
-        public void setPosition(Vector3 position, Space space = null, AbstractMesh mesh = null)
+        public void setPosition(Vector3 position, System.Nullable<int> space = null, AbstractMesh mesh = null)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "setPosition" }, position, space, mesh
                 }
@@ -482,7 +514,7 @@ __scaling = null;
         public void setAbsolutePosition(Vector3 position, AbstractMesh mesh = null)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "setAbsolutePosition" }, position, mesh
                 }
@@ -492,7 +524,7 @@ __scaling = null;
         public void scale(decimal x, decimal y, decimal z, System.Nullable<bool> scaleChildren = null)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "scale" }, x, y, z, scaleChildren
                 }
@@ -502,7 +534,7 @@ __scaling = null;
         public void setScale(Vector3 scale)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "setScale" }, scale
                 }
@@ -513,7 +545,7 @@ __scaling = null;
         {
             return EventHorizonBlazorInterop.FuncClass<Vector3>(
                 entity => new Vector3() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "getScale" }
                 }
@@ -523,88 +555,88 @@ __scaling = null;
         public void getScaleToRef(Vector3 result)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "getScaleToRef" }, result
                 }
             );
         }
 
-        public void setYawPitchRoll(decimal yaw, decimal pitch, decimal roll, Space space = null, AbstractMesh mesh = null)
+        public void setYawPitchRoll(decimal yaw, decimal pitch, decimal roll, System.Nullable<int> space = null, AbstractMesh mesh = null)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "setYawPitchRoll" }, yaw, pitch, roll, space, mesh
                 }
             );
         }
 
-        public void rotate(Vector3 axis, decimal amount, Space space = null, AbstractMesh mesh = null)
+        public void rotate(Vector3 axis, decimal amount, System.Nullable<int> space = null, AbstractMesh mesh = null)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "rotate" }, axis, amount, space, mesh
                 }
             );
         }
 
-        public void setAxisAngle(Vector3 axis, decimal angle, Space space = null, AbstractMesh mesh = null)
+        public void setAxisAngle(Vector3 axis, decimal angle, System.Nullable<int> space = null, AbstractMesh mesh = null)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "setAxisAngle" }, axis, angle, space, mesh
                 }
             );
         }
 
-        public void setRotation(Vector3 rotation, Space space = null, AbstractMesh mesh = null)
+        public void setRotation(Vector3 rotation, System.Nullable<int> space = null, AbstractMesh mesh = null)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "setRotation" }, rotation, space, mesh
                 }
             );
         }
 
-        public void setRotationQuaternion(Quaternion quat, Space space = null, AbstractMesh mesh = null)
+        public void setRotationQuaternion(Quaternion quat, System.Nullable<int> space = null, AbstractMesh mesh = null)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "setRotationQuaternion" }, quat, space, mesh
                 }
             );
         }
 
-        public void setRotationMatrix(Matrix rotMat, Space space = null, AbstractMesh mesh = null)
+        public void setRotationMatrix(Matrix rotMat, System.Nullable<int> space = null, AbstractMesh mesh = null)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "setRotationMatrix" }, rotMat, space, mesh
                 }
             );
         }
 
-        public Vector3 getPosition(Space space = null, AbstractMesh mesh = null)
+        public Vector3 getPosition(System.Nullable<int> space = null, AbstractMesh mesh = null)
         {
             return EventHorizonBlazorInterop.FuncClass<Vector3>(
                 entity => new Vector3() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "getPosition" }, space, mesh
                 }
             );
         }
 
-        public void getPositionToRef(AbstractMesh mesh, Vector3 result, Space space = null)
+        public void getPositionToRef(AbstractMesh mesh, Vector3 result, System.Nullable<int> space = null)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "getPositionToRef" }, space, mesh, result
                 }
@@ -615,7 +647,7 @@ __scaling = null;
         {
             return EventHorizonBlazorInterop.FuncClass<Vector3>(
                 entity => new Vector3() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "getAbsolutePosition" }, mesh
                 }
@@ -625,7 +657,7 @@ __scaling = null;
         public void getAbsolutePositionToRef(AbstractMesh mesh, Vector3 result)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "getAbsolutePositionToRef" }, mesh, result
                 }
@@ -635,7 +667,7 @@ __scaling = null;
         public void computeAbsoluteTransforms()
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "computeAbsoluteTransforms" }
                 }
@@ -646,7 +678,7 @@ __scaling = null;
         {
             return EventHorizonBlazorInterop.FuncClass<Vector3>(
                 entity => new Vector3() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "getDirection" }, localAxis, mesh
                 }
@@ -656,70 +688,70 @@ __scaling = null;
         public void getDirectionToRef(Vector3 localAxis, Vector3 result, AbstractMesh mesh = null)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "getDirectionToRef" }, localAxis, mesh, result
                 }
             );
         }
 
-        public Vector3 getRotation(Space space = null, AbstractMesh mesh = null)
+        public Vector3 getRotation(System.Nullable<int> space = null, AbstractMesh mesh = null)
         {
             return EventHorizonBlazorInterop.FuncClass<Vector3>(
                 entity => new Vector3() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "getRotation" }, space, mesh
                 }
             );
         }
 
-        public void getRotationToRef(Vector3 result, Space space = null, AbstractMesh mesh = null)
+        public void getRotationToRef(Vector3 result, System.Nullable<int> space = null, AbstractMesh mesh = null)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "getRotationToRef" }, space, mesh, result
                 }
             );
         }
 
-        public Quaternion getRotationQuaternion(Space space = null, AbstractMesh mesh = null)
+        public Quaternion getRotationQuaternion(System.Nullable<int> space = null, AbstractMesh mesh = null)
         {
             return EventHorizonBlazorInterop.FuncClass<Quaternion>(
                 entity => new Quaternion() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "getRotationQuaternion" }, space, mesh
                 }
             );
         }
 
-        public void getRotationQuaternionToRef(Quaternion result, Space space = null, AbstractMesh mesh = null)
+        public void getRotationQuaternionToRef(Quaternion result, System.Nullable<int> space = null, AbstractMesh mesh = null)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "getRotationQuaternionToRef" }, space, mesh, result
                 }
             );
         }
 
-        public Matrix getRotationMatrix(AbstractMesh mesh, Space space = null)
+        public Matrix getRotationMatrix(AbstractMesh mesh, System.Nullable<int> space = null)
         {
             return EventHorizonBlazorInterop.FuncClass<Matrix>(
                 entity => new Matrix() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "getRotationMatrix" }, space, mesh
                 }
             );
         }
 
-        public void getRotationMatrixToRef(AbstractMesh mesh, Matrix result, Space space = null)
+        public void getRotationMatrixToRef(AbstractMesh mesh, Matrix result, System.Nullable<int> space = null)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "getRotationMatrixToRef" }, space, mesh, result
                 }
@@ -730,7 +762,7 @@ __scaling = null;
         {
             return EventHorizonBlazorInterop.FuncClass<Vector3>(
                 entity => new Vector3() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "getAbsolutePositionFromLocal" }, position, mesh
                 }
@@ -740,7 +772,7 @@ __scaling = null;
         public void getAbsolutePositionFromLocalToRef(Vector3 position, Vector3 result, AbstractMesh mesh = null)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "getAbsolutePositionFromLocalToRef" }, position, mesh, result
                 }
@@ -751,7 +783,7 @@ __scaling = null;
         {
             return EventHorizonBlazorInterop.FuncClass<Vector3>(
                 entity => new Vector3() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "getLocalPositionFromAbsolute" }, position, mesh
                 }
@@ -761,9 +793,19 @@ __scaling = null;
         public void getLocalPositionFromAbsoluteToRef(Vector3 position, Vector3 result, AbstractMesh mesh = null)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "getLocalPositionFromAbsoluteToRef" }, position, mesh, result
+                }
+            );
+        }
+
+        public void setCurrentPoseAsRest()
+        {
+            EventHorizonBlazorInterop.Func<CachedEntity>(
+                new object[]
+                {
+                    new string[] { this.___guid, "setCurrentPoseAsRest" }
                 }
             );
         }

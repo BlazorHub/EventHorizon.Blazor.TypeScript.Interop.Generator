@@ -6,11 +6,12 @@ namespace BabylonJS
     using System.Text.Json.Serialization;
     using System.Threading.Tasks;
     using EventHorizon.Blazor.Interop;
+    using EventHorizon.Blazor.Interop.Callbacks;
     using Microsoft.JSInterop;
 
     
     
-    [JsonConverter(typeof(CachedEntityConverter))]
+    [JsonConverter(typeof(CachedEntityConverter<Observer<CachedEntity>>))]
     public class Observer<T> : CachedEntityObject where T : CachedEntity, new()
     {
         #region Static Accessors
@@ -56,9 +57,13 @@ namespace BabylonJS
         {
             get
             {
-            return EventHorizonBlazorInterop.Get<CachedEntity>(
+            return EventHorizonBlazorInterop.GetClass<CachedEntity>(
                     this.___guid,
-                    "scope"
+                    "scope",
+                    (entity) =>
+                    {
+                        return new CachedEntity() { ___guid = entity.___guid };
+                    }
                 );
             }
             set
@@ -95,7 +100,7 @@ namespace BabylonJS
         #endregion
         
         #region Constructor
-        public Observer() : base() { } 
+        public Observer() : base() { }
 
         public Observer(
             ICachedEntity entity
@@ -105,7 +110,7 @@ namespace BabylonJS
         }
 
         public Observer(
-            CachedEntity callback, decimal mask, object scope = null
+            ActionCallback<T, EventState> callback, decimal mask, object scope = null
         )
         {
             var entity = EventHorizonBlazorInterop.New(
@@ -134,6 +139,15 @@ namespace BabylonJS
             );
 
             return handle;
+        }
+
+        public bool callback_Remove(
+            string handle
+        )
+        {
+            return _callbackActionMap.Remove(
+                handle
+            );
         }
 
         private void SetupCallbackLoop()

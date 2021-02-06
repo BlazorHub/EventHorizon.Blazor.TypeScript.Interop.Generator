@@ -41,12 +41,20 @@ namespace EventHorizon.Blazor.TypeScript.Interop.Generator.Writers
                 var type = TypeStatementWriter.Write(
                     methodType
                 );
+                var typeNoModifier = TypeStatementWriter.Write(
+                    methodType,
+                    false
+                );
                 var propertyArguments = string.Empty;
                 var isNotSupported = NotSupportedIdentifier.Identify(
                     method
                 );
+                var isTask = method.Type.IsTask;
+                var isEnum = TypeEnumIdentifier.Identify(
+                    method.Type
+                );
                 var isAction = method.Type.Name == GenerationIdentifiedTypes.Action
-                    || (method.Arguments.Take(1).Any(a => a.Type.IsAction));
+                    || (method.Arguments.Take(1).Any(a => a.Type.IsAction && a.Name == "callback"));
 
                 var bodyTemplate = templates.ReturnTypePrimitiveTemplate;
                 var returnTypeContent = templates.InteropFunc;
@@ -63,6 +71,12 @@ namespace EventHorizon.Blazor.TypeScript.Interop.Generator.Writers
                 var functionGenerics = string.Empty;
                 var genericSection = string.Empty;
                 var whereConstraint = string.Empty;
+                var taskType = TypeStatementWriter.Write(
+                    methodType,
+                    false
+                );
+                var taskAsync = string.Empty;
+                var taskAwait = string.Empty;
 
                 // Argument Generation
                 if (isAction)
@@ -77,7 +91,8 @@ namespace EventHorizon.Blazor.TypeScript.Interop.Generator.Writers
                         {
                             functionGenericsStrings.Add(
                                 TypeStatementWriter.Write(
-                                    genericType
+                                    genericType,
+                                    ignorePrefix: true
                                 )
                             );
                         }
@@ -86,10 +101,11 @@ namespace EventHorizon.Blazor.TypeScript.Interop.Generator.Writers
                         foreach (var argument in actionArgument.Type.Arguments.OrderBy(a => a.IsOptional))
                         {
                             argumentStrings.Add(
-                                ArgumentWriter(
+                                ArgumentWriter.Write(
                                     argument,
                                     true,
-                                    string.Empty
+                                    string.Empty,
+                                    ignorePrefix: false
                                 )
                             );
                         }
@@ -116,7 +132,7 @@ namespace EventHorizon.Blazor.TypeScript.Interop.Generator.Writers
                     foreach (var argument in method.Arguments.OrderBy(a => a.IsOptional))
                     {
                         argumentStrings.Add(
-                            ArgumentWriter(
+                            ArgumentWriter.Write(
                                 argument,
                                 true,
                                 " = null"
@@ -160,7 +176,11 @@ namespace EventHorizon.Blazor.TypeScript.Interop.Generator.Writers
                     }
                 }
 
-                if (isClassResponse && isArray)
+                if (isEnum)
+                {
+                    returnTypeContent = templates.InteropFunc;
+                }
+                else if (isClassResponse && isArray)
                 {
                     returnTypeContent = templates.InteropFuncArrayClass;
                 }
@@ -173,6 +193,33 @@ namespace EventHorizon.Blazor.TypeScript.Interop.Generator.Writers
                     returnTypeContent = templates.InteropFuncArray;
                 }
 
+                if (isTask)
+                {
+                    returnTypeContent = templates.InteropTask;
+
+                    if (isClassResponse && isArray)
+                    {
+                        returnTypeContent = templates.InteropTaskArrayClass;
+                    }
+                    else if (isClassResponse
+                        || taskType == GenerationIdentifiedTypes.CachedEntity)
+                    {
+                        returnTypeContent = templates.InteropTaskClass;
+                    }
+                    else if (isArray)
+                    {
+                        returnTypeContent = templates.InteropTaskArray;
+                    }
+
+                    // Change up the taskType if 'void';
+                    if (taskType == GenerationIdentifiedTypes.Void)
+                    {
+                        bodyTemplate = templates.ReturnTypeVoidTemplate;
+                        taskType = GenerationIdentifiedTypes.CachedEntity;
+                        taskAsync = "async ";
+                        taskAwait = "await ";
+                    }
+                }
 
                 if (method.IsStatic)
                 {
@@ -211,7 +258,7 @@ namespace EventHorizon.Blazor.TypeScript.Interop.Generator.Writers
 
                     if (isClassResponse
                         && method.GenericTypes.Any(
-                            genericType => genericType == type
+                            genericType => genericType == typeNoModifier
                         )
                     )
                     {
@@ -224,17 +271,6 @@ namespace EventHorizon.Blazor.TypeScript.Interop.Generator.Writers
                         );
                     }
                 }
-                var propType = TypeStatementWriter.Write(
-                    method.Type
-                );
-                var arrayType = TypeStatementWriter.Write(
-                    method.Type,
-                    true
-                );
-                var newType = TypeStatementWriter.Write(
-                    method.Type,
-                    true
-                );
 
                 if (isNotSupported)
                 {
@@ -284,14 +320,17 @@ namespace EventHorizon.Blazor.TypeScript.Interop.Generator.Writers
                     "[[ARRAY_TYPE]]",
                     TypeStatementWriter.Write(
                         methodType,
-                        true
+                        false
                     )
                 ).Replace(
                     "[[NEW_TYPE]]",
                     TypeStatementWriter.Write(
                         methodType,
-                        true
+                        false
                     )
+                ).Replace(
+                    "[[TASK_TYPE]]",
+                    taskType
                 ).Replace(
                     "[[GENERIC_SECTION]]",
                     genericSection
@@ -318,6 +357,12 @@ namespace EventHorizon.Blazor.TypeScript.Interop.Generator.Writers
                 ).Replace(
                     "[[FUNCTION_GENERICS]]",
                     functionGenerics
+                ).Replace(
+                    "[[TASK_ASYNC]]",
+                    taskAsync
+                ).Replace(
+                    "[[TASK_AWAIT]]",
+                    taskAwait
                 );
 
                 section.Append(
@@ -335,92 +380,6 @@ namespace EventHorizon.Blazor.TypeScript.Interop.Generator.Writers
                 current++;
             }
             return section.ToString();
-        }
-
-        private static string ArgumentWriter(
-            ArgumentStatement argument,
-            bool includeName,
-            string defaultValue
-        )
-        {
-            var argumentsTemplate = "[[TYPE]][[IS_ARRAY]] [[NAME]]";
-            if (argument.IsOptional)
-            {
-                argumentsTemplate = GenericTypeWriter(
-                    argument.Type,
-                    argument.UsedClassNames,
-                    includeName
-                ).Replace(
-                    "[[DEFAULT_VALUE]]",
-                    defaultValue
-                );
-            }
-            return argumentsTemplate.Replace(
-                "[[NAME]]",
-                DotNetNormalizer.Normalize(argument.Name)
-            ).Replace(
-                "[[TYPE]]",
-                TypeStatementWriter.Write(
-                    argument.Type
-                )
-            ).Replace(
-                "[[ARRAY_TYPE]]",
-                TypeStatementWriter.Write(
-                    argument.Type,
-                    true
-                )
-            ).Replace(
-                "[[NEW_TYPE]]",
-                TypeStatementWriter.Write(
-                    argument.Type,
-                    true
-                )
-            ).Replace(
-                "[[IS_ARRAY]]",
-                string.Empty
-            );
-        }
-
-        private static string GenericTypeWriter(
-            TypeStatement typeStatement,
-            IList<string> usedClassNames,
-            bool includeName
-        )
-        {
-            var argumentsTemplate = "System.Nullable<[[TYPE]][[IS_ARRAY]]>[[NAME]][[DEFAULT_VALUE]]";
-            if (typeStatement.IsNullable)
-            {
-                var genericType = typeStatement.GenericTypes.First();
-                if (ClassIdentifier.Identify(
-                    usedClassNames,
-                    genericType.Name
-                ) || genericType.IsNullable
-                    || genericType.IsArray
-                    || genericType.IsModifier
-                    || genericType.Name == GenerationIdentifiedTypes.Action
-                    || genericType.Name == GenerationIdentifiedTypes.String
-                    || genericType.Name == GenerationIdentifiedTypes.CachedEntity)
-                {
-                    argumentsTemplate = "[[TYPE]][[IS_ARRAY]][[NAME]][[DEFAULT_VALUE]]";
-                }
-            }
-            else if (ClassIdentifier.Identify(
-                usedClassNames,
-                typeStatement.Name
-            ) || typeStatement.IsNullable
-                || typeStatement.IsArray
-                || typeStatement.IsModifier
-                || typeStatement.Name == GenerationIdentifiedTypes.Action
-                || typeStatement.Name == GenerationIdentifiedTypes.String
-                || typeStatement.Name == GenerationIdentifiedTypes.CachedEntity)
-            {
-                argumentsTemplate = "[[TYPE]][[IS_ARRAY]][[NAME]][[DEFAULT_VALUE]]";
-            }
-
-            return argumentsTemplate.Replace(
-                "[[NAME]]",
-                includeName ? " [[NAME]]" : string.Empty
-            );
         }
     }
 }

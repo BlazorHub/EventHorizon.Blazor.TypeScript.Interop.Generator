@@ -6,11 +6,12 @@ namespace BabylonJS
     using System.Text.Json.Serialization;
     using System.Threading.Tasks;
     using EventHorizon.Blazor.Interop;
+    using EventHorizon.Blazor.Interop.Callbacks;
     using Microsoft.JSInterop;
 
     
     
-    [JsonConverter(typeof(CachedEntityConverter))]
+    [JsonConverter(typeof(CachedEntityConverter<RuntimeAnimation>))]
     public class RuntimeAnimation : CachedEntityObject
     {
         #region Static Accessors
@@ -86,6 +87,18 @@ namespace BabylonJS
             }
         }
 
+        
+        public bool isAdditive
+        {
+            get
+            {
+            return EventHorizonBlazorInterop.Get<bool>(
+                    this.___guid,
+                    "isAdditive"
+                );
+            }
+        }
+
         private Animation __animation;
         public Animation animation
         {
@@ -112,7 +125,7 @@ namespace BabylonJS
         #endregion
         
         #region Constructor
-        public RuntimeAnimation() : base() { } 
+        public RuntimeAnimation() : base() { }
 
         public RuntimeAnimation(
             ICachedEntity entity
@@ -137,7 +150,7 @@ namespace BabylonJS
         public void reset(System.Nullable<bool> restoreOriginal = null)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "reset" }, restoreOriginal
                 }
@@ -147,7 +160,7 @@ namespace BabylonJS
         public bool isStopped()
         {
             return EventHorizonBlazorInterop.Func<bool>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "isStopped" }
                 }
@@ -157,7 +170,7 @@ namespace BabylonJS
         public void dispose()
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "dispose" }
                 }
@@ -167,7 +180,7 @@ namespace BabylonJS
         public void setValue(object currentValue, decimal weight)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "setValue" }, currentValue, weight
                 }
@@ -177,7 +190,7 @@ namespace BabylonJS
         public void goToFrame(decimal frame)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "goToFrame" }, frame
                 }
@@ -187,7 +200,7 @@ namespace BabylonJS
         public bool animate(decimal delay, decimal from, decimal to, bool loop, decimal speedRatio, System.Nullable<decimal> weight = null)
         {
             return EventHorizonBlazorInterop.Func<bool>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "animate" }, delay, from, to, loop, speedRatio, weight
                 }

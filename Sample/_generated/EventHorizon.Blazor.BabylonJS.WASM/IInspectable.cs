@@ -6,11 +6,12 @@ namespace BabylonJS
     using System.Text.Json.Serialization;
     using System.Threading.Tasks;
     using EventHorizon.Blazor.Interop;
+    using EventHorizon.Blazor.Interop.Callbacks;
     using Microsoft.JSInterop;
 
     public interface IInspectable : ICachedEntity { }
     
-    [JsonConverter(typeof(CachedEntityConverter))]
+    [JsonConverter(typeof(CachedEntityConverter<IInspectableCachedEntity>))]
     public class IInspectableCachedEntity : CachedEntityObject, IInspectable
     {
         #region Static Accessors
@@ -72,27 +73,19 @@ namespace BabylonJS
             }
         }
 
-        private InspectableType __type;
-        public InspectableType type
+        
+        public int type
         {
             get
             {
-            if(__type == null)
-            {
-                __type = EventHorizonBlazorInterop.GetClass<InspectableType>(
+            return EventHorizonBlazorInterop.Get<int>(
                     this.___guid,
-                    "type",
-                    (entity) =>
-                    {
-                        return new InspectableType() { ___guid = entity.___guid };
-                    }
+                    "type"
                 );
-            }
-            return __type;
             }
             set
             {
-__type = null;
+
                 EventHorizonBlazorInterop.Set(
                     this.___guid,
                     "type",

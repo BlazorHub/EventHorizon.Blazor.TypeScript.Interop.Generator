@@ -6,11 +6,12 @@ namespace BabylonJS
     using System.Text.Json.Serialization;
     using System.Threading.Tasks;
     using EventHorizon.Blazor.Interop;
+    using EventHorizon.Blazor.Interop.Callbacks;
     using Microsoft.JSInterop;
 
     public interface IAnimationKey : ICachedEntity { }
     
-    [JsonConverter(typeof(CachedEntityConverter))]
+    [JsonConverter(typeof(CachedEntityConverter<IAnimationKeyCachedEntity>))]
     public class IAnimationKeyCachedEntity : CachedEntityObject, IAnimationKey
     {
         #region Static Accessors
@@ -56,9 +57,13 @@ namespace BabylonJS
         {
             get
             {
-            return EventHorizonBlazorInterop.Get<CachedEntity>(
+            return EventHorizonBlazorInterop.GetClass<CachedEntity>(
                     this.___guid,
-                    "value"
+                    "value",
+                    (entity) =>
+                    {
+                        return new CachedEntity() { ___guid = entity.___guid };
+                    }
                 );
             }
             set
@@ -77,9 +82,13 @@ namespace BabylonJS
         {
             get
             {
-            return EventHorizonBlazorInterop.Get<CachedEntity>(
+            return EventHorizonBlazorInterop.GetClass<CachedEntity>(
                     this.___guid,
-                    "inTangent"
+                    "inTangent",
+                    (entity) =>
+                    {
+                        return new CachedEntity() { ___guid = entity.___guid };
+                    }
                 );
             }
             set
@@ -98,9 +107,13 @@ namespace BabylonJS
         {
             get
             {
-            return EventHorizonBlazorInterop.Get<CachedEntity>(
+            return EventHorizonBlazorInterop.GetClass<CachedEntity>(
                     this.___guid,
-                    "outTangent"
+                    "outTangent",
+                    (entity) =>
+                    {
+                        return new CachedEntity() { ___guid = entity.___guid };
+                    }
                 );
             }
             set
@@ -114,27 +127,19 @@ namespace BabylonJS
             }
         }
 
-        private AnimationKeyInterpolation __interpolation;
-        public AnimationKeyInterpolation interpolation
+        
+        public int interpolation
         {
             get
             {
-            if(__interpolation == null)
-            {
-                __interpolation = EventHorizonBlazorInterop.GetClass<AnimationKeyInterpolation>(
+            return EventHorizonBlazorInterop.Get<int>(
                     this.___guid,
-                    "interpolation",
-                    (entity) =>
-                    {
-                        return new AnimationKeyInterpolation() { ___guid = entity.___guid };
-                    }
+                    "interpolation"
                 );
-            }
-            return __interpolation;
             }
             set
             {
-__interpolation = null;
+
                 EventHorizonBlazorInterop.Set(
                     this.___guid,
                     "interpolation",

@@ -6,11 +6,12 @@ namespace BabylonJS
     using System.Text.Json.Serialization;
     using System.Threading.Tasks;
     using EventHorizon.Blazor.Interop;
+    using EventHorizon.Blazor.Interop.Callbacks;
     using Microsoft.JSInterop;
 
     
     
-    [JsonConverter(typeof(CachedEntityConverter))]
+    [JsonConverter(typeof(CachedEntityConverter<InternalTexture>))]
     public class InternalTexture : CachedEntityObject
     {
         #region Static Accessors
@@ -26,23 +27,15 @@ namespace BabylonJS
         #endregion
 
         #region Accessors
-        private InternalTextureSource __source;
-        public InternalTextureSource source
+        
+        public int source
         {
             get
             {
-            if(__source == null)
-            {
-                __source = EventHorizonBlazorInterop.GetClass<InternalTextureSource>(
+            return EventHorizonBlazorInterop.Get<int>(
                     this.___guid,
-                    "source",
-                    (entity) =>
-                    {
-                        return new InternalTextureSource() { ___guid = entity.___guid };
-                    }
+                    "source"
                 );
-            }
-            return __source;
             }
         }
         #endregion
@@ -457,7 +450,7 @@ __onLoadedObservable = null;
         #endregion
         
         #region Constructor
-        public InternalTexture() : base() { } 
+        public InternalTexture() : base() { }
 
         public InternalTexture(
             ICachedEntity entity
@@ -467,7 +460,7 @@ __onLoadedObservable = null;
         }
 
         public InternalTexture(
-            ThinEngine engine, InternalTextureSource source, System.Nullable<bool> delayAllocation = null
+            ThinEngine engine, int source, System.Nullable<bool> delayAllocation = null
         )
         {
             var entity = EventHorizonBlazorInterop.New(
@@ -483,7 +476,7 @@ __onLoadedObservable = null;
         {
             return EventHorizonBlazorInterop.FuncClass<ThinEngine>(
                 entity => new ThinEngine() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "getEngine" }
                 }
@@ -493,17 +486,17 @@ __onLoadedObservable = null;
         public void incrementReferences()
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "incrementReferences" }
                 }
             );
         }
 
-        public void updateSize(int width, int height, System.Nullable<int> depth = null)
+        public void updateSize(decimal width, decimal height, System.Nullable<decimal> depth = null)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "updateSize" }, width, height, depth
                 }
@@ -513,7 +506,7 @@ __onLoadedObservable = null;
         public void dispose()
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "dispose" }
                 }

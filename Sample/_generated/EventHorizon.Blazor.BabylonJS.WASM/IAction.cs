@@ -6,11 +6,12 @@ namespace BabylonJS
     using System.Text.Json.Serialization;
     using System.Threading.Tasks;
     using EventHorizon.Blazor.Interop;
+    using EventHorizon.Blazor.Interop.Callbacks;
     using Microsoft.JSInterop;
 
     public interface IAction : ICachedEntity { }
     
-    [JsonConverter(typeof(CachedEntityConverter))]
+    [JsonConverter(typeof(CachedEntityConverter<IActionCachedEntity>))]
     public class IActionCachedEntity : CachedEntityObject, IAction
     {
         #region Static Accessors
@@ -56,9 +57,13 @@ namespace BabylonJS
         {
             get
             {
-            return EventHorizonBlazorInterop.Get<CachedEntity>(
+            return EventHorizonBlazorInterop.GetClass<CachedEntity>(
                     this.___guid,
-                    "triggerOptions"
+                    "triggerOptions",
+                    (entity) =>
+                    {
+                        return new CachedEntity() { ___guid = entity.___guid };
+                    }
                 );
             }
             set
@@ -89,7 +94,7 @@ namespace BabylonJS
         public CachedEntity getTriggerParameter()
         {
             return EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "getTriggerParameter" }
                 }
@@ -99,18 +104,18 @@ namespace BabylonJS
         public CachedEntity serialize(object parent)
         {
             return EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "serialize" }, parent
                 }
             );
         }
 
-        public IActionCachedEntity then(IActionCachedEntity action)
+        public IActionCachedEntity then(IAction action)
         {
             return EventHorizonBlazorInterop.FuncClass<IActionCachedEntity>(
                 entity => new IActionCachedEntity() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "then" }, action
                 }

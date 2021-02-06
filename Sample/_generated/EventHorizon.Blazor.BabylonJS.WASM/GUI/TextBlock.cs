@@ -6,11 +6,12 @@ namespace BabylonJS.GUI
     using System.Text.Json.Serialization;
     using System.Threading.Tasks;
     using EventHorizon.Blazor.Interop;
+    using EventHorizon.Blazor.Interop.Callbacks;
     using Microsoft.JSInterop;
 
     
     
-    [JsonConverter(typeof(CachedEntityConverter))]
+    [JsonConverter(typeof(CachedEntityConverter<TextBlock>))]
     public class TextBlock : Control
     {
         #region Static Accessors
@@ -59,27 +60,19 @@ namespace BabylonJS.GUI
             }
         }
 
-        private TextWrapping __textWrapping;
-        public TextWrapping textWrapping
+        
+        public int textWrapping
         {
             get
             {
-            if(__textWrapping == null)
-            {
-                __textWrapping = EventHorizonBlazorInterop.GetClass<TextWrapping>(
+            return EventHorizonBlazorInterop.Get<int>(
                     this.___guid,
-                    "textWrapping",
-                    (entity) =>
-                    {
-                        return new TextWrapping() { ___guid = entity.___guid };
-                    }
+                    "textWrapping"
                 );
-            }
-            return __textWrapping;
             }
             set
             {
-__textWrapping = null;
+
                 EventHorizonBlazorInterop.Set(
                     this.___guid,
                     "textWrapping",
@@ -194,6 +187,48 @@ __textWrapping = null;
         }
 
         
+        public bool underline
+        {
+            get
+            {
+            return EventHorizonBlazorInterop.Get<bool>(
+                    this.___guid,
+                    "underline"
+                );
+            }
+            set
+            {
+
+                EventHorizonBlazorInterop.Set(
+                    this.___guid,
+                    "underline",
+                    value
+                );
+            }
+        }
+
+        
+        public bool lineThrough
+        {
+            get
+            {
+            return EventHorizonBlazorInterop.Get<bool>(
+                    this.___guid,
+                    "lineThrough"
+                );
+            }
+            set
+            {
+
+                EventHorizonBlazorInterop.Set(
+                    this.___guid,
+                    "lineThrough",
+                    value
+                );
+            }
+        }
+
+        
         public string outlineColor
         {
             get
@@ -294,6 +329,27 @@ __onLinesReadyObservable = null;
                 );
             }
         }
+
+        
+        public ActionCallback<string> wordSplittingFunction
+        {
+            get
+            {
+            return EventHorizonBlazorInterop.Get<ActionCallback<string>>(
+                    this.___guid,
+                    "wordSplittingFunction"
+                );
+            }
+            set
+            {
+
+                EventHorizonBlazorInterop.Set(
+                    this.___guid,
+                    "wordSplittingFunction",
+                    value
+                );
+            }
+        }
         #endregion
         
         #region Constructor
@@ -321,7 +377,7 @@ __onLinesReadyObservable = null;
         public decimal computeExpectedHeight()
         {
             return EventHorizonBlazorInterop.Func<decimal>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "computeExpectedHeight" }
                 }
@@ -331,7 +387,7 @@ __onLinesReadyObservable = null;
         public void dispose()
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "dispose" }
                 }

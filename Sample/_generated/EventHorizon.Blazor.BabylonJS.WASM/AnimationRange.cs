@@ -6,11 +6,12 @@ namespace BabylonJS
     using System.Text.Json.Serialization;
     using System.Threading.Tasks;
     using EventHorizon.Blazor.Interop;
+    using EventHorizon.Blazor.Interop.Callbacks;
     using Microsoft.JSInterop;
 
     
     
-    [JsonConverter(typeof(CachedEntityConverter))]
+    [JsonConverter(typeof(CachedEntityConverter<AnimationRange>))]
     public class AnimationRange : CachedEntityObject
     {
         #region Static Accessors
@@ -95,7 +96,7 @@ namespace BabylonJS
         #endregion
         
         #region Constructor
-        public AnimationRange() : base() { } 
+        public AnimationRange() : base() { }
 
         public AnimationRange(
             ICachedEntity entity
@@ -121,7 +122,7 @@ namespace BabylonJS
         {
             return EventHorizonBlazorInterop.FuncClass<AnimationRange>(
                 entity => new AnimationRange() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "clone" }
                 }

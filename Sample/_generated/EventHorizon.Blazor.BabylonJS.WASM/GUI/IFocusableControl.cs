@@ -6,11 +6,12 @@ namespace BabylonJS.GUI
     using System.Text.Json.Serialization;
     using System.Threading.Tasks;
     using EventHorizon.Blazor.Interop;
+    using EventHorizon.Blazor.Interop.Callbacks;
     using Microsoft.JSInterop;
 
     public interface IFocusableControl : ICachedEntity { }
     
-    [JsonConverter(typeof(CachedEntityConverter))]
+    [JsonConverter(typeof(CachedEntityConverter<IFocusableControlCachedEntity>))]
     public class IFocusableControlCachedEntity : CachedEntityObject, IFocusableControl
     {
         #region Static Accessors
@@ -49,7 +50,7 @@ namespace BabylonJS.GUI
         public void onFocus()
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "onFocus" }
                 }
@@ -59,7 +60,7 @@ namespace BabylonJS.GUI
         public void onBlur()
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "onBlur" }
                 }
@@ -69,7 +70,7 @@ namespace BabylonJS.GUI
         public void processKeyboard(KeyboardEvent evt)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "processKeyboard" }, evt
                 }

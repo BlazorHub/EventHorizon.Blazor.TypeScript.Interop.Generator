@@ -6,11 +6,12 @@ namespace BabylonJS
     using System.Text.Json.Serialization;
     using System.Threading.Tasks;
     using EventHorizon.Blazor.Interop;
+    using EventHorizon.Blazor.Interop.Callbacks;
     using Microsoft.JSInterop;
 
     
     
-    [JsonConverter(typeof(CachedEntityConverter))]
+    [JsonConverter(typeof(CachedEntityConverter<MaterialDefines>))]
     public class MaterialDefines : CachedEntityObject
     {
         #region Static Accessors
@@ -44,7 +45,7 @@ namespace BabylonJS
         #endregion
         
         #region Constructor
-        public MaterialDefines() : base() { } 
+        public MaterialDefines() : base() { }
 
         public MaterialDefines(
             ICachedEntity entity
@@ -60,7 +61,7 @@ namespace BabylonJS
         public void markAsProcessed()
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "markAsProcessed" }
                 }
@@ -70,7 +71,7 @@ namespace BabylonJS
         public void markAsUnprocessed()
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "markAsUnprocessed" }
                 }
@@ -80,7 +81,7 @@ namespace BabylonJS
         public void markAllAsDirty()
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "markAllAsDirty" }
                 }
@@ -90,7 +91,7 @@ namespace BabylonJS
         public void markAsImageProcessingDirty()
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "markAsImageProcessingDirty" }
                 }
@@ -100,7 +101,7 @@ namespace BabylonJS
         public void markAsLightDirty(System.Nullable<bool> disposed = null)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "markAsLightDirty" }, disposed
                 }
@@ -110,7 +111,7 @@ namespace BabylonJS
         public void markAsAttributesDirty()
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "markAsAttributesDirty" }
                 }
@@ -120,7 +121,7 @@ namespace BabylonJS
         public void markAsTexturesDirty()
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "markAsTexturesDirty" }
                 }
@@ -130,7 +131,7 @@ namespace BabylonJS
         public void markAsFresnelDirty()
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "markAsFresnelDirty" }
                 }
@@ -140,9 +141,19 @@ namespace BabylonJS
         public void markAsMiscDirty()
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "markAsMiscDirty" }
+                }
+            );
+        }
+
+        public void markAsPrePassDirty()
+        {
+            EventHorizonBlazorInterop.Func<CachedEntity>(
+                new object[]
+                {
+                    new string[] { this.___guid, "markAsPrePassDirty" }
                 }
             );
         }
@@ -150,7 +161,7 @@ namespace BabylonJS
         public void rebuild()
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "rebuild" }
                 }
@@ -160,7 +171,7 @@ namespace BabylonJS
         public bool isEqual(MaterialDefines other)
         {
             return EventHorizonBlazorInterop.Func<bool>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "isEqual" }, other
                 }
@@ -170,7 +181,7 @@ namespace BabylonJS
         public void cloneTo(MaterialDefines other)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "cloneTo" }, other
                 }
@@ -180,7 +191,7 @@ namespace BabylonJS
         public void reset()
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "reset" }
                 }
@@ -190,7 +201,7 @@ namespace BabylonJS
         public string toString()
         {
             return EventHorizonBlazorInterop.Func<string>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "toString" }
                 }

@@ -13,10 +13,10 @@ namespace EventHorizon.Blazor.TypeScript.Interop.Generator.Identifiers
 {
     public class GenericTypeIdentifier
     {
-        private static IRule IsArrayResposneTypeRule = new IsArrayResponseType();
-        private static IRule IsNumericArrayRule = new IsNumericArray();
-        private static IRule IsTypeLiteralRule = new IsTypeLiteral();
-        private static IRule IsVoidTypeRule = new IsVoidType();
+        private static IRule IsArrayResposneTypeRule => new IsArrayResponseType();
+        private static IRule IsNumericArrayRule => new IsNumericArray();
+        private static IRule IsTypeLiteralRule => new IsTypeLiteral();
+        private static IRule IsVoidTypeRule => new IsVoidType();
 
         public static TypeStatement Identify(
             Node node,
@@ -25,12 +25,20 @@ namespace EventHorizon.Blazor.TypeScript.Interop.Generator.Identifiers
             TypeOverrideDetails typeOverrideDetails
         )
         {
-            // Observer<SomeTypeData>
-            //var template = "[[NAME]]<[[CHILDREN_TYPES]]>";
             var typeIdentifier = TypeIdentifier.Identify(
                 node,
                 classMetadata
             );
+            var isTypeAlias = AliasTypeIdentifier.Identify(
+                node,
+                ast
+            );
+            var aliasType = isTypeAlias ? AliasTypeStatementIdentifier.Identify(
+                typeIdentifier,
+                classMetadata,
+                ast,
+                typeOverrideDetails
+            ) : null;
             var isLiteral = IsTypeLiteralRule.Check(
                 node
             ) || TypeLiteralIdentifier.Identify(
@@ -137,6 +145,33 @@ namespace EventHorizon.Blazor.TypeScript.Interop.Generator.Identifiers
                     typeIdentifier = GenerationIdentifiedTypes.Void;
                 }
             }
+            else if (NullableTypeIdentifier.Identify(
+                typeIdentifier
+            ) && node is ParameterDeclaration nullableParameter
+                && nullableParameter.Type is TypeReferenceNode typeRefernce
+                && typeRefernce.TypeArguments != null
+                && typeRefernce.TypeArguments.Any()
+                && typeRefernce.TypeArguments.First() is Node typeArgumentFirst)
+            {
+                genericTypes.Add(
+                    Identify(
+                        typeArgumentFirst,
+                        classMetadata,
+                        ast,
+                        typeOverrideDetails
+                    )
+                );
+            }
+            else if (UnionTypeIdentifier.Identify(
+                node,
+                classMetadata,
+                ast,
+                typeOverrideDetails,
+                out var typeStatement
+            ) && typeStatement.Name != GenerationIdentifiedTypes.Unknown)
+            {
+                return typeStatement;
+            }
 
             if (typeIdentifier == GenerationIdentifiedTypes.Void)
             {
@@ -145,7 +180,7 @@ namespace EventHorizon.Blazor.TypeScript.Interop.Generator.Identifiers
 
             if (isLiteral)
             {
-                typeIdentifier = GenerationIdentifiedTypes.Object;
+                typeIdentifier = GenerationIdentifiedTypes.CachedEntity;
             }
 
             return new TypeStatement
@@ -156,10 +191,15 @@ namespace EventHorizon.Blazor.TypeScript.Interop.Generator.Identifiers
                 IsArray = IsArrayResposneTypeRule.Check(
                     node
                 ),
+                IsTypeAlias = isTypeAlias && aliasType != null,
+                AliasType = aliasType,
                 IsNullable = NullableTypeIdentifier.Identify(
                     typeIdentifier
                 ),
                 IsAction = ActionTypeIdentifier.Identify(
+                    typeIdentifier
+                ),
+                IsTask = TaskTypeIdentifier.Identify(
                     typeIdentifier
                 ),
                 IsLiteral = isLiteral,
@@ -167,6 +207,10 @@ namespace EventHorizon.Blazor.TypeScript.Interop.Generator.Identifiers
                     typeIdentifier
                 ),
                 IsInterface = InterfaceResponseTypeIdentifier.Identify(
+                    typeIdentifier,
+                    ast
+                ),
+                IsEnum = EnumTypeIdentifier.Identify(
                     typeIdentifier,
                     ast
                 ),

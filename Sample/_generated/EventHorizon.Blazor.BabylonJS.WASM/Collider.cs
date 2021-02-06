@@ -6,11 +6,12 @@ namespace BabylonJS
     using System.Text.Json.Serialization;
     using System.Threading.Tasks;
     using EventHorizon.Blazor.Interop;
+    using EventHorizon.Blazor.Interop.Callbacks;
     using Microsoft.JSInterop;
 
     
     
-    [JsonConverter(typeof(CachedEntityConverter))]
+    [JsonConverter(typeof(CachedEntityConverter<Collider>))]
     public class Collider : CachedEntityObject
     {
         #region Static Accessors
@@ -150,7 +151,7 @@ __collidedMesh = null;
         #endregion
         
         #region Constructor
-        public Collider() : base() { } 
+        public Collider() : base() { }
 
         public Collider(
             ICachedEntity entity

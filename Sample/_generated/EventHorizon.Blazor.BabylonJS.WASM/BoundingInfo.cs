@@ -6,11 +6,12 @@ namespace BabylonJS
     using System.Text.Json.Serialization;
     using System.Threading.Tasks;
     using EventHorizon.Blazor.Interop;
+    using EventHorizon.Blazor.Interop.Callbacks;
     using Microsoft.JSInterop;
 
     
     
-    [JsonConverter(typeof(CachedEntityConverter))]
+    [JsonConverter(typeof(CachedEntityConverter<BoundingInfo>))]
     public class BoundingInfo : CachedEntityObject, ICullable
     {
         #region Static Accessors
@@ -167,7 +168,7 @@ namespace BabylonJS
         public void reConstruct(Vector3 min, Vector3 max, Matrix worldMatrix = null)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "reConstruct" }, min, max, worldMatrix
                 }
@@ -177,7 +178,7 @@ namespace BabylonJS
         public void update(Matrix world)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "update" }, world
                 }
@@ -188,7 +189,7 @@ namespace BabylonJS
         {
             return EventHorizonBlazorInterop.FuncClass<BoundingInfo>(
                 entity => new BoundingInfo() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "centerOn" }, center, extend
                 }
@@ -199,7 +200,7 @@ namespace BabylonJS
         {
             return EventHorizonBlazorInterop.FuncClass<BoundingInfo>(
                 entity => new BoundingInfo() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "scale" }, factor
                 }
@@ -209,7 +210,7 @@ namespace BabylonJS
         public bool isInFrustum(Plane[] frustumPlanes, System.Nullable<decimal> strategy = null)
         {
             return EventHorizonBlazorInterop.Func<bool>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "isInFrustum" }, frustumPlanes, strategy
                 }
@@ -219,7 +220,7 @@ namespace BabylonJS
         public bool isCompletelyInFrustum(Plane[] frustumPlanes)
         {
             return EventHorizonBlazorInterop.Func<bool>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "isCompletelyInFrustum" }, frustumPlanes
                 }
@@ -229,7 +230,7 @@ namespace BabylonJS
         public bool intersectsPoint(Vector3 point)
         {
             return EventHorizonBlazorInterop.Func<bool>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "intersectsPoint" }, point
                 }
@@ -239,7 +240,7 @@ namespace BabylonJS
         public bool intersects(BoundingInfo boundingInfo, bool precise)
         {
             return EventHorizonBlazorInterop.Func<bool>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "intersects" }, boundingInfo, precise
                 }

@@ -6,11 +6,12 @@ namespace BabylonJS
     using System.Text.Json.Serialization;
     using System.Threading.Tasks;
     using EventHorizon.Blazor.Interop;
+    using EventHorizon.Blazor.Interop.Callbacks;
     using Microsoft.JSInterop;
 
     
     
-    [JsonConverter(typeof(CachedEntityConverter))]
+    [JsonConverter(typeof(CachedEntityConverter<RenderingGroupInfo>))]
     public class RenderingGroupInfo : CachedEntityObject
     {
         #region Static Accessors
@@ -111,7 +112,7 @@ __camera = null;
         #endregion
         
         #region Constructor
-        public RenderingGroupInfo() : base() { } 
+        public RenderingGroupInfo() : base() { }
 
         public RenderingGroupInfo(
             ICachedEntity entity

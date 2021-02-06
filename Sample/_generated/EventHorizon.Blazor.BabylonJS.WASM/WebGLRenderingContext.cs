@@ -6,11 +6,12 @@ namespace BabylonJS
     using System.Text.Json.Serialization;
     using System.Threading.Tasks;
     using EventHorizon.Blazor.Interop;
+    using EventHorizon.Blazor.Interop.Callbacks;
     using Microsoft.JSInterop;
 
     public interface WebGLRenderingContext : ICachedEntity { }
     
-    [JsonConverter(typeof(CachedEntityConverter))]
+    [JsonConverter(typeof(CachedEntityConverter<WebGLRenderingContextCachedEntity>))]
     public class WebGLRenderingContextCachedEntity : CachedEntityObject, WebGLRenderingContext
     {
         #region Static Accessors
@@ -641,7 +642,7 @@ namespace BabylonJS
         public void drawArraysInstanced(decimal mode, decimal first, decimal count, decimal primcount)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "drawArraysInstanced" }, mode, first, count, primcount
                 }
@@ -651,7 +652,7 @@ namespace BabylonJS
         public void drawElementsInstanced(decimal mode, decimal count, decimal type, decimal offset, decimal primcount)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "drawElementsInstanced" }, mode, count, type, offset, primcount
                 }
@@ -661,7 +662,7 @@ namespace BabylonJS
         public void vertexAttribDivisor(decimal index, decimal divisor)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "vertexAttribDivisor" }, index, divisor
                 }
@@ -671,27 +672,27 @@ namespace BabylonJS
         public CachedEntity createVertexArray()
         {
             return EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "createVertexArray" }
                 }
             );
         }
 
-        public void bindVertexArray(WebGLVertexArrayObjectCachedEntity vao = null)
+        public void bindVertexArray(WebGLVertexArrayObject vao = null)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "bindVertexArray" }, vao
                 }
             );
         }
 
-        public void deleteVertexArray(WebGLVertexArrayObjectCachedEntity vao)
+        public void deleteVertexArray(WebGLVertexArrayObject vao)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "deleteVertexArray" }, vao
                 }
@@ -701,7 +702,7 @@ namespace BabylonJS
         public void blitFramebuffer(decimal srcX0, decimal srcY0, decimal srcX1, decimal srcY1, decimal dstX0, decimal dstY0, decimal dstX1, decimal dstY1, decimal mask, decimal filter)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "blitFramebuffer" }, srcX0, srcY0, srcX1, srcY1, dstX0, dstY0, dstX1, dstY1, mask, filter
                 }
@@ -711,7 +712,7 @@ namespace BabylonJS
         public void renderbufferStorageMultisample(decimal target, decimal samples, decimal internalformat, decimal width, decimal height)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "renderbufferStorageMultisample" }, target, samples, internalformat, width, height
                 }
@@ -721,27 +722,27 @@ namespace BabylonJS
         public void bindBufferBase(decimal target, decimal index, WebGLBuffer buffer = null)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "bindBufferBase" }, target, index, buffer
                 }
             );
         }
 
-        public decimal getUniformBlockIndex(WebGLProgramCachedEntity program, string uniformBlockName)
+        public decimal getUniformBlockIndex(WebGLProgram program, string uniformBlockName)
         {
             return EventHorizonBlazorInterop.Func<decimal>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "getUniformBlockIndex" }, program, uniformBlockName
                 }
             );
         }
 
-        public void uniformBlockBinding(WebGLProgramCachedEntity program, decimal uniformBlockIndex, decimal uniformBlockBinding)
+        public void uniformBlockBinding(WebGLProgram program, decimal uniformBlockIndex, decimal uniformBlockBinding)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "uniformBlockBinding" }, program, uniformBlockIndex, uniformBlockBinding
                 }
@@ -752,27 +753,27 @@ namespace BabylonJS
         {
             return EventHorizonBlazorInterop.FuncClass<WebGLQueryCachedEntity>(
                 entity => new WebGLQueryCachedEntity() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "createQuery" }
                 }
             );
         }
 
-        public void deleteQuery(WebGLQueryCachedEntity query)
+        public void deleteQuery(WebGLQuery query)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "deleteQuery" }, query
                 }
             );
         }
 
-        public void beginQuery(decimal target, WebGLQueryCachedEntity query)
+        public void beginQuery(decimal target, WebGLQuery query)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "beginQuery" }, target, query
                 }
@@ -782,17 +783,17 @@ namespace BabylonJS
         public void endQuery(decimal target)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "endQuery" }, target
                 }
             );
         }
 
-        public CachedEntity getQueryParameter(WebGLQueryCachedEntity query, decimal pname)
+        public CachedEntity getQueryParameter(WebGLQuery query, decimal pname)
         {
             return EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "getQueryParameter" }, query, pname
                 }
@@ -802,7 +803,7 @@ namespace BabylonJS
         public CachedEntity getQuery(decimal target, decimal pname)
         {
             return EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "getQuery" }, target, pname
                 }
@@ -812,7 +813,7 @@ namespace BabylonJS
         public void drawBuffers(decimal[] buffers)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "drawBuffers" }, buffers
                 }
@@ -822,7 +823,7 @@ namespace BabylonJS
         public void readBuffer(decimal src)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "readBuffer" }, src
                 }

@@ -6,11 +6,12 @@ namespace BabylonJS
     using System.Text.Json.Serialization;
     using System.Threading.Tasks;
     using EventHorizon.Blazor.Interop;
+    using EventHorizon.Blazor.Interop.Callbacks;
     using Microsoft.JSInterop;
 
     public interface Behavior<T> : ICachedEntity { }
     
-    [JsonConverter(typeof(CachedEntityConverter))]
+    [JsonConverter(typeof(CachedEntityConverter<BehaviorCachedEntity<CachedEntity>>))]
     public class BehaviorCachedEntity<T> : CachedEntityObject, Behavior<T> where T : CachedEntity, new()
     {
         #region Static Accessors
@@ -68,7 +69,7 @@ namespace BabylonJS
         public void init()
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "init" }
                 }
@@ -78,7 +79,7 @@ namespace BabylonJS
         public void attach(T target)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "attach" }, target
                 }
@@ -88,7 +89,7 @@ namespace BabylonJS
         public void detach()
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "detach" }
                 }

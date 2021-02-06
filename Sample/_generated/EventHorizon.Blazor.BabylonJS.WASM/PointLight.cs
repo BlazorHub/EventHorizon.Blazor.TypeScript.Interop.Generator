@@ -6,11 +6,12 @@ namespace BabylonJS
     using System.Text.Json.Serialization;
     using System.Threading.Tasks;
     using EventHorizon.Blazor.Interop;
+    using EventHorizon.Blazor.Interop.Callbacks;
     using Microsoft.JSInterop;
 
     
     
-    [JsonConverter(typeof(CachedEntityConverter))]
+    [JsonConverter(typeof(CachedEntityConverter<PointLight>))]
     public class PointLight : ShadowLight
     {
         #region Static Accessors
@@ -106,7 +107,7 @@ __direction = null;
         public string getClassName()
         {
             return EventHorizonBlazorInterop.Func<string>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "getClassName" }
                 }
@@ -116,7 +117,7 @@ __direction = null;
         public decimal getTypeID()
         {
             return EventHorizonBlazorInterop.Func<decimal>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "getTypeID" }
                 }
@@ -126,7 +127,7 @@ __direction = null;
         public bool needCube()
         {
             return EventHorizonBlazorInterop.Func<bool>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "needCube" }
                 }
@@ -137,7 +138,7 @@ __direction = null;
         {
             return EventHorizonBlazorInterop.FuncClass<Vector3>(
                 entity => new Vector3() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "getShadowDirection" }, faceIndex
                 }
@@ -148,7 +149,7 @@ __direction = null;
         {
             return EventHorizonBlazorInterop.FuncClass<PointLight>(
                 entity => new PointLight() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "transferToEffect" }, effect, lightIndex
                 }
@@ -159,7 +160,7 @@ __direction = null;
         {
             return EventHorizonBlazorInterop.FuncClass<PointLight>(
                 entity => new PointLight() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "transferToNodeMaterialEffect" }, effect, lightDataUniformName
                 }
@@ -169,7 +170,7 @@ __direction = null;
         public void prepareLightSpecificDefines(object defines, decimal lightIndex)
         {
             EventHorizonBlazorInterop.Func<CachedEntity>(
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "prepareLightSpecificDefines" }, defines, lightIndex
                 }

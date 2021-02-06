@@ -6,11 +6,12 @@ namespace BabylonJS
     using System.Text.Json.Serialization;
     using System.Threading.Tasks;
     using EventHorizon.Blazor.Interop;
+    using EventHorizon.Blazor.Interop.Callbacks;
     using Microsoft.JSInterop;
 
     public interface IBehaviorAware<T> : ICachedEntity { }
     
-    [JsonConverter(typeof(CachedEntityConverter))]
+    [JsonConverter(typeof(CachedEntityConverter<IBehaviorAwareCachedEntity<CachedEntity>>))]
     public class IBehaviorAwareCachedEntity<T> : CachedEntityObject, IBehaviorAware<T> where T : CachedEntity, new()
     {
         #region Static Accessors
@@ -46,22 +47,22 @@ namespace BabylonJS
         #endregion
 
         #region Methods
-        public T addBehavior(BehaviorCachedEntity<T> behavior)
+        public T addBehavior(Behavior<T> behavior)
         {
             return EventHorizonBlazorInterop.FuncClass<T>(
                 entity => new T() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "addBehavior" }, behavior
                 }
             );
         }
 
-        public T removeBehavior(BehaviorCachedEntity<T> behavior)
+        public T removeBehavior(Behavior<T> behavior)
         {
             return EventHorizonBlazorInterop.FuncClass<T>(
                 entity => new T() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "removeBehavior" }, behavior
                 }
@@ -72,7 +73,7 @@ namespace BabylonJS
         {
             return EventHorizonBlazorInterop.FuncClass<BehaviorCachedEntity<T>>(
                 entity => new BehaviorCachedEntity<T>() { ___guid = entity.___guid },
-                new object[] 
+                new object[]
                 {
                     new string[] { this.___guid, "getBehaviorByName" }, name
                 }
